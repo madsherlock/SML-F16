@@ -8,6 +8,9 @@
 # Example code in package build process
 *-Ex.R
 
+#Ignore setworkingdir.R
+Rcode/setworkingdir.R
+
 # RStudio files
 .Rproj.user/
 
