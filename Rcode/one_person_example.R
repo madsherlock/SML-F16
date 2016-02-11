@@ -7,6 +7,7 @@ library("class")
 library("gmodels")
 library("ggplot2")
 library("caret")
+source("setworkingdir.R")
 #library("lda")
 #library("neuralnet")
 #library("RSNNS")
@@ -294,7 +295,7 @@ getRandomSplit <- function(trainingData, trainingPc){
 #This is the "main function" or the code that is actualy run
 #-------------------------------------------------------------
 
-DPI = 300;
+DPI = 100;
 NrOfTrainingSets = 1;
 NrOfTestingSets = 1;
 
@@ -383,6 +384,7 @@ str(training)
 str(trainClass)
 str(testing)
 str(testClass)
+
 
 
 
