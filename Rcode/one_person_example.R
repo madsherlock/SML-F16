@@ -306,8 +306,8 @@ fullModList = list(1:NrOfDataSets)
 
 #add as many people as you have specified training and test data
 
-fullDataList[[1]] = loadSinglePersonsData(DPI,2,2); gc();
-fullDataList[[2]] = loadSinglePersonsData(DPI,2,2); gc();
+fullDataList[[1]] = loadSinglePersonsData(DPI,2,1); gc(); #Kiddi
+fullDataList[[2]] = loadSinglePersonsData(DPI,2,2); gc(); #Mikael
 
 
 #fullDataList[[1]] = loadSinglePersonsData(DPI,1,1); gc();
