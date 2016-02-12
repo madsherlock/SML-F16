@@ -7,6 +7,10 @@ library("class")
 library("gmodels")
 library("ggplot2")
 library("caret")
+library("descr")
+library("chemometrics")
+library("foreach")
+library("ggvis")
 source("setworkingdir.R")
 #library("lda")
 #library("neuralnet")
@@ -296,7 +300,7 @@ getRandomSplit <- function(trainingData, trainingPc){
 #-------------------------------------------------------------
 
 DPI = 100;
-NrOfTrainingSets = 1;
+NrOfTrainingSets = 2;
 NrOfTestingSets = 1;
 
 
@@ -307,13 +311,13 @@ fullModList = list(1:NrOfDataSets)
 
 #add as many people as you have specified training and test data
 
+#Data used for Training
 fullDataList[[1]] = loadSinglePersonsData(DPI,2,1); gc(); #Kiddi
-fullDataList[[2]] = loadSinglePersonsData(DPI,2,2); gc(); #Mikael
+fullDataList[[2]] = loadSinglePersonsData(DPI,1,1); gc(); #Should be Mikael - G1M1 
 
+#Data used for testing
+fullDataList[[3]] = loadSinglePersonsData(DPI,1,2); gc(); #Group1 Member2  - G1M2
 
-#fullDataList[[1]] = loadSinglePersonsData(DPI,1,1); gc();
-#fullDataList[[2]] = loadSinglePersonsData(DPI,1,2); gc();
-#fullDataList[[3]] = loadSinglePersonsData(DPI,2,1); gc();
 #fullDataList[[4]] = loadSinglePersonsData(DPI,2,2); gc();
 #fullDataList[[5]] = loadSinglePersonsData(DPI,3,1); gc();
 #fullDataList[[6]] = loadSinglePersonsData(DPI,3,2); gc();
@@ -374,7 +378,7 @@ for(i in 1:nrow(training))
 }
 #nnTrainingClass
 
-#contain data from the first two persons:
+#contain data from the first two persons: 
 trainClassF = factor(trainClass)
 
 #contain data from the third person:
@@ -386,8 +390,36 @@ str(testing)
 str(testClass)
 
 
+##KNN
+
+#Data Normalization
+normalize <- function(x){
+  num <- x-min(x)
+  denum <- max(x)-min(x)
+  return(num/denum)
+}
+#testing_normalized = as.data.frame(lapply(testing, normalize))
+#training_normalized = as.data.frame(lapply(training, normalize))
+
+#knn
+#test_pred = knn(training,testing,trainClass,k=15)
+#CrossTable - Confusion Matrix
+#CrossTable(x=testClass,y= test_pred, prop.chisq = FALSE)
+#
+#mean(test_pred == testClass)
 
 
 
+table_generator <- function(training, testing, testing_class, train_class, maxK){
+  output =  data.frame(x=numeric(maxK), y =numeric(maxK), stringsAsFactors = FALSE)
+  for(k in 1:maxK){
+    message("iteration: " , k)
+    output$x[k] = k
+    predicted = knn(training,testing,trainClass,k)
+    output$y[k] = mean(predicted == testing_class)
+  }
+  return(output)
+}
 
+erro= table_generator(training,testing,testClass,trainClass,100)
 
