@@ -1,0 +1,220 @@
+\documentclass[11pt]{report} 
+\usepackage{titlesec}
+
+%--------------------------- Chapter layout  ----------------------%
+\titleformat{\chapter}
+  {\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+%----------------------------------------------------------------------%
+
+%\documentclass[paper=a4,fontsize=11pt]{scrartcl}	 			% KOMA-article class
+							
+%\usepackage[english]{babel}								% English language/hyphenation
+%\usepackage[protrusion=true,expansion=true]{microtype}		% Better typography
+\usepackage{amsmath,amsfonts,amsthm}					% Math packages
+\usepackage[pdftex]{graphicx}								% Enable pdflatex
+\usepackage[svgnames]{xcolor}							% Colors by their 'svgnames'
+\usepackage{geometry}
+	\textheight=700px									% Saving trees ;-) 
+\usepackage{url}										% Clickable URL's
+\usepackage{wrapfig}									% Wrap text along figures
+
+\usepackage[colorinlistoftodos,prependcaption]{todonotes}
+
+
+\frenchspacing									% Better looking spacings after periods
+%\pagestyle{empty}								% No pagenumbers/headers/footers
+%\usepackage{bbding}									% Symbols
+
+
+% ------- Enable UTF8 characters ------- %
+%\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\setlength\parindent{0pt}
+
+\usepackage{listings}
+\usepackage{color}
+
+%\usepackage{pdfpages}
+
+% ------------ Code Listing ------------- %
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=false,
+  language=C++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  moredelim=**[is][\color{mauve}]{@}{@},
+}
+
+% ------- Page layout ------- %
+\usepackage{fullpage}
+\usepackage{hyperref} % clickable references
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+
+\usepackage{enumitem}
+\usepackage{multirow}
+
+\usepackage{multicol}
+\setlength{\columnsep}{0.3cm}
+
+\usepackage{colortbl}
+
+% ------- Images ------- %
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{subcaption}
+\DeclareCaptionFont{gray}{\color{gray}}
+\captionsetup{textfont={footnotesize,sc,gray},font={footnotesize,sc,gray}}
+\usepackage{blindtext}
+
+\usepackage[toc,page]{appendix}
+
+% Test
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows}
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+
+\usetikzlibrary{arrows}
+
+
+\title{Elektriske Maskiner}
+
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+
+
+\textsc{\LARGE University of Southern Denmark}\\[1.5cm]
+\textsc{\Large Statistical machine learning}\\[0.5cm]
+\vfill
+\hrule ~\\[0.3cm]
+{ \huge \bfseries KNN\\[0.4cm] }
+\hrule ~\\[1.5cm]
+\vfill
+
+% Author and supervisor
+\noindent
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Keerthikan Ratnarajah
+\url{kerat12@student.sdu.dk}\\
+Mikael Westermann
+\url{Miwes12@student.sdu.dk}
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:}\\
+Norbert Kr\"{u}ger 
+\end{flushright}
+\end{minipage}
+
+\vspace{1.2cm}
+Dato: \today
+
+
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+
+
+
+
+\bibliographystyle{unsrt}%Used BibTeX style is unsrt
+
+%\begin{appendices}
+\input{sections/introduction.tex}
+
+
+%\end{appendices}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
