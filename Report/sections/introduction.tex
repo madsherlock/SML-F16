@@ -1,1 +1,18 @@
 \section{Introduction}
+\todo[inline]{Something...}
+The purpose of this report is to develop a system capable of recognizing hand writting characters such as digits (0 - 9).  This report will contain different approaches of classifying this, and their performance.  The dataset used for training and testing the performance of this, has be been made by the students of the statical machine learning class  as seen in \ref{fig:data}. The dataset consist of 400 $\times$ 10 individually handwritten numbers,  provided by each  student of the class.  
+
+\begin{figure}[H]
+\centering
+\includegraphics[width =0.6\textwidth]{../../SML-database/2016/group2/member1/Ciphers100-0.png}
+\caption{Example of the  dataset}
+\label{fig:data}
+\end{figure} 
+
+The process of recognizing the digits can be divided into 3 steps. 
+\begin{itemize}
+\item Preprocessing - Extracting the data, and discard irrelevant information. 
+\item Feature extraction - Extracting relevant features 
+\item Classification - Use the extracted to classify the digits. 
+\end{itemize}
+
