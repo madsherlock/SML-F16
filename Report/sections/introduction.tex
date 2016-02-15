@@ -1,7 +1,16 @@
 \section{Introduction}
-<<<<<<< HEAD
-\todo[inline]{Something...}
-The purpose of this report is to develop a system capable of recognizing hand writting characters such as digits (0 - 9).  This report will contain different approaches of classifying this, and their performance.  The dataset used for training and testing the performance of this, has be been made by the students of the statical machine learning class  as seen in \ref{fig:data}. The dataset consist of 400 $\times$ 10 individually handwritten numbers,  provided by each  student of the class.  
+This report documents the results of the first exercise within
+a project concerned with digit recognition.
+The purpose of the project is to develop a system capable of recognizing
+(classifying) hand written digits (0 - 9) using differend machine learning techniques,
+and documenting the performance of the system.
+The first exercise, documented here, was to measure the impact
+of image density (DPI), smoothing kernel size and parameter \(k\)
+of the k-NN algorithm on the misclassification error rate.
+The datasets used for training and testing of the system
+were hand written by two students (the authors), and each
+consist of 400 examples of each digit (4000 digits in each dataset).
+See \ref{fig:data} for example data.
 
 \begin{figure}[H]
 \centering
@@ -10,12 +19,9 @@ The purpose of this report is to develop a system capable of recognizing hand wr
 \label{fig:data}
 \end{figure} 
 
-The process of recognizing the digits can be divided into 3 steps. 
+The process of recognizing the digits can be divided into 3 steps:
 \begin{itemize}
-\item Preprocessing - Extracting the data, and discard irrelevant information. 
-\item Feature extraction - Extracting relevant features 
-\item Classification - Use the extracted to classify the digits. 
+\item Preprocessing - Extracting the data, and discarding irrelevant information. 
+\item Feature extraction - Extracting relevant features.
+\item Classification - Using the extracted features for digit classification.
 \end{itemize}
-
-=======
->>>>>>> 34ff1c3365fe38aae75203e9098a9fe6bb020ed5
