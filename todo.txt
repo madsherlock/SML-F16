@@ -1,0 +1,7 @@
+- Make function for visualizing ONE digit in a matrix. 
+
+- Make modified loadSinglePersonsData, which only reloads data,
+if a file named data-<group no>-<member>-<DPI>-<kernel size>.R does not already exist.
+Eg. data-2-1-300-5.R
+The function must save data into the properly named .R files when loading the first time.
+Put the data files in SML-F16/data.  ("../data/").
