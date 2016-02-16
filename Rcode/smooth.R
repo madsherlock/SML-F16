@@ -13,7 +13,7 @@ smoothAverage <- function(grayImg,k){
     1, # the data elements 
     k,# number of rows 
     k)
-  kernel <- kernel/k*k
+  kernel <- kernel/(k*k)
   #print(kernel)
   #using r library for smoothing
   smoothed <- filter2(grayImg, kernel)
