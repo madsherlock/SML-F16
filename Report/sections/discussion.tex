@@ -1,21 +1,24 @@
 \chapter{Discussion}
-To accurarely recognize the digits, ones data had to be as noise free as possible.
+To accurarely recognize the digits, data had to be as noise free as possible.
 One way of making sure that this was the case was by performing smoothing such
 that noise in the image would not have an big effect.\\
 
-
-Some other forms of "noise" was seen while the images were inspected,
+Other sources of error were observed:
 some of the grids which were used to distinguish between each individual number,
-weren't alligned properly, meaning that some other elements were used to determine the number,
-and thereby would have caused to an low classification rate. 
+weren't alligned properly, meaning that some other elements were used to determine the number.
+This might lead to lower classification rates both due to the black pixels near the edges
+of the digit grids not being part of the numbers, but also because the kNN algorithm
+might be trained to classify based on exactly these misalignment pixels.
+This problem could be caused from imprecise corner files, or some form of error when scanning the pages.
+It may be possible to correct for this by more precisely aligning the corners,
+by cropping the digits further, 
+or by applying erosion and dilation techniques to (opening) the image.\\
 
-%\missingfigure{Grid miss allignment}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width  =\textwidth]{figure/kiddi-01-grid-nosmooth-300dpi_cut.png}
-\end{figure}
-
-This could be caused from imprecise corner files, or some form of error when scanning the pages. \\
-
-
+The data shows that reducing pixel density reduces classification rate.
+Smoothing kernel size affects the error rate greatly, and the optimal choice depends on pixel density.
+These results were expected, as removing detail from the images by downsampling,
+reduces the variation between different digits. Likewise, the smoothing decreases
+variation within the digits. Combined with certain choices of k, classification rates
+above 20 % and below 40 %  were obtained.
+However, the range of tested k values appears to have been too low,
+as very low variation in classification error is observed in the [1;10] interval.
