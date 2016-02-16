@@ -24,7 +24,7 @@
 *-Ex.R
 
 #Ignore setworkingdir.R
-Rcode/setworkingdir.R
+/Rcode/setworkingdir.R
 
 # RStudio files
 .Rproj.user/
