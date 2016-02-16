@@ -1,17 +1,24 @@
-\chapter{ Data processing}
+\chapter{Results}
+\section{Data collection}
+
+Figure \ref{fig:misalignment} visualizes an example of the data collection.
+It is observed that the grid by which digits were separated is misaligned with the grid
+in which the digits were written. The black grid becomes part of the digit data.
+\begin{figure}[H]
+\centering
+\includegraphics[width  =\textwidth]{figure/kiddi-01-grid-nosmooth-300dpi_cut.png}
+\caption{Collected digits. The red grid imposed on the image shows how hand written digits were separated.}
+\label{fig:misalignment}
+\end{figure}
+
 \section{kNN}
-The dataprocessing will consist of finding the optimal k and smoothing and
-DPI which lowers the error rate  This is found by applying knn on different training set,
-with different smoothing levels, and DPI. 
-For each case will an contour plot be made,
-which shows that how each parameter effect each other,
-and thereby be useful for deciding which parameter gives the optimal peformance. \\
+The kNN data processing consists of analyzing the effects of k, smoothing and
+DPI density on the error rate  This is found by applying kNN on different training set,
+with different smoothing levels, and DPI.
 
-Different smoothing techniques were applied to the images, such as Gaussian blur and average filters.  
-For each were knn applied with different values of, and for each were error rate computed. 
-Thereby would it be possible to find the optimal parameter for this sort of problem,
-considering the smoothing and value of k. 
-
+Two smoothing techniques were applied to the images: The average filter, and Gaussian blur.  
+For each technique, kNN was applied with different values of k, for which the error rate was calculated.
+This allows insight necessary for choosing an optimal k and smoothing parameters.
 
 \begin{figure}[H]    
 	\begin{minipage}[t]{0.30\textwidth}
@@ -59,12 +66,14 @@ considering the smoothing and value of k.
 \label{fig:average_filter}
 \end{figure}
 
-It can be seen based on figure \ref{fig:average_filter} that the
+It can be seen based on figure \ref{fig:average_filter} that the smoothing
  filter does have an impact on how clear the digit can be visually
- recognized, and that the higher the dpi values is,
-  the better visual information do one get. 
-Using this form of smoothing were different valued kNN applied,
-at for which each were compared to an testset to see how accurately it could classify the digits. 
+ recognized, and that the higher the DPI density,
+  the better visual information. 
+
+Using different smoothing parameters and k, kNN was applied,
+using data from one student as training data, and data from another student as testing data.
+The correct classification rate was calculated.
 
 \begin{figure}[H]
 	\centering
@@ -89,12 +98,11 @@ at for which each were compared to an testset to see how accurately it could cla
 
 The graphs in figure \ref{fig:data_100} , \ref{fig:data_200}  and \ref{fig:data_300} 
  shows that the images scanned with 300 DPI gives the highest classification rate,
-which as previously stated was seen as the once who gave clearer images as smoothing were applied.
- The graphs shows that classification peaks for 200 DPI when applying a kernel at size 3,
- for 200 dpi peaks it at kernel size 7, and for 300 dpi peaks it at kernel size 9,
- So in general increases the classification rate, as the dpi increases with the kernel size.
- The best perfomance can by found from the images scanned with 300 dpi,
- but one could question whether the peformance of it is satisfiable. 
+which as previously stated was seen as the ones who gave clearer images as smoothing were applied.
+ The graphs shows that the correct classification rate peaks for 100 DPI when applying a kernel at size 3,
+ for 200 DPI peaks it is at kernel size 7, and for 300 DPI it peaks at kernel size 9,
+ The best perfomance can be found from the images scanned with 300 DPI.
+However, very long running times were observed.
 
 \begin{figure}[H]    
 	\begin{minipage}[t]{0.30\textwidth}
@@ -117,14 +125,12 @@ which as previously stated was seen as the once who gave clearer images as smoot
 			\caption{kernelsize = 15 $\sigma$ = 0.7}
 			\label{fig:fig:dpi_300_k_9_s_0.7}
 	\end{minipage}
-\caption{Effect of smoothing using gaussian filter with different sigma values}
+\caption{Effect of smoothing using gaussian filter with different \(\sigma\) values.}
 \label{fig:gaussian_filter}
 \end{figure}
 
 As an alternative to the average filter could an gaussian filter be used as shown
  in figure \ref{fig:gaussian_filter}. 
- The perfomance of the filter shows, seem to visually remove more noise than the previous,
- and would potentially also have provided at better classification rate than the other one. 
-
-
+Compared to figure \ref{fig:average_filter}, this filter introduces less noise,
+and distributes pixel grayscale values more naturally.
 
