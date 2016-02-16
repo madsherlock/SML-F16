@@ -20,9 +20,13 @@ Two smoothing techniques were applied to the images: The average filter, and Gau
 For each technique, kNN was applied with different values of k, for which the error rate was calculated.
 This allows insight necessary for choosing an optimal k and smoothing parameters.
 
-%\input{Figure/confusion}
+\begin{table}[h]
+\input{Figure/confusion}
+\caption{Confusion matrix. In percent. 100 DPI and average filter smoothing with kernel size 15.}
+\label{tb:confusion}
+\end{table}
 As table
-%\ref{tb:confusion}
+\ref{tb:confusion}
 shows, misclassification occurs in several instances.
 Notably, digits 6, 7 and 8 are very often misclassified compared to other digits.
 The parameters for this test were 100 DPI and average filter smoothing with kernel size 15.
