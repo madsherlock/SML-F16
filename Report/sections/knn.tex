@@ -1,12 +1,16 @@
-\chapter{kNN}
-K - nearest - neighbor or kNN,
-is a method for classifying objects based on the distance
-to features extracted from ones training data.
-The idea in kNN is to identiy k observation which is closest to the new
-observation trying to be classified.
- The class with most vote determines which class the new observation
+\chapter{k-NN}
+K - nearest - neighbor or k-NN,
+is a method for classifying observations based on the similarities
+to features extracted from training data.
+The idea in k-NN is to identiy the k observations which are closest (most similar) to the
+observation to be classified, each observation voting for its class
+(either with a 1, or using a distance metric).
+ The class with the most votes determines which class the new observation
 will be classified as. 
-K is arbitrarily choosen by the user,
+k is chosen by the user,
  and has an effect of the peformance of the algorithm. 
-k-nn has an optimal classification rate when k becomes very large, 
-but will computation wise take more time and vice versa. 
+k-NN has an optimal classification rate on training data when k becomes very large, 
+but will computation wise take more time and vice versa.
+For testing data that is not part of the training data,
+the optimal classification rate is typically found at a different k.
+This motivates the study of k vs. classification rate.
