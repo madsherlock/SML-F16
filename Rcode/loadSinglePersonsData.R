@@ -204,7 +204,7 @@ loadSinglePersonsDataAverage <- function(DPI,groupNr,groupMemberNr,k){
   #smooth images
   for(i in 1:5) {
     #prepared[[i]] <- smoothGaussian(prepared[[i]],sigma,k)
-    prepared[[i]] <- smoothAverage(prepared[[i]],k)
+    prepared[[i]] <- smoothAverage(grayImg=prepared[[i]],k=k)
   }
   
   #extract individual digits
