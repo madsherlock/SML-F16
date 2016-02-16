@@ -32,14 +32,14 @@ displayDigit <- function(digit, filename="../data/image.png", width = 18) {
   #q = dev.off()
 }
 
-
-dkiddi <- loadSinglePersonsDataAverage(100,2,2,1)
-dut=dkiddi[[9]][2,]
-displayDigit(digit=dut,width=18,filename="../data/mikael_8_2_dpi100_k1.png")
-dkiddi <- loadSinglePersonsDataAverage(100,2,2,3)
-dut=dkiddi[[9]][2,]
-displayDigit(digit=dut,width=18,filename="../data/mikael_8_2_dpi100_k3.png")
-dkiddi <- loadSinglePersonsDataAverage(100,2,2,5)
-dut=dkiddi[[9]][2,]
-displayDigit(digit=dut,width=18,filename="../data/mikael_8_2_dpi100_k5.png")
+# 
+# dkiddi <- loadSinglePersonsData(300,2,2,sigma=0.1,k=15)
+# dut=dkiddi[[9]][2,]
+# displayDigit(digit=dut,width=58,filename="../data/mikael_8_2_dpi300_k15_sig0.1.png")
+# dkiddi2 <- loadSinglePersonsData(300,2,2,sigma=0.4,k=15)
+# dut2=dkiddi2[[9]][2,]
+# displayDigit(digit=dut2,width=58,filename="../data/mikael_8_2_dpi300_k15_sig0.4.png")
+# dkiddi3 <- loadSinglePersonsData(300,2,2,sigma=0.7,k=15)
+# dut3=dkiddi3[[9]][2,]
+# displayDigit(digit=dut3,width=58,filename="../data/mikael_8_2_dpi300_k15_sig0.7.png")
 #dkiddi[[3]][,1]

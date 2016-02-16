@@ -278,7 +278,7 @@ loadSinglePersonsDataAverage <- function(DPI,groupNr,groupMemberNr,k){
   #   img[,,1] <- prepared[[1]]
   #   img[,,2] <- prepared[[1]]
   #   img[,,3] <- prepared[[1]]
-  display(prepared[[1]])
+  #display(prepared[[1]])
   #display(prepared[[2]])
   #display(prepared[[3]])
   #display(prepared[[4]])
