@@ -17,6 +17,7 @@ library("plotly")
 #Load custom stuff
 #-------------------------------------------------------------
 source("setworkingdir.R")
+source("loadOneVariable.R")
 source("smooth.R")
 
 #-------------------------------------------------------------
@@ -42,8 +43,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma,k){
   #TODO: See if file already exists.
   filename = paste(c("../data/data-",groupNr,"-",groupMemberNr,"-",DPI,"-",sigma,"-",k,".RData"),collapse = "")
   if(file.exists(filename)){
-    load(filename)
-    return( trainingDigit)
+    return(loadOneVariable(filename))
   }
   
   #ELSE
@@ -169,8 +169,7 @@ loadSinglePersonsDataAverage <- function(DPI,groupNr,groupMemberNr,k){
   #TODO: See if file already exists.
   filename = paste(c("../data/data-",groupNr,"-",groupMemberNr,"-",DPI,"-",k,".RData"),collapse = "")
   if(file.exists(filename)){
-    load(filename)
-    return (trainingDigit)
+    return(loadOneVariable(filename))
   }
   
   #ELSE
