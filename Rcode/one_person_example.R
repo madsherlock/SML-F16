@@ -433,16 +433,19 @@ normalize <- function(x){
 
 #erro= table_generator(training,testing,testClass,trainClass,1)
 
+
 knn_tester <-function(max_smooth, maxK){
-  output =  data.frame(k=numeric((maxK*max_smooth/2)-1), error =numeric((maxK*max_smooth/2)-1), kernel_size=numeric((maxK*max_smooth/2)-1), stringsAsFactors = FALSE)
+  limit = maxK*(floor((max_smooth+1)/2)-1)
+  output =  data.frame(k=numeric(limit), error =numeric(limit), kernel_size=numeric(limit), stringsAsFactors = FALSE)
+  #output =  data.frame(k=numeric(), error =numeric(), kernel_size=numeric(), stringsAsFactors = FALSE)
   #output = as.data.frame(matrix(ncol= 3))
   #output = output[-1,]
-  number = 0
-  for(smooth in 1:max_smooth){
+  number = 1
+  for(smooth in 2:max_smooth){
      if(smooth%%2 != 0){
       message("Smoothing level: " , smooth)
       fullDataList[[1]] = loadSinglePersonsData(DPI,2,1,smooth); gc(); #Kiddi
-      fullDataList[[2]] = loadSinglePersonsData(DPI,2,2,smooth); gc(); #Should be Mikael
+      fullDataList[[2]] = loadSinglePersonsData(DPI,2,2,smooth); gc(); #Mikael
       data<- dataset_extracter(fullDataList)
       # data[1] = training
       # data[2] = trainClass
@@ -455,7 +458,7 @@ knn_tester <-function(max_smooth, maxK){
         #z = smooth
         output$k[number]=i
         #x = i
-        predicted = knn(data$training,data[3]$testing,data[2]$trainClass,k = 1)
+        predicted = knn(data$training,data[3]$testing,data[2]$trainClass,k = i)
         #message("done")
         Error = mean(predicted == data[4]$testClass)
         output$error[number] = Error
@@ -464,7 +467,7 @@ knn_tester <-function(max_smooth, maxK){
         #print(x)
         #print(y)
         #rbind(output,data.frame(z,x,y))
-        #print(output)
+        print(output)
         number = number + 1
       }
     }
@@ -472,68 +475,30 @@ knn_tester <-function(max_smooth, maxK){
   return(output)
 }
 
-dai = knn_tester(120,100)
+data = knn_tester(15,100)
 
-filled.contour3 <-
-function (x = seq(0, 1, length.out = nrow(z)),
-y = seq(0, 1, length.out = ncol(z)), z, xlim = range(x, finite = TRUE),
-ylim = range(y, finite = TRUE), zlim = range(z, finite = TRUE),
-levels = pretty(zlim, nlevels), nlevels = 20, color.palette = cm.colors,
-col = color.palette(length(levels) - 1), plot.title, plot.axes,
-key.title, key.axes, asp = NA, xaxs = "i", yaxs = "i", las = 1,
-axes = TRUE, frame.plot = axes,mar, ...)
-{
-    # modification by Ian Taylor of the filled.contour function
-    # to remove the key and facilitate overplotting with contour()
-    # further modified by Carey McGilliard and Bridget Ferris
-    # to allow multiple plots on one page
-    
-    if (missing(z)) {
-        if (!missing(x)) {
-            if (is.list(x)) {
-                z <- x$z
-                y <- x$y
-                x <- x$x
-            }
-            else {
-                z <- x
-                x <- seq.int(0, 1, length.out = nrow(z))
-            }
-        }
-        else stop("no 'z' matrix specified")
-    }
-    else if (is.list(x)) {
-        y <- x$y
-        x <- x$x
-    }
-    if (any(diff(x) <= 0) || any(diff(y) <= 0))
-    stop("increasing 'x' and 'y' values expected")
-    # mar.orig <- (par.orig <- par(c("mar", "las", "mfrow")))$mar
-    # on.exit(par(par.orig))
-    # w <- (3 + mar.orig[2]) * par("csi") * 2.54
-    # par(las = las)
-    # mar <- mar.orig
-    plot.new()
-    # par(mar=mar)
-    plot.window(xlim, ylim, "", xaxs = xaxs, yaxs = yaxs, asp = asp)
-    if (!is.matrix(z) || nrow(z) <= 1 || ncol(z) <= 1)
-    stop("no proper 'z' matrix specified")
-    if (!is.double(z))
-    storage.mode(z) <- "double"
-    .filled.contour(as.double(x), as.double(y), z, as.double(levels), 
-                    col = col)
-    if (missing(plot.axes)) {
-        if (axes) {
-            title(main = "", xlab = "", ylab = "")
-            Axis(x, side = 1)
-            Axis(y, side = 2)
-        }
-    }
-    else plot.axes
-    if (frame.plot)
-    box()
-    if (missing(plot.title))
-    title(...)
-    else plot.title
-    invisible()
-}
+  plot_function <- function(dataInput, maxSmooth,maxK)
+  {
+    colors = rainbow(maxSmooth);
+    k3 = dataInput[dataInput[,3] == 3,]
+    plot(k3$k ,k3$error,ylim = c(min(dataInput[,2]),max(dataInput[,2])), xlim =c(min(dataInput[,1]),max(dataInput[,1])), type = "b" ,xlab = "K", ylab = "Error", col=colors[1])
+    #lines(k3$k,k3$error , type = "b")
+    leg = c("3")
+     for(i in 4:maxSmooth)
+    {
+      if(i%%2 != 0)
+      {  
+          message(i)
+          #par(new=TRUE)
+          k_ = dataInput[dataInput[,3] == i,]
+          #lines(k_$k ,k_$daerror, type = 'p')
+          #lines(k_$k ,k_$error, type = 'l')
+          lines(k_$k ,k_$error,type = "b",col=colors[(i-1)/2])
+          #matplot(k_$k ,k_$error,ylim = c(min(dataInput[,2]),max(dataInput[,2])), xlim =c(min(dataInput[,1]),max(dataInput[,1])),axes = FALSE, type = "b" )
+          leg = c(leg, paste(i))
+      }
+     }
+    legend("topright",leg ,col=colors, pch = 1 , title = "kernel size")
+  }
+  
+  plot_function(data,50,100)
