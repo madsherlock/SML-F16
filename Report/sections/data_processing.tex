@@ -6,9 +6,55 @@ Different smoothing techniques were applied to the images, such as Gaussian blur
 For each were knn applied with different values of, and for each were error rate computed.  Thereby would it be possible to find the optimal parameter for this sort of problem, considering the smoothing and value of k. 
 
 
-\missingfigure{Knn-  smooth average images. }
-\missingfigure{Knn-  smooth average images plots }
+\begin{figure}[H]    
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+			\includegraphics[width=0.4\linewidth]{figure/mikael_8_2_dpi100_k3.png}
+			\caption{DPI = 100 , kernel size = 3}
+			\label{fig:dpi_100_3}
+	\end{minipage}
+	\hspace{\fill}
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+			\includegraphics[width=0.4\linewidth]{figure/mikael_8_2_dpi100_k5.png}
+			\caption{DPI = 100 , kernel size = 5}
+			\label{fig:dpi_100_5}
+	\end{minipage}
 
+\vspace*{0.5cm} % (or whatever vertical separation you prefer)
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+			\includegraphics[width=0.4\linewidth]{figure/mikael_8_2_dpi300_k5.png}
+			\caption{DPI = 300 , kernel size = 5}
+			\label{fig:dpi_300_5}
+	\end{minipage}
+\hspace{\fill}
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+			\includegraphics[width=0.4\linewidth]{figure/mikael_8_2_dpi300_k9.png}
+			\caption{DPI = 300 , kernel size = 9}
+			\label{fig:dpi_300_9}
+	\end{minipage}
+\caption{Effect of smoothing using average filter with different kernel sizes}
+\end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{figure/data_100_15_10.png}
+\caption{Tested on images with 100 dpi}
+\label{fig:data_100}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width = \textwidth]{figure/data_200_15_10.png}
+\caption{Tested on images with 200 dpi}
+\label{fig:data_200}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[width = \textwidth]{figure/data_300_15_10.png}
+\caption{Tested on images with 300 dpi}
+\label{data_300}
+\end{figure}
 \missingfigure{Knn-  smooth Gaussian images. }
 \missingfigure{Knn-  smooth Gaussian images plots }
