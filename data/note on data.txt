@@ -1,0 +1,1 @@
+This is where .RData files and other generated data, such as images, should go.
