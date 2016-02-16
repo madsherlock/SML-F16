@@ -1,9 +1,18 @@
+/Rcode/digit.eps
+/data/data-2-2-300-0.2-3.RData
+/data/data-2-2-300-0.2-1.RData
+/data/data-2-2-100-0.2-3.RData
+/data/data-2-1-300-1-1.RData
 /Report/sections/knn.tex.backup
 /Report/main.aux
 /Report/main.out
 /Report/main.pdf
 /Report/main.toc
 /Report/main.log
+
+#Images
+.eps
+
 # History files
 .Rhistory
 .Rapp.history
