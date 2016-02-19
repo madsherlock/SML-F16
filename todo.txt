@@ -1,7 +1,71 @@
-- Make function for visualizing ONE digit in a matrix. 
+- Redo exercise 1
+-- Perform it on ONE persons data (ex. 1.6.)
+--- Eithwer kiddi's or Mikaels.
+--- Choose group# and member#.
+--- 90/10 split, 10 times.
+--- With cross validation.
 
-- Make modified loadSinglePersonsData, which only reloads data,
-if a file named data-<group no>-<member>-<DPI>-<kernel size>.R does not already exist.
-Eg. data-2-1-300-5.R
-The function must save data into the properly named .R files when loading the first time.
-Put the data files in SML-F16/data.  ("../data/").
+--- Preprocessing:
+--- For each DPI = 100, 200, 300:
+---  For each sigma = 0.2, 0.3, 0.6, 1.0, 1.5, 2.0, 2.5
+---   Generate filename = "../data/data-<group#>-<member#>-<DPI>-<sigma>.RData"
+---   Choose kernel size based on gblur default: 2*ceil(3*sigma)+1.
+---   Filter image with Gaussian blur.
+---   Load the data into a 10 element vector named trainingData.
+---   Each vector holds 400 examples, each example is a vector of pixels for one hand written digit.
+----   (the number of pixels depends on DPI).
+---   Save the 10 element vector named trainingData into a file with name = filename.
+
+--- That concludes preprocessing
+--- k-NN:
+--- For each DPI = 100, 200, 300:
+---  For each sigma = 0.2, 0.3, 0.6, 1.0, 1.5, 2.0, 2.5
+---   Generate filename = "../data/data-<group#>-<member#>-<DPI>-<sigma>.RData"
+---   Load file with name = filename - this is instant.
+---   Cross validation loop: Run 10 times:
+----   Make 90/10 split from this one person's data set.
+----    For each k = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+----     Start a timer.
+----     Run k-NN.
+----     Stop the timer. Record the time spent on k-NN.
+----     Compute mean prediction rate (for all digits at once)
+---   When cross validation loop has run 10 times, we must combine the data:
+---   For each k = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+---    Compute mean mean prediction rate from the 10 cv's.
+---    Compute mean running time of k-NN from the 10 cv's.
+---    Compute standard deviation on mean mean prediction rate (or 95% confidence intervals) for the 10 cv's.
+---    Compute standard deviation on mean running time (or 95% confidence intervals) for the 10 cv's.
+---   We now have all the cross validation data.
+---   Generate an output filename prefix: "../data/knn-cv-<group#>-<member#>-<DPI>-<sigma>"
+---   Save a .csv with 7 columns: k, µµPR, -5% CI µµPR, +5% CI µµPR, µRT, -5% CI µRT, +5% CI µRT
+----   The name of the .csv file should be the filename prefix + ".csv"
+---   Remember, this .csv file generation is performed for each of the 21 DPI-sigma combinations.
+
+
+
+--- In MATLAB: We want to use the .csv files to generate plots to choose k, sigma and DPI.
+--- For each of the 21 .csv files:
+---  Save a .eps file with a bar plot:
+----  x-axis = k, y-axis = mean mean prediction rate with 95% CI bars.
+----  The name of the .eps file should be the filename prefix + "-bar-mumuPR.eps"
+---  Save a .eps file with a bar plot:
+----  x-axis = k, y-axis = mean running time with 95% CI bars.
+----  The name of the .eps file should be the filename prefix + "-bar-muRT.eps".
+--- These 21 bar plots are not the most important ones. We choose one or three plots later on.
+
+--- Also in MATLAB:
+--- For each of the three DPI settings = 100, 200, 300:
+---  Save a .eps file with a heat map / color density plot:
+----  x-axis = k, y-axis = sigma, color axis = mean mean prediction rate.
+----  The name of the .eps file should be "../data/knn-cv-<group#>-<member#>-<DPI>-heat-mumuPR.eps"
+---  Save a .eps file with a heat map / color density plot:
+----  x-axis = k, y-axis = sigma, color axis = mean running time.
+----  The name of the .eps file should be "../data/knn-cv-<group#>-<member#>-<DPI>-heat-muRT.eps"
+
+
+
+--- Now, choose optimal k, sigma combination in each of the µµPR heat maps.
+--- This gives you three combinations, because there are three heat maps (one for each DPI).
+--- Now look in the other three heat maps of µRT, and see what these k, sigma combinations
+--- lead to. Obviously, the running time of the 100 DPI version is smallest.
+--- Hopefully, it also has the highest (approximately) µµPR.
