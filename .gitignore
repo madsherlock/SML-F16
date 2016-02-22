@@ -37,3 +37,4 @@ vignettes/*.pdf
 .httr-oauth
 *.RData
 /Report/main.synctex.gz
+/Report/Figure/*.aux
