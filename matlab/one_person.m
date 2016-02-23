@@ -92,6 +92,7 @@ xlabel('\sigma')
 ylabel('k')
 grid on;
 colorbar;
+caxis([0.4 1]);
 
 %% Plot 200 DPI
 figure(2);
@@ -102,8 +103,9 @@ xlabel('\sigma')
 ylabel('k')
 grid on;
 colorbar;
+caxis([0.4 1]);
 
-%% Plot 200 DPI
+%% Plot 300 DPI
 figure(3);
 contourf(sigma_list,k_list,Accuracy300);
 colormap('jet');
@@ -112,8 +114,9 @@ xlabel('\sigma')
 ylabel('k')
 grid on;
 colorbar;
+caxis([0.4 1]);
 
-%% Plot 100 DPI
+%% Plot 100 DPI Kiddi
 figure(4);
 contourf(sigma_list,k_list,Accuracy100kiddi);
 colormap('jet');
@@ -122,3 +125,4 @@ xlabel('\sigma')
 ylabel('k')
 grid on;
 colorbar;
+caxis([0.4 1]);
