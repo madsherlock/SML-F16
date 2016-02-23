@@ -14,14 +14,14 @@ DPI100=ones(nk*length(sigma_list),1)*DPI_list(1);
 
 for(i=2:length(sigma_list))
     s=sigma_list(i);
-    sigma100 = vertcat(sigma100,ones(nk,1)*s);
+    sigma100 = horzcat(sigma100,ones(nk,1)*s);
     fn = horzcat(fnpre,num2str(s),'-10.csv');
     [tk,tAccuracy,tKappa,tAccuracySD,tKappaSD] = importcv(fn);
-    k100=vertcat(k100,tk);
+    k100=horzcat(k100,tk);
     Accuracy100=horzcat(Accuracy100,tAccuracy);
-    Kappa100=vertcat(Kappa100,tKappa);
-    AccuracySD100=vertcat(AccuracySD100,tAccuracySD);
-    KappaSD100=vertcat(KappaSD100,tKappaSD);
+    Kappa100=horzcat(Kappa100,tKappa);
+    AccuracySD100=horzcat(AccuracySD100,tAccuracySD);
+    KappaSD100=horzcat(KappaSD100,tKappaSD);
 end
 
 fnpre = '../data/cv-2-2-200-';
@@ -32,14 +32,14 @@ DPI200=ones(nk*length(sigma_list),1)*DPI_list(2);
 
 for(i=2:length(sigma_list))
     s=sigma_list(i);
-    sigma200 = vertcat(sigma200,ones(nk,1)*s);
+    sigma200 = horzcat(sigma200,ones(nk,1)*s);
     fn = horzcat(fnpre,num2str(s),'-3.csv');
     [tk,tAccuracy,tKappa,tAccuracySD,tKappaSD] = importcv(fn);
-    k200=vertcat(k200,tk);
+    k200=horzcat(k200,tk);
     Accuracy200=horzcat(Accuracy200,tAccuracy);
-    Kappa200=vertcat(Kappa200,tKappa);
-    AccuracySD200=vertcat(AccuracySD200,tAccuracySD);
-    KappaSD200=vertcat(KappaSD200,tKappaSD);
+    Kappa200=horzcat(Kappa200,tKappa);
+    AccuracySD200=horzcat(AccuracySD200,tAccuracySD);
+    KappaSD200=horzcat(KappaSD200,tKappaSD);
 end
 
 fnpre = '../data/cv-2-2-300-';
@@ -50,14 +50,14 @@ DPI300=ones(nk*length(sigma_list),1)*DPI_list(3);
 
 for(i=2:length(sigma_list))
     s=sigma_list(i);
-    sigma300 = vertcat(sigma300,ones(nk,1)*s);
+    sigma300 = horzcat(sigma300,ones(nk,1)*s);
     fn = horzcat(fnpre,num2str(s),'-3.csv');
     [tk,tAccuracy,tKappa,tAccuracySD,tKappaSD] = importcv(fn);
-    k300=vertcat(k300,tk);
+    k300=horzcat(k300,tk);
     Accuracy300=horzcat(Accuracy300,tAccuracy);
-    Kappa300=vertcat(Kappa300,tKappa);
-    AccuracySD300=vertcat(AccuracySD300,tAccuracySD);
-    KappaSD300=vertcat(KappaSD300,tKappaSD);
+    Kappa300=horzcat(Kappa300,tKappa);
+    AccuracySD300=horzcat(AccuracySD300,tAccuracySD);
+    KappaSD300=horzcat(KappaSD300,tKappaSD);
 end
 
 
@@ -70,14 +70,14 @@ DPI100kiddi=ones(nk*length(sigma_list),1)*DPI_list(1);
 
 for(i=2:length(sigma_list))
     s=sigma_list(i);
-    sigma100kiddi = vertcat(sigma100kiddi,ones(nk,1)*s);
+    sigma100kiddi = horzcat(sigma100kiddi,ones(nk,1)*s);
     fn = horzcat(fnpre,num2str(s),'-10.csv');
     [tk,tAccuracy,tKappa,tAccuracySD,tKappaSD] = importcv(fn);
-    k100kiddi=vertcat(k100kiddi,tk);
+    k100kiddi=horzcat(k100kiddi,tk);
     Accuracy100kiddi=horzcat(Accuracy100kiddi,tAccuracy);
-    Kappa100kiddi=vertcat(Kappa100kiddi,tKappa);
-    AccuracySD100kiddi=vertcat(AccuracySD100kiddi,tAccuracySD);
-    KappaSD100kiddi=vertcat(KappaSD100kiddi,tKappaSD);
+    Kappa100kiddi=horzcat(Kappa100kiddi,tKappa);
+    AccuracySD100kiddi=horzcat(AccuracySD100kiddi,tAccuracySD);
+    KappaSD100kiddi=horzcat(KappaSD100kiddi,tKappaSD);
 end
 
 clear tk tAccuracy tKappa tAccuracySD tKappaSD fn s fnpre i
@@ -126,3 +126,52 @@ ylabel('k')
 grid on;
 colorbar;
 caxis([0.4 1]);
+
+%% Plot 100 DPI, k = 1, bar plot with error bars
+figure(5);
+%Standard mean error SME is SD/sqrt(N).
+%At 100 DPI, N is 10 repetitions of cross validation.
+%At 200 and 300 DPI, N is 3.
+%95% confidence intervals are found at 1.96 SME.
+Accuracy100Error5 = ((AccuracySD100)*1.96)*(1/sqrt(10));
+bar(sigma_list,Accuracy100(1,:),'FaceColor',[0.5 0.5 0.5]);
+hold on;
+errorbar(sigma_list,Accuracy100(1,:),Accuracy100Error5(1,:),'k.')
+grid on; grid minor;
+ylabel('Accuracy');
+xlabel('\sigma');
+title('Accuracy at 100 DPI, k = 1, one person, with 95% CI');
+
+%% Plot 200 DPI, k = 1, bar plot with error bars
+figure(6);
+Accuracy200Error5 = ((AccuracySD200)*1.96)*(1/sqrt(3));
+bar(sigma_list,Accuracy200(1,:),'FaceColor',[0.5 0.5 0.5]);
+hold on;
+errorbar(sigma_list,Accuracy200(1,:),Accuracy200Error5(1,:),'k.')
+grid on; grid minor;
+ylabel('Accuracy');
+xlabel('\sigma');
+title('Accuracy at 200 DPI, k = 1, one person, with 95% CI');
+
+%% Plot 300 DPI, k = 3, bar plot with error bars
+figure(7);
+Accuracy300Error5 = ((AccuracySD300)*1.96)*(1/sqrt(3));
+bar(sigma_list,Accuracy300(3,:),'FaceColor',[0.5 0.5 0.5]);
+hold on;
+errorbar(sigma_list,Accuracy300(3,:),Accuracy300Error5(3,:),'k.')
+grid on; grid minor;
+ylabel('Accuracy');
+xlabel('\sigma');
+title('Accuracy at 300 DPI, k = 3, one person, with 95% CI');
+
+%% Plot Kiddi 100 DPI, k = 1, bar plot with error bars
+figure(8);
+Accuracy100Error5kiddi = ((AccuracySD100kiddi)*1.96)*(1/sqrt(10));
+bar(sigma_list,Accuracy100kiddi(1,:),'FaceColor',[0.5 0.5 0.5]);
+hold on;
+errorbar(sigma_list,Accuracy100kiddi(1,:),Accuracy100Error5kiddi(1,:),'k.')
+grid on; grid minor;
+ylabel('Accuracy');
+xlabel('\sigma');
+title('Accuracy at 100 DPI, k = 1, another person, with 95% CI');
+
