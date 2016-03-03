@@ -4,6 +4,8 @@ library("doParallel")
 source("loadSinglePersonsData.R")
 source("params_kNN.R")
 
+#todo: knnEval does pretty much all this in one step..... Great.
+
 # Performs k-NN training with cross validation.
 #Returns the cross validation results (see ?train, results).
 # k , Accuracy (success rate), Kappa (Accuracy vs. random chance), Accuracy SD, Kappa SD
