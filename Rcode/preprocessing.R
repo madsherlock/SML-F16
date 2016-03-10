@@ -11,7 +11,8 @@ smoothGaussian <- function(grayImg,sigma,k = 2*ceiling(3*sigma)+1){
 
 Preprocessing <- function(DPI, Sigma ,  groupNr,groupMemberNr )
 {
-  filename = paste("../data/data-<", groupNr,">-<", groupMemberNr,">-<", DPI,">-<", Sigma,">.RData",sep="")
+  #filename = paste("../data/data-<", groupNr,">-<", groupMemberNr,">-<", DPI,">-<", Sigma,">.rds",sep="")
+  filename = paste("../data/data-", groupNr,"-", groupMemberNr,"-", DPI,"-", Sigma,".RData",sep="")
   message(filename)
   ## Load images
   ciffers <- list(readPNG(paste(c("../../SML-database/2016/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
@@ -120,8 +121,9 @@ Preprocessing <- function(DPI, Sigma ,  groupNr,groupMemberNr )
   # display(prepared[[4]])
   # display(prepared[[5]])
   # 
+  #saveRDS(trainingDigit, file = filename)
+  str(trainingDigit)
   save(trainingDigit, file = filename)
-  
   #use the generated training data to apply learning
   #print( trainingDigit[[1]] )
   
@@ -133,10 +135,11 @@ Preprocessing <- function(DPI, Sigma ,  groupNr,groupMemberNr )
 DPI_loop = c(100,200,300)
 sigma_loop = c(0.2, 0.3, 0.6, 1.0, 1.5, 2.0, 2.5)
 
-for(DPI in 1:length(DPI_loop)){
-  for (Sigma in 1:length(sigma_loop)) {
-    message(DPI_loop[DPI])
-    message(sigma_loop[Sigma])
-    Preprocessing(DPI_loop[DPI],sigma_loop[Sigma],2,1)
+  for(group in 12:13){
+    for (member in 1:1) {
+      Preprocessing(100,1.5,group,member)
+    }
   }
-}
+  
+
+

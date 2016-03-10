@@ -196,15 +196,15 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,k){
   }
   
   #show image
-  #   img <- ciffers[[1]]
-  #   img[,,1] <- prepared[[1]]
-  #   img[,,2] <- prepared[[1]]
-  #   img[,,3] <- prepared[[1]]
-  #display(prepared[[1]])
-  #display(prepared[[2]])
-  #display(prepared[[3]])
-  #display(prepared[[4]])
-  #display(prepared[[5]])
+     img <- ciffers[[1]]
+     img[,,1] <- prepared[[1]]
+     img[,,2] <- prepared[[1]]
+     img[,,3] <- prepared[[1]]
+  display(prepared[[1]])
+  display(prepared[[2]])
+  display(prepared[[3]])
+  display(prepared[[4]])
+  display(prepared[[5]])
   
   
   
@@ -316,8 +316,8 @@ fullModList = list(1:NrOfDataSets)
 #add as many people as you have specified training and test data
 
 #Data used for Training
--fullDataList[[1]] = loadSinglePersonsData(DPI,2,1,3); gc(); #Kiddi
--fullDataList[[2]] = loadSinglePersonsData(DPI,2,2,3); gc(); #Should be Mikael
+#-fullDataList[[1]] = loadSinglePersonsData(DPI,2,1,3); gc(); #Kiddi
+#-fullDataList[[2]] = loadSinglePersonsData(DPI,2,2,3); gc(); #Should be Mikael
 
 #Data used for testing
 #fullDataList[[3]] = loadSinglePersonsData(DPI,1,2); gc(); #Group1 Member2  - G1M2
@@ -412,9 +412,9 @@ normalize <- function(x){
 #training_normalized = as.data.frame(lapply(training, normalize))
 
 #knn
-test_pred = knn(training,testing,trainClass,k=15)
+#test_pred = knn(training,testing,trainClass,k=15)
 #CrossTable - Confusion Matrix
-CrossTable(x=testClass,y= test_pred, prop.chisq = FALSE)
+#CrossTable(x=testClass,y= test_pred, prop.chisq = FALSE)
 #
 #mean(test_pred == testClass)
 
@@ -475,15 +475,12 @@ knn_tester <-function(max_smooth, maxK, dpi_f){
   return(output)
 }
 
-data_100 = knn_tester(15,10,100)
-data_200 = knn_tester(15,10,200)
-data_300 = knn_tester(15,10,300)
-
+knn_tester(3,3,100)
   plot_function <- function(dataInput, maxSmooth,maxK)
   {
     colors = rainbow(maxSmooth);
     k3 = dataInput[dataInput[,3] == 3,]
-    plot(k3$k ,k3$error,ylim = c(min(dataInput[,2]),max(dataInput[,2])), xlim =c(min(dataInput[,1]),max(dataInput[,1])), type = "b" ,xlab = "K", ylab = "Classification Rate", col=colors[1])
+    plot(k3$k ,k3$error,ylim = c(min(dataInput[,2]),max(dataInput[,2])), xlim =c(min(dataInput[,1]),max(dataInput[,1])), type = "b" ,xlab = "K", ylab = "Error", col=colors[1])
     #lines(k3$k,k3$error , type = "b")
     leg = c("3")
      for(i in 4:maxSmooth)
@@ -503,6 +500,4 @@ data_300 = knn_tester(15,10,300)
     legend("topright",leg ,col=colors, pch = 1 , title = "kernel size")
   }
   
-  
-pred_ = knn(training,testing,trainClass,k=1)
-mean(pred_ == testing)
+

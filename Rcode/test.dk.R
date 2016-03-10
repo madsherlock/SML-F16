@@ -7,14 +7,6 @@ library("class")
 library("gmodels")
 library("ggplot2")
 library("caret")
-library("descr")
-library("chemometrics")
-library("foreach")
-library("ggvis")
-library("plotly")
-source("setworkingdir.R")
-Sys.setenv("plotly_username"="realpython")
-Sys.setenv("plotly_api_key"="5q9mp6exnd")
 #library("lda")
 #library("neuralnet")
 #library("RSNNS")
@@ -26,7 +18,7 @@ Sys.setenv("plotly_api_key"="5q9mp6exnd")
 #-------------------------------------------------------------
 
 #inspiration for smoothing
-smoothImage <- function(grayImg,k){
+smoothImage <- function(grayImg){
   #two ways of specifying kernel:
   # kernel <- matrix( 
   #           c(1, 1, 1, 
@@ -39,10 +31,10 @@ smoothImage <- function(grayImg,k){
   
   kernel <- matrix( 
     1, # the data elements 
-    k,# number of rows 
-    k)
-  kernel <- kernel/k*k
-  #print(kernel)
+    3,# number of rows 
+    3)
+  kernel <- kernel/9
+  print(kernel)
   
   #using r library for smoothing
   smoothed <- filter2(grayImg, kernel)
@@ -88,7 +80,7 @@ smoothImage <- function(grayImg,k){
 #This currently loads data according to the paths in the begining.
 #Should be modified to load group members data.
 #-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,k){
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr){
   #load the scaned images
   ciffers <- list(readPNG(paste(c("../../SML-database/2016/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
                   readPNG(paste(c("../../SML-database/2016/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-1.png"), collapse = "")),
@@ -104,7 +96,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,k){
   #  gray <- list(1:5)
   #   smoothed <- list(1:5)
   prepared <- list(1:5)
-    
+  
   
   #convert the images to gray scale.
   for(i in 1:5)
@@ -116,12 +108,11 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,k){
   }
   
   #smooth images
-  
   for(i in 1:5)
   {
-    prepared[[i]] <- smoothImage(prepared[[i]],k)
+    prepared[[i]] <- smoothImage(prepared[[i]])
   }
-    
+  
   #generate image that is prepared for learning and visualization
   #   for(i in 1:5)
   #   {
@@ -200,17 +191,17 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,k){
   #   img[,,1] <- prepared[[1]]
   #   img[,,2] <- prepared[[1]]
   #   img[,,3] <- prepared[[1]]
-  #display(prepared[[1]])
-  #display(prepared[[2]])
-  #display(prepared[[3]])
-  #display(prepared[[4]])
-  #display(prepared[[5]])
+  display(prepared[[1]])
+  display(prepared[[2]])
+  display(prepared[[3]])
+  display(prepared[[4]])
+  display(prepared[[5]])
   
   
   
   
   #use the generated training data to apply learning
-  #print( trainingDigit[[1]] )
+  print( trainingDigit[[1]] )
   
   return(trainingDigit)
 }
@@ -259,10 +250,10 @@ getRandomSplit <- function(trainingData, trainingPc){
   trainClassF <- factor(trainClass)
   testClassF <- factor(testClass)
   
-  #print(nrow(training) );
-  #print(length(trainClassF) );
-  #print(nrow(testing) );
-  #print(length(testClassF) );
+  print(nrow(training) );
+  print(length(trainClassF) );
+  print(nrow(testing) );
+  print(length(testClassF) );
   
   return(list(training, testing, trainClassF, testClassF))
   
@@ -314,20 +305,15 @@ fullModList = list(1:NrOfDataSets)
 
 
 #add as many people as you have specified training and test data
-
-#Data used for Training
--fullDataList[[1]] = loadSinglePersonsData(DPI,2,1,3); gc(); #Kiddi
--fullDataList[[2]] = loadSinglePersonsData(DPI,2,2,3); gc(); #Should be Mikael
-
-#Data used for testing
-#fullDataList[[3]] = loadSinglePersonsData(DPI,1,2); gc(); #Group1 Member2  - G1M2
-
-#fullDataList[[4]] = loadSinglePersonsData(DPI,2,2); gc();
+fullDataList[[1]] = loadSinglePersonsData(DPI,2,1); gc();
+fullDataList[[2]] = loadSinglePersonsData(DPI,2,2); gc();
+#fullDataList[[3]] = loadSinglePersonsData(DPI,2,2); gc();
+#fullDataList[[4]] = loadSinglePersonsData(DPI,2,3); gc();
 #fullDataList[[5]] = loadSinglePersonsData(DPI,3,1); gc();
 #fullDataList[[6]] = loadSinglePersonsData(DPI,3,2); gc();
 #fullDataList[[7]] = loadSinglePersonsData(DPI,4,1); gc();
 #fullDataList[[8]] = loadSinglePersonsData(DPI,4,2); gc();
-#fullDataList[[9]] = bloadSinglePersonsData(DPI,4,3); gc();
+#fullDataList[[9]] = loadSinglePersonsData(DPI,4,3); gc();
 #fullDataList[[9]] = loadSinglePersonsData(DPI,5,1); gc();
 #fullDataList[[10]] = loadSinglePersonsData(DPI,5,2); gc();
 #fullDataList[[11]] = loadSinglePersonsData(DPI,6,1); gc();
@@ -335,174 +321,67 @@ fullModList = list(1:NrOfDataSets)
 #fullDataList[[12]] = loadSinglePersonsData(DPI,7,1); gc();
 #fullDataList[[15]] = loadSinglePersonsData(DPI,7,3); gc();
 
-dataset_extracter <- function(fullDataList)
-{
-
-  for(i in 1:NrOfTrainingSets)  
-  {  
-    for(j in 1:10)    
-    {    
-      if(i == 1 && j == 1)      
-      {      
-        training = fullDataList[[i]][[j]];      
-        trainClass = rep(j-1,nrow(fullDataList[[i]][[j]]));      
-      }    
-      else      
-      {      
-        training = rbind(training, fullDataList[[i]][[j]]);      
-        trainClass = append(trainClass, rep(j-1,nrow(fullDataList[[i]][[j]]) ) );      
-      }    
-    }  
-  }
-  
-  for(i in 1:NrOfTestingSets)  
-  {  
-    for(j in 1:10)    
-    {    
-      if(i == 1 && j == 1)      
-      {      
-        testing = fullDataList[[i + NrOfTrainingSets]][[j]];      
-        testClass = rep(j-1,nrow(fullDataList[[i + NrOfTrainingSets]][[j]]));      
-      }    
-      else      
-      {      
-        testing = rbind(testing, fullDataList[[i + NrOfTrainingSets]][[j]]);
-        testClass = append(testClass, rep(j-1,nrow(fullDataList[[i + NrOfTrainingSets]][[j]]) ) ); 
-      } 
-    }
-  }
-  nnTrainingClass <- matrix(nrow = nrow(training), ncol = 10)
-  for(i in 1:nrow(training))  
-  {  
-    for(j in 1:10)    
-    {
-      nnTrainingClass[i,j] <- 0;
-      if(testClass[i] == j-1)
-      {
-        nnTrainingClass[i,j] <- 1;
-      }
-    }
-  }
-  #nnTrainingClass
-  
-  #contain data from the first two persons: 
-  trainClassF = factor(trainClass)
-  
-  #contain data from the third person:
-  testClassF = factor(testClass)
-  
-  #str(training)
-  #str(trainClass)
-  #str(testing)
-  #str(testClass)
-  output<- list("training"= training, "trainClass" = trainClass,"testing" = testing,"testClass" = testClass)
-  return(output)  
+for(i in 1:NrOfTrainingSets)  
+{  
+  for(j in 1:10)    
+  {    
+    if(i == 1 && j == 1)      
+    {      
+      training = fullDataList[[i]][[j]];      
+      trainClass = rep(j-1,nrow(fullDataList[[i]][[j]]));      
+    }    
+    else      
+    {      
+      training = rbind(training, fullDataList[[i]][[j]]);      
+      trainClass = append(trainClass, rep(j-1,nrow(fullDataList[[i]][[j]]) ) );      
+    }    
+  }  
 }
 
-
-##KNN
-
-#Data Normalization
-normalize <- function(x){
-  num <- x-min(x)
-  denum <- max(x)-min(x)
-  return(num/denum)
-}
-#testing_normalized = as.data.frame(lapply(testing, normalize))
-#training_normalized = as.data.frame(lapply(training, normalize))
-
-#knn
-test_pred = knn(training,testing,trainClass,k=15)
-#CrossTable - Confusion Matrix
-CrossTable(x=testClass,y= test_pred, prop.chisq = FALSE)
-#
-#mean(test_pred == testClass)
-
-
-
-#table_generator <- function(training, testing, testing_class, train_class, maxK){
-#  output =  data.frame(x=numeric(maxK), y =numeric(maxK), stringsAsFactors = FALSE)
-#  for(k in 1:maxK){
-#    message("iteration: " , k)
-#    output$x[k] = k
-#    predicted = knn(training,testing,trainClass,k)
-#    output$y[k] = mean(predicted == testing_class)
-#  }
-#  return(output)
-#}
-
-#erro= table_generator(training,testing,testClass,trainClass,1)
-
-
-knn_tester <-function(max_smooth, maxK, dpi_f){
-  limit = maxK*(floor((max_smooth+1)/2)-1)
-  output =  data.frame(k=numeric(limit), error =numeric(limit), kernel_size=numeric(limit), stringsAsFactors = FALSE)
-  #output =  data.frame(k=numeric(), error =numeric(), kernel_size=numeric(), stringsAsFactors = FALSE)
-  #output = as.data.frame(matrix(ncol= 3))
-  #output = output[-1,]
-  number = 1
-  for(smooth in 2:max_smooth){
-     if(smooth%%2 != 0){
-      message("Smoothing level: " , smooth)
-      fullDataList[[1]] = loadSinglePersonsData(dpi_f,2,1,smooth); gc(); #Kiddi
-      fullDataList[[2]] = loadSinglePersonsData(dpi_f,2,2,smooth); gc(); #Mikael
-      data<- dataset_extracter(fullDataList)
-      # data[1] = training
-      # data[2] = trainClass
-      # data[3] = testing
-      # data[4] = testClass
-      for(i in 1:maxK){
-        #print(data)
-        message("iteration: " , i)
-        output$kernel_size[number]= smooth
-        #z = smooth
-        output$k[number]=i
-        #x = i
-        predicted = knn(data$training,data[3]$testing,data[2]$trainClass,k = i)
-        #message("done")
-        Error = mean(predicted == data[4]$testClass)
-        output$error[number] = Error
-        #y = Error
-        #print(z)
-        #print(x)
-        #print(y)
-        #rbind(output,data.frame(z,x,y))
-        print(output)
-        number = number + 1
-      }
-    }
+for(i in 1:NrOfTestingSets)  
+{  
+  for(j in 1:10)    
+  {    
+    if(i == 1 && j == 1)      
+    {      
+      testing = fullDataList[[i + NrOfTrainingSets]][[j]];      
+      testClass = rep(j-1,nrow(fullDataList[[i + NrOfTrainingSets]][[j]]));      
+    }    
+    else      
+    {      
+      testing = rbind(testing, fullDataList[[i + NrOfTrainingSets]][[j]]);
+      testClass = append(testClass, rep(j-1,nrow(fullDataList[[i + NrOfTrainingSets]][[j]]) ) ); 
+    } 
   }
-  return(output)
 }
-
-data_100 = knn_tester(15,10,100)
-data_200 = knn_tester(15,10,200)
-data_300 = knn_tester(15,10,300)
-
-  plot_function <- function(dataInput, maxSmooth,maxK)
+nnTrainingClass <- matrix(nrow = nrow(training), ncol = 10)
+for(i in 1:nrow(training))  
+{  
+  for(j in 1:10)    
   {
-    colors = rainbow(maxSmooth);
-    k3 = dataInput[dataInput[,3] == 3,]
-    plot(k3$k ,k3$error,ylim = c(min(dataInput[,2]),max(dataInput[,2])), xlim =c(min(dataInput[,1]),max(dataInput[,1])), type = "b" ,xlab = "K", ylab = "Classification Rate", col=colors[1])
-    #lines(k3$k,k3$error , type = "b")
-    leg = c("3")
-     for(i in 4:maxSmooth)
+    nnTrainingClass[i,j] <- 0;
+    if(testClass[i] == j-1)
     {
-      if(i%%2 != 0)
-      {  
-          message(i)
-          #par(new=TRUE)
-          k_ = dataInput[dataInput[,3] == i,]
-          #lines(k_$k ,k_$daerror, type = 'p')
-          #lines(k_$k ,k_$error, type = 'l')
-          lines(k_$k ,k_$error,type = "b",col=colors[(i-1)/2])
-          #matplot(k_$k ,k_$error,ylim = c(min(dataInput[,2]),max(dataInput[,2])), xlim =c(min(dataInput[,1]),max(dataInput[,1])),axes = FALSE, type = "b" )
-          leg = c(leg, paste(i))
-      }
-     }
-    legend("topright",leg ,col=colors, pch = 1 , title = "kernel size")
+      nnTrainingClass[i,j] <- 1;
+    }
   }
-  
-  
-pred_ = knn(training,testing,trainClass,k=1)
-mean(pred_ == testing)
+}
+#nnTrainingClass
+
+#contain data from the first two persons:
+trainClassF = factor(trainClass)
+
+#contain data from the third person:
+testClassF = factor(testClass)
+
+str(training)
+str(trainClass)
+str(testing)
+str(testClass)
+
+
+
+test_pred = knn(training,testing,trainClass,k=15)
+tab = CrossTable(x=testClass,y= test_pred, prop.chisq = FALSE)
+save(tab, file = "crossTable_k15.Rdata")
+
