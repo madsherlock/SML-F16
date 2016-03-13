@@ -1,10 +1,18 @@
+#
+# This script carries out a running time test of the pure k-NN algorithm
+# on data from one person.
+# For each DPI, running time is measured vs. k=1,...,40 and dataset size n<=4000.
+# No cross validation.
+# An example confusion matrix is also exported.
+#
+
 source("loadSinglePersonsData.R")
 source("knnPerformanceNoCV.R")
 source("toFraction.R")
 
 
 DPI_list = c(100,200,300);
-k_list = seq(1,11,1);
+k_list = seq(1,40,1);
 GroupNumber = 2;
 MemberNumber = 2;
 sigma_list = c(1.5,2.5,3.5);
