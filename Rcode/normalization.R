@@ -57,5 +57,6 @@ normalized_1_1_9 = (List_1_1[[10]]-min(List_1_1[[10]]))/(max(List_1_1[[10]])-min
 # Normalization_0 = unlist(list(....))
 
 #combine dataset to Troels format. 
+# To train with it use PCA_BASED_TRAINING.r 
 normalized =  list(normalized_1_1_0,normalized_1_1_1,normalized_1_1_2,normalized_1_1_3,normalized_1_1_4,normalized_1_1_5,normalized_1_1_6,normalized_1_1_7,normalized_1_1_8,normalized_1_1_9)
 #outputs data normalized using Minmax and return into Troels's dataformat. 
