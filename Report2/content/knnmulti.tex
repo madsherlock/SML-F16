@@ -16,3 +16,21 @@ The data was split into training and testing data in two different ways:
 The results can be seen in figure
 \todo[inline]{FIGURES}
 
+Figure \ref{fig:confmatknn-multi} shows example confusion matrices for
+\textbf{MIX} and \textbf{LOO} (\(D_{MULTI} \setminus G1M1\)).
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width = \textwidth]{{{graphics/confmatkNN-multiAll-sig1.5-k1-n40000}}}
+		\caption{\textbf{MIX}.}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[width = \textwidth]{{{graphics/confmatkNN-multiLOO-sig1.5-k1-n40000}}}
+		\caption{\textbf{LOO}. \(D_{MULTI} \setminus G1M1\) training set.}
+	\end{subfigure}
+	\caption{
+		Example confusion matrices for k-NN with \(k=1\) and \(\sigma=1.5\) at 100 DPI for \(D_{MULTI}\).
+	}
+	\label{fig:confmatknn-multi}
+\end{figure}

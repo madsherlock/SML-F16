@@ -53,3 +53,5 @@ vignettes/*.pdf
 /Report2/graphics/knn-runningtime-vs-n-and-k-2-2-dpi200-eps-converted-to.pdf
 /Report2/graphics/knn-runningtime-vs-n-and-k-2-2-dpi300-eps-converted-to.pdf
 /Report2/graphics/knn-runningtime-vs-n-loglog-2-2-eps-converted-to.pdf
+/Report2/graphics/confmatkNN-multiAll-sig1.5-k1-n40000-eps-converted-to.pdf
+/Report2/graphics/confmatkNN-multiLOO-sig1.5-k1-n40000-eps-converted-to.pdf
