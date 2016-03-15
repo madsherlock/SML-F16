@@ -6,6 +6,7 @@ downsampled to 100 DPI and smoothed with \(\sigma=1.5\),
 k-NN classification accuracy was measured using 10-fold cross validation (3 runs),
 for \(k=1,2,3,5,7,11,30,40,80\).
 The data was split into training and testing data in two different ways:
+
 \begin{itemize}
 	\item \textbf{MIX}: Data from all individuals in \(D_{MULTI}\)
 	is contained in both training and testing sets.
@@ -13,8 +14,25 @@ The data was split into training and testing data in two different ways:
 	left out of the training data in each cross validation run with
 	training set equal to \(D_{MULTI}\setminus GXM1\) and testing set equal to \(GXM1\).
 \end{itemize}
-The results can be seen in figure
-\todo[inline]{FIGURES}
+
+The results can be seen in figure \ref{fig:knn-acc-multi}.
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[t]{0.9\textwidth}
+		\includegraphics[width=\textwidth]{{{graphics/knn-acc-multiMIX-dpi100-sig1.5}}}
+		\caption{\textbf{MIX}.}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.9\textwidth}
+		\includegraphics[width=\textwidth]{{{graphics/knn-acc-multiLOO-dpi100-sig1.5}}}	
+		\caption{\textbf{LOO}.}
+	\end{subfigure}
+	\caption{
+		k-NN classification accuracy vs. k for \(D_{MULTI}\).
+		Based on 3 runs of 10-fold cross validation.
+	}
+	\label{fig:knn-acc-multi}
+\end{figure}
 
 Figure \ref{fig:confmatknn-multi} shows example confusion matrices for
 \textbf{MIX} and \textbf{LOO} (\(D_{MULTI} \setminus G1M1\)).
@@ -28,9 +46,31 @@ Figure \ref{fig:confmatknn-multi} shows example confusion matrices for
 	\begin{subfigure}[t]{0.45\textwidth}
 		\includegraphics[width = \textwidth]{{{graphics/confmatkNN-multiLOO-sig1.5-k1-n40000}}}
 		\caption{\textbf{LOO}. \(D_{MULTI} \setminus G1M1\) training set.}
+		\label{fig:confmatknn-multiLOO}
 	\end{subfigure}
 	\caption{
 		Example confusion matrices for k-NN with \(k=1\) and \(\sigma=1.5\) at 100 DPI for \(D_{MULTI}\).
 	}
 	\label{fig:confmatknn-multi}
 \end{figure}
+
+Figure \ref{fig:knn-acc-multi} shows that for the tested values of \(k\),
+\(k=1\) yields highest accuracy as with the G2M2 dataset,
+in both the \textbf{LOO} and the \textbf{MIX} configurations.
+Figure \ref{fig:knn-acc-multi} also clearly shows that the \textbf{LOO} configuration
+yields much lower accuracy than the \textbf{MIX} configuration.
+This is to be expected, as the testing data is drawn from different individual datasets
+than the training data. The figure shows above 50 \% accuracy at \(k=1\),
+which might seem acceptable for certain applications.
+However, as the example confusion matrix in figure \ref{fig:confmatknn-multiLOO} shows,
+the classification of the \textbf{LOO} configuration is inappropriate
+for general digit recognition, as nines are mostly classified as fours,
+and most predicted nines are actually ones!
+
+It may be possible to reduce this effect by increasing the number
+of individuals represented in the training set, as this would introduce more
+variation and possible closer, correct, neighbours for the currently
+misclassified digits.
+Combining this with increasing k could increase general applicability of the classifier,
+although possible reducing the mean classification accuracy,
+as figure \ref{fig:knn-acc-multi} shows.
