@@ -7,7 +7,7 @@ parallelizeMe <- function(num_threads = 0) {
     nodes <- detectCores()
   else if(nodes > detectCores())
     nodes <- detectCores()
-  cl <- makeCluster(nodes)
+  cl <- makeCluster(nodes, outfile = "")
   registerDoParallel(cl)
   return(cl)
 }
