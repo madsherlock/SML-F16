@@ -1,1 +1,18 @@
 \section{Discussion}
+The \textbf{LOO} (Leave-one-out) configuration
+yields much lower accuracy than the \textbf{MIX} configuration.
+This is to be expected, as the testing data is drawn from different individual datasets
+than the training data. Above 50 \% mean accuracy was shown at \(k=1\),
+which might seem acceptable for certain applications.
+However, as the example confusion matrix in figure \ref{fig:confmatknn-multiLOO} shows,
+the classification of the \textbf{LOO} configuration is inappropriate
+for general digit recognition, as nines are mostly classified as fours,
+and most predicted nines are actually ones!
+
+It may be possible to reduce this effect by increasing the number
+of individuals represented in the training set, as this would introduce more
+variation and possible closer, correct, neighbours for the currently
+misclassified digits.
+Combining this with increasing k could increase general applicability of the classifier,
+although possible reducing the mean classification accuracy,
+as figure \ref{fig:knn-acc-multi} shows.
