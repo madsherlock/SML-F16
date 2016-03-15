@@ -1,4 +1,12 @@
 \section{Conclusion}
 \label{sec:conclusion}
-\todo{Write stuff}
-...
+It was chosen to use 100 DPI downsampling on all loaded data,
+as the k-NN algorithm used does not scale well with problem size.
+Applying k-NN to data from multiple individuals showed that
+classifying digits written by individuals not represented
+in the k-NN training set is a problem that is significantly
+more difficult than if digits from the same individual are
+represented in the training data.
+In fact, some of the tests showed that the applied k-NN classifier
+is classifying fours incorrectly more often than correctly,
+yielding it practically useless for digit recognition.
