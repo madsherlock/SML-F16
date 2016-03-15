@@ -1,7 +1,37 @@
 \section{Introduction}
 \label{sec:introduction}
-\todo{Write intro}
-This paper ...
+This report documents the results of the second exercise within
+a project concerned with digit recognition.
+The purpose of the project is to develop a system capable of recognizing
+(classifying) hand written digits (0 - 9) using different machine learning techniques,
+and documenting the performance of the system.
+The purpose of the second exercise, documented here, was to
+compare k-Nearest Neighbour classification accuracy when using
+data from the same individuals in both training and testing sets,
+to when the testing set is from individuals not represented in the training set.
+This provides insight into the difficulty of the problem and the important
+concept of validation.
+
+A Principal Component Analysis was carried out with the purpose
+of reducing the number of dimensions in the data.
+The exercise was to select the number of principal components
+based on classification performance.
+
+Lastly, the effects of applying data normalization before and after
+Principal Component Analysis were investigated in this exercise.
+
+The datasets used for training and testing of the system
+were hand written by students (the authors included), and each
+consist of 400 examples of each digit (4000 digits in each dataset).
+
+In the analyses of data for parameter optimization,
+it was chosen to use data from one individual,
+so that parameter impact on classification accuracy
+could be most accurately measured. This way of parameter
+optimization also speeds up the development of the digit recognition system.
+When comparing methods, data from several individuals should be used.
+
+Data processing was performed in R \citep{R}, using the caret package \citep{caret}.
 
 %\begin{enumerate}
 %\item first one
@@ -23,6 +53,3 @@ This paper ...
 %\caption{Offline planning.}
 %\label{offline_steps}
 %\end{figure}
-
-\subsection{Notation and abbreviations}
-\todo[inline]{G2M2 = Group 2 member 2, etc. That kind of thing.}

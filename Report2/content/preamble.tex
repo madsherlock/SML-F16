@@ -1,10 +1,11 @@
 %\documentclass[11pt,a4paper,titlepage]{article} %auto frontpage
-\documentclass[11pt,a4paper]{article} %manual frontpage (within \begin{titlepage} \end{titlepage})
+%\documentclass[11pt,a4paper]{article} %manual frontpage (within \begin{titlepage} \end{titlepage})
+\documentclass[11pt,a4paper,twoside]{article} %manual frontpage (within \begin{titlepage} \end{titlepage})
 % Could add twoside if wanted. 
 %%%%%%% Standard settings %%%%%%%
 \usepackage{amsmath} %This is math
 \usepackage{amssymb}
-% \usepackage[nottoc, numbib, notlot, notlof]{tocbibind}
+\usepackage[nottoc, numbib, notlot, notlof]{tocbibind} %List of figures!
 \usepackage{fancyhdr} %Fancy header on the pages
 \usepackage[utf8]{inputenc}  %UTF8 encoding
 %\usepackage{mathtools}
@@ -21,6 +22,7 @@
 %\usepackage[disable]{todonotes}
 \usepackage{lastpage} 
 %\usepackage{lipsum,lastpage}  
+\usepackage{acronym} %So you can make list of acronyms...
 
 \usepackage{hanging} %Annoying package that makes quotes in math mode illegal
 %Here comes the math mode quote fix: if in math mode, dont use hanging.
@@ -28,11 +30,11 @@
 \def\latex@@rquote{^\bgroup\prim@s} % kernel meaning of math active quote
 \let\hang@@h@ngrquote\h@ngrquote
 \renewcommand{\h@ngrquote}{%
-  \relax\ifmmode
-    \expandafter\latex@@rquote
-  \else
-    \expandafter\hang@@h@ngrquote
-  \fi}
+	\relax\ifmmode
+	\expandafter\latex@@rquote
+	\else
+	\expandafter\hang@@h@ngrquote
+	\fi}
 \makeatother
 
 \usepackage{tabularx}
@@ -53,21 +55,22 @@
 \usepackage{float}
 
 % % Tosidet margin:
-% \usepackage[margin=2.5cm, inner =3cm,outer =2cm]{geometry}
+%\usepackage[margin=2.5cm, inner =3cm,outer =2cm]{geometry}
+\usepackage{emptypage} %Removes page numbers from blank pages created by \cleardoublepage.
 % % Enkeltsidet magin: 
 \usepackage[margin=2.5cm]{geometry}
 
 
 \usepackage{paralist}
-  \let\itemize\compactitem
-  \let\enditemize\endcompactitem
-  \let\enumerate\compactenum
-  \let\endenumerate\endcompactenum
-  \let\description\compactdesc
-  \let\enddescription\endcompactdesc
-  \pltopsep=1pt
-  \plitemsep=1pt
-  \plparsep=1pt
+\let\itemize\compactitem
+\let\enditemize\endcompactitem
+\let\enumerate\compactenum
+\let\endenumerate\endcompactenum
+\let\description\compactdesc
+\let\enddescription\endcompactdesc
+\pltopsep=1pt
+\plitemsep=1pt
+\plparsep=1pt
 
 %%%%%%% FIGURES %%%%%%%
 
@@ -79,16 +82,17 @@
 %\usepackage[round]{natbib}
 \usepackage[numbers]{natbib} %Natbib supports both [i] and Author (year) citation styles. \citet and \citep replace \cite.
 \bibliographystyle{plainnat}
+%\bibliographystyle{mybibstyle} %mybibstyle.bst must be in same directory as master doc.
 
 %%%%%%% captions settings %%%%%%%
 \usepackage[margin=1cm]{caption}
 \captionsetup{
-  font=footnotesize,
-  width=0.75\textwidth
+	font=footnotesize,
+	width=0.75\textwidth
 }
 \captionsetup[subfigure]{
-  font=footnotesize,
-  width=0.8\textwidth
+	font=footnotesize,
+	width=0.8\textwidth
 }
 \usepackage{subcaption} %subfigures
 
@@ -96,22 +100,22 @@
 %%%%%%% implementering af code %%%%%%%
 \usepackage{listings}
 \lstset{frame=tb,
-tabsize=4,
-language=C++,
-captionpos=b,
-tabsize=3,
-frame=false,
-numbers=left,
-numberstyle=\tiny,
-numbersep=5pt,
-breaklines=true,
-showstringspaces=false,
-basicstyle=\ttfamily,
-% identifierstyle=\color{magenta},
-keywordstyle=\color[rgb]{0,0,1},
-commentstyle=\color{ForestGreen}\ttfamily,
-morecomment=[l][\color{brown}]{\#},
-stringstyle=\color{red}
+	tabsize=4,
+	language=C++,
+	captionpos=b,
+	tabsize=3,
+	frame=false,
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	breaklines=true,
+	showstringspaces=false,
+	basicstyle=\ttfamily,
+	% identifierstyle=\color{magenta},
+	keywordstyle=\color[rgb]{0,0,1},
+	commentstyle=\color{ForestGreen}\ttfamily,
+	morecomment=[l][\color{brown}]{\#},
+	stringstyle=\color{red}
 }
 %Figurtekst under kode udsnit
 \renewcommand\lstlistingname{Code snippet}
@@ -120,34 +124,34 @@ stringstyle=\color{red}
 \usepackage{icomma}
 \usepackage{pdfpages}
 \usepackage[pdftex,
- hyperfigures=true,
- pdfauthor={},
- pdftitle={},
- pdfsubject={},
- pdfkeywords={},
- hidelinks,
- plainpages=false,
- pdfpagelabels,
- unicode]{hyperref}
- 
-\usepackage{textcomp,gensymb} % Tilføjer et grader-tegn i mat-mode
+hyperfigures=true,
+pdfauthor={},
+pdftitle={},
+pdfsubject={},
+pdfkeywords={},
+hidelinks,
+plainpages=false,
+pdfpagelabels,
+unicode]{hyperref}
+
+\usepackage{textcomp,gensymb} % adds comparisons (\greater) and \degree symbol
 
 \newenvironment{changemargin}[2]{%
-\begin{list}{}{%
-\setlength{\topsep}{0pt}%
-\setlength{\leftmargin}{#1}%
-\setlength{\rightmargin}{#2}%
-\setlength{\listparindent}{\parindent}%
-\setlength{\itemindent}{\parindent}%
-\setlength{\parsep}{\parskip}%
-}%
-\item[]}{\end{list}}
+	\begin{list}{}{%
+			\setlength{\topsep}{0pt}%
+			\setlength{\leftmargin}{#1}%
+			\setlength{\rightmargin}{#2}%
+			\setlength{\listparindent}{\parindent}%
+			\setlength{\itemindent}{\parindent}%
+			\setlength{\parsep}{\parskip}%
+		}%
+		\item[]}{\end{list}}
 
 \usepackage{tikz}
 \usepackage[nomessages]{fp}
 \usetikzlibrary{positioning,calc,patterns}
 % TikZ 3dplot
-\usepackage{tikz-3dplot}
+%\usepackage{tikz-3dplot}
 
 
 \newdimen\XCoord

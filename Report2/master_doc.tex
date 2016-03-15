@@ -34,8 +34,16 @@
 \setcounter{page}{1}
 \fancyfoot[C]{\thepage}
 
+%include makes automatic newpage
+%input does not.
+%So use input for subsections if you have such in separate files.
+
 \include{content/intro}
+\input{content/notations}
 %\input{content/asubsubsection}
+\include{content/smoothing}
+\include{content/knnmulti}
+\include{content/pca}
 
 \include{content/conclusion}
 

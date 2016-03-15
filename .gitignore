@@ -47,3 +47,5 @@ vignettes/*.pdf
 /Report2/content/*.gz(busy)
 /Report2/content/*.aux
 /Report2/master_doc.pdf
+/Report2/content/*.log
+/Report2/*.blg
