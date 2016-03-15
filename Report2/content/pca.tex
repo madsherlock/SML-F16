@@ -1,9 +1,9 @@
-\section{Principal Component Analysis}
-PCA is a tool used to find a low dimensional representation of a
-data set that represent as much variation as the complete data set.
-The analysis finds uncorrelated variables named principal components from the dataset.
-Using PCA would therefore also help lessen the change of "curse of dimensionality",
-and also improve the time needed to process the data. 
+\section{PCA - Principal Component Analysis}
+PCA is a tool used to find a low dimensional representation
+of a data set that represent as much variation as the complete data set. 
+  The analysis finds uncorrelated variables named principal components from the dataset.
+  Using PCA would therefore also help lessen the change of "curse of dimensionality",
+   and also improve the time needed to process the data. 
 
 \begin{figure}[H]
 \centering
@@ -52,28 +52,29 @@ Using the PC were knn performed which resulted in this
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = \textwidth]{graphics/kNN_plot_80.png}
+\includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_80.png}
 \label{fig:knnFit_80}
 \end{figure}
 
-\missingfigure{KnnFit Confusionmatrix}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = \textwidth]{graphics/kNN_plot_90.png}
+\includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_90.png}
 \label{fig:knnFit_90}
 \end{figure}
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = \textwidth]{graphics/kNN_plot_99.png}
+\includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_99.png}
 \label{fig:knnFit_99}
 \end{figure}
 
+Both figure \ref{fig:knnFit_80} and figure \ref{fig:knnFit_90} both show low accuracy,
+which might be an error, or due some other factors. 
+ The graphs shows that the accuracy is highest around 5, which by looking at the different
 
-\missingfigure{KnnFit plots}
-
+\missingfigure{confusion matrix}
 
 \missingfigure{knnFit trainingTime}
 
