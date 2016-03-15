@@ -2,7 +2,9 @@ library("caret")
 library("foreach")
 library("doParallel")
 source("loadSinglePersonsData.R")
-source("params_kNN.R")
+source("loadMultiplePersonsData.R")
+#source("params_kNN.R")
+source("listOfDigits2classificationData.R")
 
 #todo: knnEval does pretty much all this in one step..... Great.
 
@@ -134,7 +136,7 @@ crossValidationKNNArbritrary <- function(DPI=100,
                  y=dataClassF, #Correct labels, same length as data.
                  method="knn",
                  trControl = control, #Repeated Cross Validation
-                 #metric = "Kappa", #See internet for difference between Kappa and Accuracy
+                 #metric = "Accuracy", #See internet for difference between Kappa and Accuracy
                  tuneGrid = k_list, #method parameter value list. knn has one parameter k. This is a list of k's to test.
                  preProcess = knnPreprocess #Normalization etc. before passing data to k-NN classifier. @todo: Is this necessary?
   )
@@ -183,6 +185,48 @@ runCrossValidationKNNOnePerson <- function(GroupNumber,MemberNumber) {
 }
 
 
+
+runCrossValidationKNNMultiplePersons <- function(persons,DPI_list,sigma_list,k_list,n_folds,n_repeats) {
+  persons_string=character()
+  for(p in persons) {
+    persons_string=paste(c(persons_string,"-",p[1],"-",p[2]),collapse = "")
+  }
+  fn_prefix = paste(c("../data/cv-knn-all",persons_string))
+  cat("Starting k-NN cross validation loop for persons: ")
+  for(p in persons) {
+    cat("G",p[1],"M",p[2],",")
+  }
+  cat("\b\n\r")
+  for(DPI in DPI_list) {
+    cat("DPI=",DPI,"\n\r")
+    for(sigma in sigma_list) {
+      cat(" sigma=",sigma,".")
+      filename = paste(c(fn_prefix,"-",DPI,"-",sigma,"-",n_repeats,".RData"),collapse="")
+      if(file.exists(filename)){
+        cat(" Results exist already.\n\r")
+        #load(filename)
+        #return(cv_result)
+      }
+      else {
+        cat(" Loading and preprocessing.\n\r  ")
+        dataForClassification = listOfDigits2classificationDataAlt(
+          loadMultiplePersonsDataByDigitMerged(DPI,persons,sigma))
+        cat(" Running CV...")
+        #str(dataForClassification$dat)
+        #str(dataForClassification$dataClassF)
+        cv_result = crossValidationKNNArbritrary(DPI=DPI,
+                                                 data=dataForClassification$data, #training and testing data (unsplit)
+                                                 dataClassF=dataForClassification$dataClassF, #labels for data, factor form
+                                                 numberOfFolds = n_folds, #90/10 split corresponds to 10 folds
+                                                 numberOfCVRepeats = n_repeats, #Cross validation repeats
+                                                 k_list=expand.grid(k=k_list))
+        gc()
+        save(cv_result,file=filename)
+        cat(" Done.\n\r")
+      }
+    }
+  }
+}
 
 
 

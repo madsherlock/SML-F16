@@ -1,6 +1,30 @@
 #k-NN
 library("caret")
 
+
+
+knnPerformanceNoCVSpecific <- function(dataTraining,dataTrainingClassF,dataTesting,dataTestingClassF,k_list=c(1,2,3)) {
+  #k-NN Time!
+  #knnTime <- list(1:length(k_list))
+  knnTime <- vector(length=length(k_list))
+  knnConfusionMatrix <- list(1:length(k_list))
+  for(i in 1:length(k_list))
+  {
+    #Measure time
+    #Predict
+    timer = proc.time()
+    knnPrediction = knn3Train(train=dataTraining,test=dataTesting,cl=dataTrainingClassF,k=k_list[i],prob=TRUE);
+    knnTime[i] = (proc.time() - timer)[[1]]
+    #Store accuracy and confusion
+    knnConfusionMatrix[[i]] = confusionMatrix(data=knnPrediction,reference=dataTestingClassF)
+  }
+  
+  return(list(dataset_size = length(dataTrainingClassF)+length(dataTestingClassF),k_list=k_list,knnTime=knnTime,knnConfusionMatrix=knnConfusionMatrix))
+  
+}
+
+
+
 #Calculate k-NN performance of one run for each k (no cross validation).
 #Returns confusion matrix including accuracy, for each k,
 #as well as prediction running time (seconds) for each k.
@@ -29,21 +53,36 @@ knnPerformanceNoCV <- function(data,dataClassF,trainPercent=0.9,k_list=c(1,2,3))
   remove(scrambledData,scrambledDataClassF)
   gc();
   
-  
+  return(knnPerformanceNoCVSpecific(dataTraining = dataTraining,
+                                    dataTrainingClassF = dataTrainingClassF,
+                                    dataTesting = dataTesting,
+                                    dataTestingClassF = dataTestingClassF,
+                                    k_list = k_list))
+}
+
+
+
+
+
+
+knnPerformanceOnTrainingSetNoCV <- function(data,dataClassF,k_list=seq(1,11,1))
+{
   #k-NN Time!
   #knnTime <- list(1:length(k_list))
   knnTime <- vector(length=length(k_list))
   knnConfusionMatrix <- list(1:length(k_list))
   for(i in 1:length(k_list))
   {
+    cat(c(k_list[i],','));
     #Measure time
     #Predict
     timer = proc.time()
-    knnPrediction = knn3Train(train=dataTraining,test=dataTesting,cl=dataTrainingClassF,k=k_list[i],prob=TRUE);
+    knnPrediction = knn3Train(train=data,test=data,cl=dataClassF,k=k_list[i],prob=TRUE);
     knnTime[i] = (proc.time() - timer)[[1]]
     #Store accuracy and confusion
-    knnConfusionMatrix[[i]] = confusionMatrix(data=knnPrediction,reference=dataTestingClassF)
+    knnConfusionMatrix[[i]] = confusionMatrix(data=knnPrediction,reference=dataClassF)
   }
   
   return(list(dataset_size = length(dataClassF),k_list=k_list,knnTime=knnTime,knnConfusionMatrix=knnConfusionMatrix))
 }
+

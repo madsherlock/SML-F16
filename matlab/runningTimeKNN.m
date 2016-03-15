@@ -25,15 +25,15 @@ for(it=1:3)
         
 end
 figure(4)
-loglog(M{1}(:,1),M{1}(:,3)./M{1}(:,1),'bx'); hold on;
-loglog(M{2}(:,1),M{2}(:,3)./M{1}(:,1),'gx');
-loglog(M{3}(:,1),M{3}(:,3)./M{1}(:,1),'rx');
+loglog(M{1}(:,1),M{1}(:,3)./(M{1}(:,1)./10),'bx'); hold on;
+loglog(M{2}(:,1),M{2}(:,3)./(M{1}(:,1)./10),'gx');
+loglog(M{3}(:,1),M{3}(:,3)./(M{1}(:,1)./10),'rx');
 %loglog(M{3}(:,1),1/100*(M{3}(:,1)),'ro');
 %loglog(M{3}(:,1),1/100*(M{3}(:,1)).*log(M{3}(:,1)),'r.');
-loglog(M{3}(:,1),1/2000000*(M{3}(:,1)),'m-');
+loglog(M{3}(:,1),1/200000*(M{3}(:,1)),'m-');
 grid on;
 hold off;
 xlabel('N');
 ylabel('Running time per classification [s]');
 title('k-NN classification time vs. N at various DPI');
-legend('100 DPI','200 DPI','300 DPI','5\cdot{}10^{-7}*N reference','Location','NorthWest');
+legend('100 DPI','200 DPI','300 DPI','5\cdot{}10^{-6}\cdot{}N reference','Location','NorthWest');

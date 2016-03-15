@@ -175,3 +175,22 @@ ylabel('Accuracy');
 xlabel('\sigma');
 title('Accuracy at 100 DPI, k = 1, another person, with 95% CI');
 
+
+
+
+
+
+
+%% Training set performance
+fn = '../data/knnTrainingSetPerformance-2-2-100-1.5.csv';
+M = csvread(fn,1);
+figure(9);
+bar(M(:,1),M(:,2),'FaceColor',[0.5 0.5 0.5]);
+hold on;
+errorbar(M(:,1),M(:,2),M(:,3)-M(:,2),M(:,4)-M(:,2),'k.');
+hold off;
+xlim([min(M(:,1)),max(M(:,1))]);
+grid on; grid minor;
+ylabel('Accuracy');
+xlabel('k');
+title('Training set accuracy at 100 DPI, k = 1, one person, with 95% CI');
