@@ -54,6 +54,7 @@ Using the PC were knn performed which resulted in this
 \centering
 \includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_80.png}
 \label{fig:knnFit_80}
+\caption{}
 \end{figure}
 
 
@@ -61,6 +62,7 @@ Using the PC were knn performed which resulted in this
 \centering
 \includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_90.png}
 \label{fig:knnFit_90}
+\caption{}
 \end{figure}
 
 
@@ -68,15 +70,15 @@ Using the PC were knn performed which resulted in this
 \centering
 \includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_99.png}
 \label{fig:knnFit_99}
+\caption{}
 \end{figure}
 
 Both figure \ref{fig:knnFit_80} and figure \ref{fig:knnFit_90} both show low accuracy,
 which might be an error, or due some other factors. 
  The graphs shows that the accuracy is highest around 5, which by looking at the different
 
-\missingfigure{confusion matrix}
+The best tune parameter for other graphs were found to be k = 7 for 90\% and k = 14 for 80\%.
 
 \missingfigure{knnFit trainingTime}
 
-
-\todo[inline]{prediction time.}
+Due to timing constraint was it not possible to test how accurate the tuned parameter would improve the result for a normalized dataset with and without PCA. 
