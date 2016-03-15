@@ -1,9 +1,5 @@
 \section{PCA - Principal Component Analysis}
-PCA is a tool used to find a low dimensional representation
-of a data set that represent as much variation as the complete data set. 
-  The analysis finds uncorrelated variables named principal components from the dataset.
-  Using PCA would therefore also help lessen the change of "curse of dimensionality",
-   and also improve the time needed to process the data. 
+PCA is a tool used to find a low dimensional representation of a data set that represent as much variation as the complete data set.   The analysis finds uncorrelated variables named principal components from the dataset.  Using PCA would therefore also help lessen the change of "curse of dimensionality", and also improve the time needed to process the data. 
 
 \begin{figure}[H]
 \centering
@@ -12,16 +8,10 @@ of a data set that represent as much variation as the complete data set.
 \label{fig:pca_vis}
 \end{figure}
 
-An illustration of the first two principal components of person dependent
-dataset can be seen in figure \ref{fig:pca_vis}.
-The axis shows how the data is distributed along both axis. 
-It shows that the PC1 axis has the greatest, as it can be seen from the variance of data aswell. 
-
-
-As more PC gets included, will more of the variation of the dataset be exploited,
-and at the end completely resemble the the original data.
-The trick here is to find the right amount of PC which exploits the dataset as
-much as possible, and reduce the "unwanted" dimensions in the dataset. 
+An illustration of the first two principal components of person dependent dataset can be seen in figure \ref{fig:pca_vis}. The axis shows how the data is distributed along both axis.  It shows that the PC1 axis has the greatest, as it can be seen from the variance of data aswell. 
+\\
+\\
+As more PC gets included, will more of the variation of the dataset be exploited, and at the end completely resemble the the original data. The trick here is to find the right amount of PC which exploits the dataset as much as possible, and reduce the "unwanted" dimensions in the dataset. 
 
 \begin{figure}[H]
 \centering
@@ -30,16 +20,11 @@ much as possible, and reduce the "unwanted" dimensions in the dataset.
 \label{fig:PCa_num_comp}
 \end{figure}
 
-As it can be seen in figure \ref{fig:PCa_num_comp} increased the accumalted
-variance strongly for the first principal components. 
- Using the elbow method one would be able to determine how 
- many would be to determine how many would pc would fairly represent the dataset. 
-
-
-Using the PCA method were the dataset reduced into 4 sets 
- which represents 80\% , 90\%, 95\%, 99\% variances. 
- The training was trained using a 10 - fold cross validation, 
- which was repeated 10 times, and the accuracy mean was then computed. 
+As it can be seen in figure \ref{fig:PCa_num_comp} increased the accumalted variance strongly for the first principal components.  Using the elbow method one would be able to determine how many would be to determine how many would pc would fairly represent the dataset. 
+\\
+\\
+\\
+Using the PCA method were the dataset reduced into 4 sets  which represents 80\% , 90\%, 95\%, 99\% variances. The training was trained using a 10 - fold cross validation, which was repeated 10 times, and the accuracy mean was then computed. 
 
 \begin{figure}[H]
 \centering
@@ -52,7 +37,7 @@ Using the PC were knn performed which resulted in this
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_80.png}
+\includegraphics[width = 0.6\textwidth]{graphics/kNN_plot_80.png}
 \caption{}
 \label{fig:knnFit_80}
 \end{figure}
@@ -60,7 +45,7 @@ Using the PC were knn performed which resulted in this
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_90.png}
+\includegraphics[width = 0.6\textwidth]{graphics/kNN_plot_90.png}
 \caption{}
 \label{fig:knnFit_90}
 \end{figure}
@@ -68,23 +53,18 @@ Using the PC were knn performed which resulted in this
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = 0.4\textwidth]{graphics/kNN_plot_99.png}
+\includegraphics[width = 0.6\textwidth]{graphics/kNN_plot_99.png}
 \caption{}
 \label{fig:knnFit_99}
 \end{figure}
 
-Both figure \ref{fig:knnFit_80} and figure \ref{fig:knnFit_90} both show low accuracy,
-which might be an error, or due some other factors. 
- The graphs shows that the accuracy is highest around 5, which by looking at the different
+Both figure \ref{fig:knnFit_80} and figure \ref{fig:knnFit_90} both show low accuracy, which might be an error, or due some other factors.  The graphs shows that the accuracy is highest around 5, which by looking at the different plots seem to lock into the same value as the one found with the dataset containing 99\% of the variation, being k = 5 with an accuracy of 0.7286967.  
 
 The best tune parameter for other graphs were found to be k = 7 for 90\% and k = 14 for 80\%.
 
 
 
-Performing this for training did in general take less time than before,
- but due to some problems of measuring the time, werent and an accurate time logged.
-   The training in general took around 14 hours, which included crossvalidation, ranging from max 20 hours . 
+Performing this for training did in general take less time than before, but due to some problems of measuring the time, werent and an accurate time logged.  The training in general took around 14 hours, which included crossvalidation.
 
-Due to timing constraint was it not possible to test how accurate the tuned
- parameter would improved the result for a normalized dataset with and without PCA. 
+Due to timing constraint was it not possible to test how accurate the tuned parameter would improved the result for a normalized dataset with and without PCA. 
 
