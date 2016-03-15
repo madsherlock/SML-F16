@@ -39,3 +39,11 @@ vignettes/*.pdf
 /Report/main.synctex.gz
 /Report/Figure/*.aux
 /Report/Exercise1-group2-kerat12-miwes12.pdf
+/Report2/*.aux
+/Report2/*.log
+/Report2/*.out
+/Report2/*.gz
+/Report2/*.toc
+/Report2/content/*.gz(busy)
+/Report2/content/*.aux
+/Report2/master_doc.pdf
