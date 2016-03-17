@@ -54,6 +54,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma){
   }
   
   #ELSE
+  cat("     Loading G",groupNr,"M",groupMemberNr," at ",DPI," DPI and sigma = ",sigma,".\n\r",sep="")
   
   #load the scanned images
   ciffers <- list(readPNG(paste(c("../../SML-database/2016/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
