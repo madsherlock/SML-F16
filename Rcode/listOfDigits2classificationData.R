@@ -93,6 +93,8 @@ listOfDigits2classificationDataAlt <- function(dataList) {
   #This is how you make that:
   dataClassF = factor(make.names(factor(dataClass)))
   
+  colnames(datmat) = colnames(datmat, do.NULL = FALSE, prefix = "pix")
+  
   resultL = list(data=datmat,dataClassF=dataClassF)
 
   return(resultL)
