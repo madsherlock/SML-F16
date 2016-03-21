@@ -27,6 +27,8 @@ loadOneVariable <- function(filename) {
 }
 
 
+
+
 #-------------------------------------------------------------
 #This currently loads data according to the paths in the begining.
 #Should be modified to load group members data.
@@ -46,7 +48,7 @@ loadOneVariable <- function(filename) {
 #data[[6]][166,]
 #The counting direction is as you would read it (digits 1-20 are in row 1, etc.).
 #-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma){
+loadSinglePersonsDataOld <- function(DPI,groupNr,groupMemberNr,sigma){
   #TODO: See if file already exists.
   filename = paste(c("../data/data-",groupNr,"-",groupMemberNr,"-",DPI,"-",sigma,".RData"),collapse = "")
   if(file.exists(filename)){
@@ -193,4 +195,73 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma){
   #with the same parameters.
   save(trainingDigit,file=filename)
   return(trainingDigit)
+}
+
+
+
+loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=2016){
+  #TODO: See if file already exists.
+  filename = paste(c("../data/data-",groupNr,"-",groupMemberNr,"-",DPI,"-",sigma,".RData"),collapse = "")
+  if(file.exists(filename)){
+    return(loadOneVariable(filename))
+  }
+  
+  #ELSE
+  cat("     Loading G",groupNr,"M",groupMemberNr," at ",DPI," DPI and sigma = ",sigma,".\n\r",sep="")
+  
+  #load the scanned images
+  ciffers <- list(readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-0.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-1.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-2.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-3.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-4.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-5.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-6.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-7.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-8.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-9.png"), collapse = "")))
+  
+  prepared <- list(1:10)
+  
+  #convert the images to gray scale.
+  for(i in 1:10) {
+    r <-ciffers[[i]][,,1]
+    g <-ciffers[[i]][,,2]
+    b <-ciffers[[i]][,,3]
+    prepared[[i]] <- (r+g+b)/3
+  }
+  
+  #smooth images with AUTOMATIC kernel size
+  for(i in 1:10) {
+    prepared[[i]] <- smoothGaussian(prepared[[i]],sigma)
+  }
+  
+  xStepT <- 60*DPI/300
+  yStepT <- 60*DPI/300
+  
+  tempM <- matrix(data=NA,20*20,(yStepT-2)*(xStepT-2))
+  trainingDigit <- list(1:10);
+  
+  for(digit in 1:10) {
+    for(cifX in 1:20) {
+      aXbase <- xStepT*(cifX-1)
+      for(cifY in 1:20) {
+        aYbase <- yStepT*(cifY-1)
+        for(px in 1:xStepT-2) {
+          for(py in 1:yStepT-2) {
+            tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT-2) + py] <- prepared[[digit]][aYbase+py+1,aXbase+px+1]
+          }
+        }
+      }
+    }
+    trainingDigit[[digit]] <- tempM
+  }
+
+  save(trainingDigit,file=filename)
+  return(trainingDigit)
+}
+
+
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma,year=2016) {
+  return(loadSinglePersonsDataCropped(DPI,groupNr,groupMemberNr,sigma,year))
 }

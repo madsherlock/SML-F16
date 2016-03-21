@@ -2,7 +2,12 @@ library("gplots")
 library("ggplot2")
 
 #width = { 18, 38, 58 }
-displayDigit <- function(digit, filename="../data/image.png", width = 18) {
+displayDigit <- function(digit, filename="../data/image.png", width = NULL) {
+  
+  if(is.null(width)) {
+    width=sqrt(length(digit))
+  }
+  
   
   height = length(digit)/width;
   

@@ -51,6 +51,7 @@ persons_fewer = list(
 )
 
 #persons_persondependent: Datasets for which person dependent parameter tuning will be carried out.
+#Currently, should hold only ONE element!
 persons_persondependent = list(
   c(2,2) #Mikael
 )
