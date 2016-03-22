@@ -1,6 +1,17 @@
 %% Preprocessing script (crop & downsample with ImageMagick).
 % Crops images based on Corners.txt supplied with dataset,
 % and downsamples to 200 and 100 DPI.
+% The skewed, scanned 300 DPI images are first
+% rotated and scaled to 1200x1200 pixels using the four point Perspective
+% transform (for each digit), which preserves straight lines. The four
+% points are the corners of the 20 by 20 digit bounding box, as specified
+% in Corners.txt. Then the 1200x1200 DPI image is downsampled to lower DPI.
+% In summary, each 300 DPI page (with two digits) is converted into six
+% images (three pixel densities per digit, two digits per page).
+% The reasoning behind this method is that the grid into which digits
+% have been written will be positioned at (or near) rows and columns which
+% are multiples of 60*DPI/300. This, of course, requires accurate
+% Corners.txt specification.
 %
 % Copyright 2016 Mikael Westermann
 % 
@@ -42,9 +53,9 @@ persons = [...
     2016,11,2;
     2016,11,3;
     2016,13,1;
+    2016,14,1;
+    2016,14,2;
     ];
-
-
 for personIdx=1:length(persons)
     year=persons(personIdx,1);
     group=persons(personIdx,2);

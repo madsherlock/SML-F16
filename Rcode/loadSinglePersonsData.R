@@ -199,10 +199,10 @@ loadSinglePersonsDataOld <- function(DPI,groupNr,groupMemberNr,sigma){
 
 
 
-loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=2016){
+loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=2016, reload=FALSE){
   #TODO: See if file already exists.
   filename = paste(c("../data/data-",groupNr,"-",groupMemberNr,"-",DPI,"-",sigma,".RData"),collapse = "")
-  if(file.exists(filename)){
+  if(file.exists(filename)&&(reload==FALSE)){
     return(loadOneVariable(filename))
   }
   
@@ -224,17 +224,36 @@ loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=20
   prepared <- list(1:10)
   
   #convert the images to gray scale.
+  
+  
   for(i in 1:10) {
-    r <-ciffers[[i]][,,1]
-    g <-ciffers[[i]][,,2]
-    b <-ciffers[[i]][,,3]
-    prepared[[i]] <- (r+g+b)/3
+    cDim=dim(ciffers[[i]])
+    if(length(cDim)>=3) {
+      #if(cDim[3]>3) {
+      #  cat("This person has more than 3 channels for digit",i-1,"... Using the first 3.\n\r")
+      #}
+      r <-ciffers[[i]][,,1]
+      g <-ciffers[[i]][,,2]
+      b <-ciffers[[i]][,,3]
+      prepared[[i]] <- (r+g+b)/3
+    }
+    else if(length(cDim)==2) {
+      #Grayscale. Look through G4M3's images to see something confusing.
+      #G4M3 (2016) chose to use color images for digits 0-3, but grayscale
+      #for the remaining six digits. This is not a joke.
+      cat("This person scanned digit",i-1,"in grayscale...\n\r")
+      prepared[[i]] <- ciffers[[i]]
+    }
+    else {
+      stop(cat("Two-channel image for digit",i-1," G",groupNr,"M",groupMemberNr))
+    }
   }
   
   #smooth images with AUTOMATIC kernel size
   for(i in 1:10) {
     prepared[[i]] <- smoothGaussian(prepared[[i]],sigma)
   }
+  #str(prepared)
   
   xStepT <- 60*DPI/300
   yStepT <- 60*DPI/300
@@ -247,8 +266,8 @@ loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=20
       aXbase <- xStepT*(cifX-1)
       for(cifY in 1:20) {
         aYbase <- yStepT*(cifY-1)
-        for(px in 1:xStepT-2) {
-          for(py in 1:yStepT-2) {
+        for(px in 1:(xStepT-2)) {
+          for(py in 1:(yStepT-2)) {
             tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT-2) + py] <- prepared[[digit]][aYbase+py+1,aXbase+px+1]
           }
         }
@@ -262,6 +281,6 @@ loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=20
 }
 
 
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma,year=2016) {
-  return(loadSinglePersonsDataCropped(DPI,groupNr,groupMemberNr,sigma,year))
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma,year=2016, reload=FALSE) {
+  return(loadSinglePersonsDataCropped(DPI,groupNr,groupMemberNr,sigma,year,reload))
 }

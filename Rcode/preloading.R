@@ -23,7 +23,7 @@ persons_all_loadable = list(
   c(5,2),
   c(5,3),
   c(6,1),
-  # #c(6,2), #Bad file naming
+  # #c(6,2), #Doesn't exist
   c(7,1),
   c(8,1),
   c(10,1),
@@ -31,9 +31,9 @@ persons_all_loadable = list(
   c(11,1),
   c(11,2),
   c(11,3), #Updated his/her Ciphers recently. Should be OK.
-  c(13,1)
-  # #c(14,1), #Bug X
-  # #c(14,2) #Bug X
+  c(13,1),
+  c(14,1), #Bug X
+  c(14,2) #Bug X
 )
 
 #persons_fewer: Datasets from a large, limited number of people
@@ -118,6 +118,10 @@ loading_setups = list(
     list(
       DPI = 200,
       sigma_list = c(
+        0.2,
+        0.5,
+        1,
+        1.5,
         2,
         2.1,
         2.2,
@@ -177,21 +181,25 @@ preloadData <- function(
       labeled_dataset$list_of_persons = list_of_persons
       labeled_dataset$DPI = DPI_sigma_combination$DPI
       labeled_dataset$sigma = sigma
-      data_and_labels =
-        listOfDigits2classificationDataAlt(
-          dataList =
-            loadMultiplePersonsDataByDigitMerged(
-              DPI = DPI_sigma_combination$DPI,
-              persons = list_of_persons,
-              sigma = sigma
-            )
-        )
-      labeled_dataset$data = data_and_labels$data
-      labeled_dataset$labels = data_and_labels$dataClassF
-      cat("\n\r   Loaded.\n\r      Saving labeled dataset")
+      
+      
+      
       filename = paste(c(filename_prefix,"-dpi",DPI_sigma_combination$DPI,"-sigma",sigma,".RData"),collapse="")
-      cat(" to:\n\r     \"",filename,"\"...\n\r",sep="")
       if( ( !file.exists(filename) ) || overwrite_existing_labeled_dataset ) {
+        data_and_labels =
+          listOfDigits2classificationDataAlt(
+            dataList =
+              loadMultiplePersonsDataByDigitMerged(
+                DPI = DPI_sigma_combination$DPI,
+                persons = list_of_persons,
+                sigma = sigma
+              )
+          )
+        labeled_dataset$data = data_and_labels$data
+        labeled_dataset$labels = data_and_labels$dataClassF
+        cat("\n\r   Loaded.\n\r      Saving labeled dataset")
+        cat(" to:\n\r     \"",filename,"\"...\n\r",sep="")
+        
         save(
           labeled_dataset,
           file = filename,
@@ -200,12 +208,19 @@ preloadData <- function(
         )
       }
       cat("\n\r     Done.\n\r")
+      
     }
   }
   cat("   Dataset:\n\r   ", dataset_name,"\n\r   preloaded.\n\r")
 }
 
 preloadEverything <- function(overwrite_existing_labeled_dataset=TRUE) {
+  cat("Time: ",format(Sys.time(), "%X"),"\n\rPreload person dependent data:\n\r")
+  preloadData(
+    list_of_persons = persons_persondependent,
+    loading_setup = loading_setups$persondependent,
+    overwrite_existing_labeled_dataset = overwrite_existing_labeled_dataset
+  )
   cat("Time: ",format(Sys.time(), "%X"),"\n\rPreload all loadable data:\n\r")
   preloadData(
     list_of_persons = persons_all_loadable,
@@ -216,12 +231,6 @@ preloadEverything <- function(overwrite_existing_labeled_dataset=TRUE) {
   preloadData(
     list_of_persons = persons_fewer,
     loading_setup = loading_setups$fewer,
-    overwrite_existing_labeled_dataset = overwrite_existing_labeled_dataset
-  )
-  cat("Time: ",format(Sys.time(), "%X"),"\n\rPreload person dependent data:\n\r")
-  preloadData(
-    list_of_persons = persons_persondependent,
-    loading_setup = loading_setups$persondependent,
     overwrite_existing_labeled_dataset = overwrite_existing_labeled_dataset
   )
   cat("Time: ",format(Sys.time(), "%X"),"\n\rDone preloading!\n\r")

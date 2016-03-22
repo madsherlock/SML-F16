@@ -16,7 +16,7 @@ displayDigit <- function(digit, filename="../data/image.png", width = NULL) {
   img = matrix(NA,nrow=height,ncol=width)
   
   for( d in 1:height) {
-    img[d,] = digit[(d*width):((d-1)*width+1)]
+    img[,d] = digit[((d-1)*width+1):(d*width)]
   }
   
   sum = 0
