@@ -46,6 +46,8 @@ listOfDigits2classificationData <- function(dataList) {
   return(data.frame(dat=datmat,dataClassF=dataClassF))
 }
 
+
+#Labels are "X0", "X1", ... , "X9" instead of "0", "1", ..., "9".
 listOfDigits2classificationDataAlt <- function(dataList) {
   #dataList is 10 elements, each element is eg. 400 by X.
   #X is the number of pixels in the digit descriptor.
@@ -90,6 +92,8 @@ listOfDigits2classificationDataAlt <- function(dataList) {
   #that is exactly what we want!
   #This is how you make that:
   dataClassF = factor(make.names(factor(dataClass)))
+  
+  colnames(datmat) = colnames(datmat, do.NULL = FALSE, prefix = "pix")
   
   resultL = list(data=datmat,dataClassF=dataClassF)
 

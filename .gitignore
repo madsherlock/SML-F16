@@ -57,3 +57,4 @@ vignettes/*.pdf
 /Report2/graphics/confmatkNN-multiLOO-sig1.5-k1-n40000-eps-converted-to.pdf
 /Report2/graphics/knn-acc-multiLOO-dpi100-sig1.5-eps-converted-to.pdf
 /Report2/graphics/knn-acc-multiMIX-dpi100-sig1.5-eps-converted-to.pdf
+/Report2/*.gz(busy)

@@ -27,6 +27,8 @@ loadOneVariable <- function(filename) {
 }
 
 
+
+
 #-------------------------------------------------------------
 #This currently loads data according to the paths in the begining.
 #Should be modified to load group members data.
@@ -46,7 +48,7 @@ loadOneVariable <- function(filename) {
 #data[[6]][166,]
 #The counting direction is as you would read it (digits 1-20 are in row 1, etc.).
 #-------------------------------------------------------------
-loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma){
+loadSinglePersonsDataOld <- function(DPI,groupNr,groupMemberNr,sigma){
   #TODO: See if file already exists.
   filename = paste(c("../data/data-",groupNr,"-",groupMemberNr,"-",DPI,"-",sigma,".RData"),collapse = "")
   if(file.exists(filename)){
@@ -54,6 +56,7 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma){
   }
   
   #ELSE
+  cat("     Loading G",groupNr,"M",groupMemberNr," at ",DPI," DPI and sigma = ",sigma,".\n\r",sep="")
   
   #load the scanned images
   ciffers <- list(readPNG(paste(c("../../SML-database/2016/group",groupNr,"/member",groupMemberNr,"/Ciphers",DPI,"-0.png"), collapse = "")),
@@ -192,4 +195,92 @@ loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma){
   #with the same parameters.
   save(trainingDigit,file=filename)
   return(trainingDigit)
+}
+
+
+
+loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=2016, reload=FALSE){
+  #TODO: See if file already exists.
+  filename = paste(c("../data/data-",groupNr,"-",groupMemberNr,"-",DPI,"-",sigma,".RData"),collapse = "")
+  if(file.exists(filename)&&(reload==FALSE)){
+    return(loadOneVariable(filename))
+  }
+  
+  #ELSE
+  cat("     Loading G",groupNr,"M",groupMemberNr," at ",DPI," DPI and sigma = ",sigma,".\n\r",sep="")
+  
+  #load the scanned images
+  ciffers <- list(readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-0.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-1.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-2.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-3.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-4.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-5.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-6.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-7.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-8.png"), collapse = "")),
+                  readPNG(paste(c("../data/cropped_images/cropY",year,"G",groupNr,"M",groupMemberNr,"-",DPI,"-9.png"), collapse = "")))
+  
+  prepared <- list(1:10)
+  
+  #convert the images to gray scale.
+  
+  
+  for(i in 1:10) {
+    cDim=dim(ciffers[[i]])
+    if(length(cDim)>=3) {
+      #if(cDim[3]>3) {
+      #  cat("This person has more than 3 channels for digit",i-1,"... Using the first 3.\n\r")
+      #}
+      r <-ciffers[[i]][,,1]
+      g <-ciffers[[i]][,,2]
+      b <-ciffers[[i]][,,3]
+      prepared[[i]] <- (r+g+b)/3
+    }
+    else if(length(cDim)==2) {
+      #Grayscale. Look through G4M3's images to see something confusing.
+      #G4M3 (2016) chose to use color images for digits 0-3, but grayscale
+      #for the remaining six digits. This is not a joke.
+      cat("This person scanned digit",i-1,"in grayscale...\n\r")
+      prepared[[i]] <- ciffers[[i]]
+    }
+    else {
+      stop(cat("Two-channel image for digit",i-1," G",groupNr,"M",groupMemberNr))
+    }
+  }
+  
+  #smooth images with AUTOMATIC kernel size
+  for(i in 1:10) {
+    prepared[[i]] <- smoothGaussian(prepared[[i]],sigma)
+  }
+  #str(prepared)
+  
+  xStepT <- 60*DPI/300
+  yStepT <- 60*DPI/300
+  
+  tempM <- matrix(data=NA,20*20,(yStepT-2)*(xStepT-2))
+  trainingDigit <- list(1:10);
+  
+  for(digit in 1:10) {
+    for(cifX in 1:20) {
+      aXbase <- xStepT*(cifX-1)
+      for(cifY in 1:20) {
+        aYbase <- yStepT*(cifY-1)
+        for(px in 1:(xStepT-2)) {
+          for(py in 1:(yStepT-2)) {
+            tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT-2) + py] <- prepared[[digit]][aYbase+py+1,aXbase+px+1]
+          }
+        }
+      }
+    }
+    trainingDigit[[digit]] <- tempM
+  }
+
+  save(trainingDigit,file=filename)
+  return(trainingDigit)
+}
+
+
+loadSinglePersonsData <- function(DPI,groupNr,groupMemberNr,sigma,year=2016, reload=FALSE) {
+  return(loadSinglePersonsDataCropped(DPI,groupNr,groupMemberNr,sigma,year,reload))
 }

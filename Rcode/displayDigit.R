@@ -2,7 +2,12 @@ library("gplots")
 library("ggplot2")
 
 #width = { 18, 38, 58 }
-displayDigit <- function(digit, filename="../data/image.png", width = 18) {
+displayDigit <- function(digit, filename="../data/image.png", width = NULL) {
+  
+  if(is.null(width)) {
+    width=sqrt(length(digit))
+  }
+  
   
   height = length(digit)/width;
   
@@ -11,7 +16,7 @@ displayDigit <- function(digit, filename="../data/image.png", width = 18) {
   img = matrix(NA,nrow=height,ncol=width)
   
   for( d in 1:height) {
-    img[d,] = digit[(d*width):((d-1)*width+1)]
+    img[,d] = digit[((d-1)*width+1):(d*width)]
   }
   
   sum = 0
