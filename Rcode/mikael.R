@@ -2,6 +2,7 @@ source("preloading.R")
 source("loadLabeledDataset.R")
 source("parallelize.R")
 source("knnPerformanceNoCV.R")
+source("normalize.R")
 source("smlPCA.R")
 library(stats)
 
@@ -802,15 +803,18 @@ sigma=0.6
 # --------------------------------------------
 dataset_filename = getLabeledDatasetFilename(persons_all_loadable,DPI=DPI,sigma=sigma)
 data_pcaAll = loadLabeledDataset(dataset_filename)
-testPCAAll=smlPCA(data_pcaAll$data)
+normalized_data = normalizeZscore(data_pcaAll$data)
+testPCAAll=smlPCA(normalized_data)
 
 dataset_filename = getLabeledDatasetFilename(persons_persondependent,DPI=DPI,sigma=sigma)
 data_pcaPD = loadLabeledDataset(dataset_filename)
-testPCAPD=smlPCA(data_pcaPD$data)
+normalized_data = normalizeZscore(data_pcaPD$data)
+testPCAPD=smlPCA(normalized_data)
 
 dataset_filename = getLabeledDatasetFilename(persons_fewer,DPI=DPI,sigma=sigma)
 data_pcaFewer = loadLabeledDataset(dataset_filename)
-testPCAFewer=smlPCA(data_pcaFewer$data)
+normalized_data = normalizeZscore(data_pcaFewer$data)
+testPCAFewer=smlPCA(normalized_data)
 #2.1.2: Show the eigenvalues, variance and the accumulated variance of the principal components.
 write.csv(testPCAPD$sdev,
           file=paste(c("../data/pca-G",
