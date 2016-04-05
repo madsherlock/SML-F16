@@ -4,7 +4,6 @@ if(require("checkpoint")) {
 } else {
   cat("You are not using Microsoft R Open.\n\r")
 }
-
 source("loadMultiplePersonsData.R")
 source("listOfDigits2classificationData.R")
 
@@ -53,7 +52,8 @@ persons_fewer = list(
 #persons_persondependent: Datasets for which person dependent parameter tuning will be carried out.
 #Currently, should hold only ONE element!
 persons_persondependent = list(
-  c(2,2) #Mikael
+  #c(2,2) #Mikael
+  c(2,1) #Kiddi
 )
 
 #When loading datasets, which DPI's and sigmas to use
@@ -64,6 +64,13 @@ loading_setups = list(
       sigma_list = c(
         1,
         1.5
+      )
+    ),
+    list(
+      DPI = 100,
+      sigma_list = c(
+        1,
+        1.6
       )
     ),
     list(
@@ -214,7 +221,7 @@ preloadData <- function(
   cat("   Dataset:\n\r   ", dataset_name,"\n\r   preloaded.\n\r")
 }
 
-preloadEverything <- function(overwrite_existing_labeled_dataset=TRUE) {
+preloadEverything <- function(overwrite_existing_labeled_dataset=FALSE) {
   cat("Time: ",format(Sys.time(), "%X"),"\n\rPreload person dependent data:\n\r")
   preloadData(
     list_of_persons = persons_persondependent,
@@ -235,3 +242,5 @@ preloadEverything <- function(overwrite_existing_labeled_dataset=TRUE) {
   )
   cat("Time: ",format(Sys.time(), "%X"),"\n\rDone preloading!\n\r")
 }
+
+preloadEverything()
