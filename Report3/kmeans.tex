@@ -5,6 +5,7 @@
 \usepackage{mathtools}
 \usepackage{framed}
 \usepackage{amsfonts}
+%\usepackage{epstopdf}
 \usepackage{hyperref}
 \usepackage{todonotes}
 \usepackage{subfig}
@@ -40,43 +41,52 @@ The number of clusters needed  is determined by the user. It usually depends on 
 
 
 \missingfigure{Elbow}
-\missingfigure{confusion table}
+
+To find the optimal kmeans clustering were figure \textbf{Missing at the moment} used to determine what number of clusters would provide an optimal Total within sum of squared without having to many cluster.  This is found by locating the elbow of the graph, which lies around 30. 
+
+Figure \ref{fig:0},\ref{fig:1}, \ref{fig:2},\ref{fig:3}, \ref{fig:4},\ref{fig:5}, \ref{fig:7},\ref{fig:8}, \ref{fig:9}, how each digit is clustered.  Each of those were seperately from the other digits which shows some form of overlap between each cluster. Some of the  cluster may contain information about multiple digits which figure \ref{fig:complete} shows, and thus aren't the classes clearly defined using this amount of clusters. 
+
 		\begin{figure}[H]
  		\centering
- 		\subfloat[Class distribution within each cluster]{\includegraphics[width = 0.7\textwidth]{heatmap_comple.png}\label{fig:1}} 
+ 		\subfloat[Class distribution within each cluster]{\includegraphics[width = 0.7\textwidth]{heatmap_comple.png}\label{fig:complete}} 
 
-  		\subfloat[Clustering data consiting of digit 0]{\includegraphics[width = 0.2\textwidth]{clusplot_0.png}\label{fig:2}}\hspace{1em}
+  		\subfloat[Clustering data consiting of digit 0]{\includegraphics[width = 0.2\textwidth]{clusplot_0.png}\label{fig:0}}\hspace{1em}
 %  		
-  		\subfloat[Clustering data consiting of digit 1]{\includegraphics[width = 0.2\textwidth]{clusplot_1.png}\label{fig:3}}
+  		\subfloat[Clustering data consiting of digit 1]{\includegraphics[width = 0.2\textwidth]{clusplot_1.png}\label{fig:1}}
 %
-  		\subfloat[Clustering data consiting of digit 2]{\includegraphics[width = 0.2\textwidth]{clusplot_2.png}}
+  		\subfloat[Clustering data consiting of digit 2]{\includegraphics[width = 0.2\textwidth]{clusplot_2.png}\label{fig:2}}
 %  		
-  		\subfloat[Clustering data consiting of digit 3]{\includegraphics[width = 0.2\textwidth]{clusplot_3.png}\label{fig:2}}\hspace{1em}
+  		\subfloat[Clustering data consiting of digit 3]{\includegraphics[width = 0.2\textwidth]{clusplot_3.png}\label{fig:3}}\hspace{1em}
 %  		
 %  		
-  		\subfloat[Clustering data consiting of digit 4]{\includegraphics[width = 0.2\textwidth]{clusplot_4.png}\label{fig:3}}
+  		\subfloat[Clustering data consiting of digit 4]{\includegraphics[width = 0.2\textwidth]{clusplot_4.png}\label{fig:4}}
 %  		
-  		\subfloat[Clustering data consiting of digit 5]{\includegraphics[width = 0.2\textwidth]{clusplot_5.png}}
+  		\subfloat[Clustering data consiting of digit 5]{\includegraphics[width = 0.2\textwidth]{clusplot_5.png}\label{fig:5}}
 %  			
 %  			
- 		\subfloat[Clustering data consiting of digit 6]{\includegraphics[width = 0.2\textwidth]{clusplot_6.png}\label{fig:2}}\hspace{1em}
+ 		\subfloat[Clustering data consiting of digit 6]{\includegraphics[width = 0.2\textwidth]{clusplot_6.png}\label{fig:6}}\hspace{1em}
 %%  		
 %%  		
-  		\subfloat[Clustering data consiting of digit 7]{\includegraphics[width = 0.2\textwidth]{clusplot_7.png}\label{fig:3}}
+  		\subfloat[Clustering data consiting of digit 7]{\includegraphics[width = 0.2\textwidth]{clusplot_7.png}\label{fig:7}}
 %%
-  		\subfloat[Clustering data consiting of digit 8]{\includegraphics[width = 0.2\textwidth]{clusplot_8.png}}
+  		\subfloat[Clustering data consiting of digit 8]{\includegraphics[width = 0.2\textwidth]{clusplot_8.png}\label{fig:8}}
 %%  		 
-  		 \subfloat[Clustering data consiting of digit 9]{\includegraphics[width = 0.2\textwidth]{clusplot_9.png}\label{fig:2}}\hspace{1em}
+  		 \subfloat[Clustering data consiting of digit 9]{\includegraphics[width = 0.2\textwidth]{clusplot_9.png}\label{fig:9}}\hspace{1em}
   		\caption{This and that}
 	\end{figure}
 
-\todo{some text}
-\todo{some text}
 
 \begin{figure}[H]
 		\centering
-		 \subfloat[Dendrogram]{\includegraphics[width = 0.7\textwidth]{dendogram_data_class.png}\label{fig:1}} 
-		 		\end{figure}																						
-		\missingfigure{confusionmatrix}			
-		\todo{Insert some text}
+		 \subfloat[Dendrogram]{\includegraphics[width = 0.7\textwidth]{dendogram_data_class.png}\label{fig:dendo}} 
+\end{figure}																						
+
+\begin{figure}[H]
+\centering
+\subfloat[Confusion matrix]{\includegraphics[width = 0.7\textwidth]{confmatkNN-multiAll-sig15-k1-n40000.eps}}
+\end{figure}
+
+		\todo{Insert some test}
+		
+		
 \end{document}
