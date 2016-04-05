@@ -76,12 +76,29 @@ Figure \ref{fig:0},\ref{fig:1}, \ref{fig:2},\ref{fig:3}, \ref{fig:4},\ref{fig:5}
 	\end{figure}
 
 
+The dendrogram of figure \ref{fig:dendo} visualizes
+the digit class clustering, where eg. "X1" represents the digit 1.
+Asides from a within-digit similarity, this dendrogram also
+hints at a similarity between digits 5 and 6, which,
+perhaps, it not surprising as these digits often look similar.
+
+Compared to the confusion matrix of figure \ref{fig:confusionMatrixAll},
+the dendrogram quickly groups together a 2 and a 7,
+which are among the most often confused digits.
+Perhaps this is an indication that too aggressive clustering
+will group together examples of different digits
+early on, which is an undesired effect of clustering;
+It means the number of clusters has to be relatively high
+to withstand the similarities between examples of different digits.
+
 \begin{figure}[H]
+\label{fig:dendrogram}
 		\centering
 		 \subfloat[Dendrogram]{\includegraphics[width = 0.7\textwidth]{dendogram_data_class.png}\label{fig:dendo}} 
 \end{figure}																						
 
 \begin{figure}[H]
+\label{fig:confusionMatrixAll}
 \centering
 \subfloat[Confusion matrix]{\includegraphics[width = 0.7\textwidth]{confmatkNN-multiAll-sig15-k1-n40000.eps}}
 \end{figure}
