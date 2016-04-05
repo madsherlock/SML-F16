@@ -1,6 +1,6 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[utf8x]{inputenc}
-\usepackage[danish]{babel}
+%\usepackage[danish]{babel}
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{framed}
@@ -80,7 +80,7 @@ The dendrogram of figure \ref{fig:dendo} visualizes
 the digit class clustering, where eg. "X1" represents the digit 1.
 Asides from a within-digit similarity, this dendrogram also
 hints at a similarity between digits 5 and 6, which,
-perhaps, it not surprising as these digits often look similar.
+perhaps, is not surprising as these digits often look similar.
 
 Compared to the confusion matrix of figure \ref{fig:confusionMatrixAll},
 the dendrogram quickly groups together a 2 and a 7,
@@ -98,9 +98,11 @@ to withstand the similarities between examples of different digits.
 \end{figure}																						
 
 \begin{figure}[H]
-\label{fig:confusionMatrixAll}
 \centering
-\subfloat[Confusion matrix]{\includegraphics[width = 0.7\textwidth]{confmatkNN-multiAll-sig15-k1-n40000.eps}}
+\subfloat[Confusion matrix]{\includegraphics[width = 0.7\textwidth]{confmatkNN-multiAll-sig15-k1-n40000.eps}
+\label{fig:confusionMatrixAll}
+}
+\caption{}
 \end{figure}
 
 		\todo{Insert some test}
