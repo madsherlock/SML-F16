@@ -8,6 +8,7 @@ source("loadMultiplePersonsData.R")
 source("listOfDigits2classificationData.R")
 
 #persons_all_loadable: Datasets which can actually be loaded.
+#Please don't change this list.
 persons_all_loadable = list(
   c(1,1),
   c(1,2),
@@ -25,7 +26,7 @@ persons_all_loadable = list(
   # #c(6,2), #Doesn't exist
   c(7,1),
   c(8,1),
-  c(10,1),
+  # c(10,1), #This is Steffen. He has trolled us all!
   c(10,2),
   c(11,1),
   c(11,2),
@@ -36,6 +37,7 @@ persons_all_loadable = list(
 )
 
 #persons_fewer: Datasets from a large, limited number of people
+#Please don't change this list. It takes a long time to rerun tests.
 persons_fewer = list(
   c(1,1),
   c(2,1),
@@ -45,8 +47,9 @@ persons_fewer = list(
   c(6,1),
   c(7,1),
   c(8,1),
-  c(10,1),
-  c(11,1)
+  # c(10,1), #This is Steffen. He has trolled us all!
+  c(11,1),
+  c(13,1)
 )
 
 #persons_persondependent: Datasets for which person dependent parameter tuning will be carried out.
@@ -62,8 +65,8 @@ loading_setups = list(
     list(
       DPI = 100,
       sigma_list = c(
-        1,
-        1.5
+        # 1
+        0.6 
       )
     ),
     list(
@@ -76,13 +79,14 @@ loading_setups = list(
     list(
       DPI = 200,
       sigma_list = c(
-        2.5
+        # 1.5
+        2
       )
     ),
     list(
       DPI = 300,
       sigma_list = c(
-        3.5
+        2.5
       )
     )
   ),
@@ -90,20 +94,21 @@ loading_setups = list(
     list(
       DPI = 100,
       sigma_list = c(
-        1,
-        1.5
+        # 1
+        0.6 
       )
     ),
     list(
       DPI = 200,
       sigma_list = c(
-        2.5
+        # 1.5
+        2
       )
     ),
     list(
       DPI = 300,
       sigma_list = c(
-        3.5
+        2.5
       )
     )
   ),
@@ -130,15 +135,15 @@ loading_setups = list(
         1,
         1.5,
         2,
-        2.1,
-        2.2,
-        2.3,
-        2.4,
+        # 2.1,
+        # 2.2,
+        # 2.3,
+        # 2.4,
         2.5,#
-        2.6,
-        2.7,
-        2.8,
-        2.9,
+        # 2.6,
+        # 2.7,
+        # 2.8,
+        # 2.9,
         3,
         3.5
       )
