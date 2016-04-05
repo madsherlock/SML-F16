@@ -39,14 +39,18 @@ The clustering is done by minimizing  the sum of square distance between each da
 
 The number of clusters needed  is determined by the user. It usually depends on how the data points  is distributed. Choosing a large number of cluster will result in a reduced squared distance, and indeally zero as each data point gets it own cluster.  The optimal choice of k will consist of having a balance between having the data compressed as possible, and still retain a decent amount of accuracy.  More fomally is the goal to partition the data  into k clusters in order to minimze the total within cluster sum of squares.  For which the elbow method might become handy. \\
 
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\textwidth]{compl_elbow.png}
+\label{fig:elbow}
+\caption{Sum of squared vs. number of cluster plot}
+\end{figure}
 
-\missingfigure{Elbow}
-
-To find the optimal kmeans clustering were figure \textbf{Missing at the moment} used to determine what number of clusters would provide an optimal Total within sum of squared without having to many cluster.  This is found by locating the elbow of the graph, which lies around 30. 
+To find the optimal kmeans clustering were figure \ref{fig:elbow} used to determine what number of clusters would provide an optimal Total within sum of squared without having to many cluster.  This is found by locating the elbow of the graph, which lies around 30. 
 
 Figure \ref{fig:0},\ref{fig:1}, \ref{fig:2},\ref{fig:3}, \ref{fig:4},\ref{fig:5}, \ref{fig:7},\ref{fig:8}, \ref{fig:9}, how each digit is clustered.  Each of those were seperately from the other digits which shows some form of overlap between each cluster. Some of the  cluster may contain information about multiple digits which figure \ref{fig:complete} shows, and thus aren't the classes clearly defined using this amount of clusters. 
 
-		\begin{figure}[H]
+\begin{figure}[H]
  		\centering
  		\subfloat[Class distribution within each cluster]{\includegraphics[width = 0.7\textwidth]{heatmap_comple.png}\label{fig:complete}} 
 
@@ -72,9 +76,17 @@ Figure \ref{fig:0},\ref{fig:1}, \ref{fig:2},\ref{fig:3}, \ref{fig:4},\ref{fig:5}
   		\subfloat[Clustering data consiting of digit 8]{\includegraphics[width = 0.2\textwidth]{clusplot_8.png}\label{fig:8}}
 %%  		 
   		 \subfloat[Clustering data consiting of digit 9]{\includegraphics[width = 0.2\textwidth]{clusplot_9.png}\label{fig:9}}\hspace{1em}
-  		\caption{This and that}
 	\end{figure}
 
+
+Performing kmeans clustering with 20 cluster took 46.08921 secs, which in general is a huge improvement compared to kNN.   K - means clustering seems more appropriate for big dataset,  compared to kmeans, purely based on the runtime. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.7\textwidth]{runtime.png}
+\label{fig:runtime}
+\caption{Runtime of k-means clustering for 20 clusters}
+\end{figure}
 
 \begin{figure}[H]
 		\centering
