@@ -18,7 +18,7 @@ generate_plot <- function(mu1,mu2,sd1,sd2)
 
   plot(xs, f1, type="l", ylim=c(0, max(f1,f2)), ylab="density", xlab="Raw values")
   lines(xs, f2, lty="dotted")
-  legend('topright', inset=c(0.1,0),c("Model","Test"), lty = c(1,3), cex = 0.55)
+  legend('topright', inset=c(0.1,0.1),c("Model","Test"), lty = c(1,3), cex = 1, box.lty = 0)
   
   ys <- min.f1f2(xs, mu1=mu1, mu2=mu2, sd1=sd1, sd2=sd2)
   xs <- c(xs, xs[1])
