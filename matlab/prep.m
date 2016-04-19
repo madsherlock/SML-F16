@@ -1,4 +1,10 @@
 %% Preprocessing script (crop & downsample with ImageMagick).
+% Copyright 2016 Mikael Westermann
+% Please give credit if you use this code.
+%
+% Works only on systems where imagemagick can be run from commandline,
+% and has only been tested on linux!
+%
 % Crops images based on Corners.txt supplied with dataset,
 % and downsamples to 200 and 100 DPI.
 % The skewed, scanned 300 DPI images are first
@@ -13,7 +19,6 @@
 % are multiples of 60*DPI/300. This, of course, requires accurate
 % Corners.txt specification.
 %
-% Copyright 2016 Mikael Westermann
 % 
 % Licensed under the ImageMagick License (the "License"); you may not use
 % this file except in compliance with the License.  You may obtain a copy
@@ -27,10 +32,16 @@
 % License for the specific language governing permissions and limitations
 % under the License.
    
-databasePath='../../SML-database/'; %Input directory (contains 2016 folder)
+
+%Input directory (contains 2016 folder)
+databasePath='../../SML-database/'; %or simply 'trunk'
 cropPath='../data/cropped_images/'; %Output directory (must exist)
 
-%OK persons.
+% OK persons. These person's images will be rotated and downsampled.
+% Edit this list as you like. For example, you can choose a subset of
+% people.
+% The format is Year,Group,Member,
+% so year 2016 group 1 member 2 is: 2016,1,2;
 persons = [...
     2016,1,1;
     2016,1,2;
@@ -47,7 +58,7 @@ persons = [...
     2016,6,1;
     2016,7,1;
     2016,8,1;
-    2016,10,1;
+    2016,10,1; %This is Steffen. Make sure you have his updated images.
     2016,10,2;
     2016,11,1;
     2016,11,2;
@@ -56,20 +67,28 @@ persons = [...
     2016,14,1;
     2016,14,2;
     ];
-for personIdx=1:length(persons)
+
+% Load each person's images and apply perspective transform
+for personIdx=1:size(persons,1)
     year=persons(personIdx,1);
     group=persons(personIdx,2);
     member=persons(personIdx,3);
+    % Print current person to commandline:
     display(sprintf('Y%d G%d M%d...',year,group,member));
     %sprintf([databasePath '%d/group%d/member%d/Corners.txt'],...
     %    year,group,member)
+    % Read manually found corners:
     corners=csvread(...
         sprintf([databasePath '%d/group%d/member%d/Corners.txt'],...
         year,group,member),1);
     corners=corners(:,1:8);
+    
+    %Go through each scanned 300 DPI page:
     for p=0:4
+        %Go through each of the 2 boxes of 400 digits:
         for digit=[2*p 2*p+1]
-            %Crop
+            %Apply perspective transform and crop image
+            %by issuing a system call to the imagemagick convert command.
             system(...
                 sprintf(['convert '...
                     databasePath...
@@ -86,7 +105,9 @@ for personIdx=1:length(persons)
                     year,group,member,...
                     digit)...
             );
-            %Downsample
+            %Downsample the transformed and cropped image to lower
+            %pixel densities (100 and 200 DPI) by issuing a system call
+            %to the imagemagick convert command.
             for dpi=[100,200]
                 system(...
                     sprintf(['convert -density 300 '...
