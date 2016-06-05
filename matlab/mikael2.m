@@ -92,7 +92,9 @@ pcasdev=csvread(['../data/pca-All-sdev-dpi'...
 pcavar=pcasdev.^2;
 pcacumvar=cumsum(pcavar/sum(pcavar));
 figure(4);
-plot(1:length(pcacumvar),pcacumvar,'.');
+plot(1:length(pcacumvar),pcacumvar,'.'...
+    ,[-1,32,32],[pcacumvar(32),pcacumvar(32),-1],'ro--'...
+    );
 ylim([0 1]);
 xlim([0 length(pcacumvar)]);
 grid on;
@@ -102,6 +104,7 @@ xlabel('Number of principal components');
 ylabel('Proportion of total variance explained');
 title(['PCA on dataset All, LOO, DPI=',num2str(chosen_dpi)...
     ,', \sigma=',num2str(best_sigma(chosen_dpi_idx))]);
+legend('Cumulated variance','Elbow point');
 %set(gca,'FontSize',9);
 print(['plots/pca-All-cumvar-dpi',num2str(chosen_dpi),...
     '-sigma',num2str(best_sigma(chosen_dpi_idx)),'.eps'],'-depsc');

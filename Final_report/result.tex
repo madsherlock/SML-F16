@@ -4,7 +4,7 @@ With data from G2M2, k-NN prediction running times
 were measured vs. dataset size N at various DPI.
 The results
 are presented in figure \ref{fig:knn-runningtime-vs-n-and-k}.
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\begin{subfigure}{0.32\textwidth}
 		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi100}
@@ -30,7 +30,7 @@ and that running times increase substantially with N. It is also seen that
 the running times do not vary with k.
 Figure \ref{fig:knn-runningtime-vs-n-loglog} visualizes the relationship
 between running time and N further.
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width = 0.5\textwidth]{img/knn-runningTimeVsNVsDPI-G2M2}
 	\caption[k-NN prediction running time in seconds vs. N at various DPI.]{
@@ -43,19 +43,12 @@ between running time and N further.
 It can be seen from figure \ref{fig:knn-runningtime-vs-n-loglog} that
 the classification time complexity is larger than \(O(N)\).
 
-These results indicate that the entire dataset is sorted and searched through for
-each classification, and that this type of problem does not scale well with increasing
-dataset size.
-Since methods are to be compared with data from several individuals,
-it was therefore chosen to use 100 DPI downsampling for further data processing,
-at the cost of classification accuracy (as found in the first exercise).
-
 \subsection{Smoothing}
 Figure \ref{fig:knn-AccVsKVsSigma-G2M2},
 displays k-NN prediction accuracy vs. smoothing parameter \(\sigma\)
 and number of neighbours k on the G2M2 dataset, at various pixel densities.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\begin{subfigure}{0.32\textwidth}
 		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi100-cv10}
@@ -75,4 +68,86 @@ and number of neighbours k on the G2M2 dataset, at various pixel densities.
 		and k for G2M2 data at various DPI.
 		}
 	\label{fig:knn-AccVsKVsSigma-G2M2}
+\end{figure}
+
+\subsection{Principal Component Analysis}
+Figure \ref{fig:principal-components} shows the first ten principal
+components for all the data, at various DPI.
+The normalized intensity \(I_i\) of each pixel in the PC visualization
+depends on the weighed contribution \(w_i\) of the pixel position to the principal component
+and is determined by
+\(I_i=\frac{\left|w_i\right|-\left|w\right|_{min}}{\left|w\right|_{max}-\left|w\right|_{min}}\)
+.
+\begin{figure}[h]
+\centering
+\setlength\tabcolsep{1pt}
+\begin{tabular}{r*{10}{c}}
+Preprocessing & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 \\
+100 DPI, \(\sigma\)=1
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc1} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc2} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc3} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc4} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc5} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc6} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc7} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc8} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc9} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc10} 
+\\
+200 DPI, \(\sigma\)=2.5
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc1}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc2}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc3}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc4}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc5}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc6}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc7}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc8}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc9}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc10}.png} 
+\\
+300 DPI, \(\sigma\)=4
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc1} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc2} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc3} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc4} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc5} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc6} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc7} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc8} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc9} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc10} 
+\end{tabular}
+\caption[Principal components at various DPI.]
+{Principal components at various DPI.}
+\label{fig:principal-components}
+\end{figure}
+
+It is observed that the principal components are very similar
+at the three pixel densities, up until principal component 7,
+at which point differences are more clearly seen.
+
+Figure \ref{fig:pca-cumvar} shows the cumulated proportion of variance
+explained vs. the number of principal components used for data representation,
+based on an analysis of all data.
+The elbow point is observed at a cumulated variance of approximately 0.95.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/pca-All-cumvar-dpi100-sigma1}
+\caption[Cumulated variance explained by PCA]
+{Cumulated proportion of variance explained vs. number of principal components.
+All data was used for the analysis, preprocessed with DPI=100 and \(\sigma=1\).}
+\label{fig:pca-cumvar}
+\end{figure}
+
+\subsection{Parameter optimization}
+Figure \ref{fig:pca-knn-acc-vs-k} shows k-NN classification
+accuracy vs. number of neighbours k on the \(D_{FEWER}\) dataset.
+It is observed that the accuracy is maximal with k=5.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/pca-knn-acc-vs-k-dpi100-sigma1}
+\caption{k-NN classification accuracy vs. k on $D_{FEWER}$, \textbf{LOO}.}
+\label{fig:pca-knn-acc-vs-k}
 \end{figure}
