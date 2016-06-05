@@ -60,8 +60,8 @@
 \usepackage{float}
 %\usepackage{subfigure}
 \usepackage{subcaption}
-\DeclareCaptionFont{gray}{\color{gray}}
-\captionsetup{textfont={footnotesize,sc,gray},font={footnotesize,sc,gray}}
+%\DeclareCaptionFont{gray}{\color{gray}}
+%\captionsetup{textfont={footnotesize,sc,gray},font={footnotesize,sc,gray}}
 
 \usepackage{blindtext}
 
@@ -147,15 +147,16 @@ ph.d. Troels Bo \textsc{Jørgensen}\\
 \newpage
 \listoffigures
 \newpage
-\input{introduction.tex}
+\input{introduction.tex} % Intro
 %\input{knn.tex}
 %\input{svm.tex}
 %\input{pca.tex}
 %\input{preprocess.tex}
-\input{method.tex}
-\input{result.tex}
-%and
-\input{discussion.tex}
+\input{method.tex} %Metod
+\input{result.tex} %Result
+				   %And
+\input{discussion.tex}%Discussion
 \input{conclusion.tex}
+\input{reference.tex}
 \end{document}
 
