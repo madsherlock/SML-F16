@@ -190,15 +190,63 @@ classification problems in figure \ref{fig:knn-vs-svm-full},
 and a zoomed view is seen in figure \ref{fig:knn-vs-svm-zoomed}.
 \begin{figure}[h]
 \centering
+\begin{subfigure}{\figscale}
+\centering
 \includegraphics[width=\figscale]{img/knn-vs-svm-full-dpi100-sigma1}
-\caption[k-NN and SVM classification accuracies.]
-{k-NN and SVM classification accuracies.}
+\caption[k-NN and SVM classification accuracies, full view.]
+{Full view.}
 \label{fig:knn-vs-svm-full}
-\end{figure}
-\begin{figure}[h]
+\end{subfigure}
+\\
+\vspace{0.5cm}
+\begin{subfigure}{\figscale}
 \centering
 \includegraphics[width=\figscale]{img/knn-vs-svm-zoomed-dpi100-sigma1}
 \caption[k-NN and SVM classification accuracies, zoomed view.]
-{k-NN and SVM classification accuracies, zoomed view.}
+{
+Zoomed view.
+}
 \label{fig:knn-vs-svm-zoomed}
+\end{subfigure}
+\caption[k-NN and SVM classification accuracies]{
+"Single persons" is the mean accuracy of the overall accuracy of 10-fold cross validation run for each individual.
+"All mixed" is the mean accuracy based on $D_{ALL}$, \textbf{MIX}.
+"All LOO" is the mean accuracy based on $D_{ALL}$, \textbf{LOO}.
+The k-NN classifier was trained with k=5. The SVM classifier was trained with degree=2, scale=0.1 and C=0.5.
+}
 \end{figure}
+
+For the "Single persons" problem, the SVM classifier has the highest mean accuracy.
+For the "All mixed" problem, the k-NN classifier has the highest mean accuracy.
+For the "All LOO" problem, the SVM classifier has the highest mean accuracy.
+
+The significance of these three results was tested by subtracting the classification
+accuracies of the two algorithms from each other,
+and applying a Z-test with a null hypothesis of zero mean.
+With a level of significance \(\alpha=0.05\),
+only the difference in the "All mixed" problem is significant.
+The p-values of the three Z-tests are listed in table \todo[inline,author=Mikael]{Insert p-value table here!}.
+%H=0 indicates that the null hypothesis ("mean is M")
+%cannot be rejected at the 5% significance level.  H=1
+%indicates that the null hypothesis can be rejected at the 5% level.
+%spH =
+%     0
+%spP =
+%   0.276940767397244
+%spCI =
+%  -0.022269551784590
+%   0.006378247436764
+%amH =
+%     1
+%amP =
+%   0.002458171781170
+%amCI =
+%   0.003382419250751
+%   0.015791493792727
+%alH =
+%     0
+%alP =
+%   0.086657366992428
+%alCI =
+%  -0.107175202166838
+%   0.007196941297274
