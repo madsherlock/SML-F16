@@ -183,13 +183,10 @@ determine the number of component should be used. A screeplot depict the
 variance gained from using increasing numbers of PC, from which is can be 
 deduced when adding more PC would be beneficial for the task at hand. \\
 
-\todo[inline]{Maybe remove this part.. it is the stupido...}
-The principal component is computed as such: 
 
-First is the mean vector of the whole dataset computed. 
-The mean vector is used to center the data, such that the mean of the dataset 
-becomes equal to zero. This is achieved by subtracting the mean from each data 
-vectorh 
+\subsection{Parameter optimization on a smaller dataset}
+To extract the most optimal parameter for training purposes was it decided, optimize the parameter on a smaller set consisting of 10 people data.  This was choosen, as it was desired gain the most optimal values for the varied dataset, such that the parameter found would be fit for a specific scenario, but a broad case. 
+\todo[inline]{might have to be adjusted..}
 
 \subsection{Test with data from single person}
 \label{sec::test_with_data_from_single_person}
@@ -203,7 +200,7 @@ stating this}) to provide the highest accuracy on the other dataset. \\
 The training using SVM were performed using a polynomial kernel, with a degree 
 of 2, scale of 0.1   and cost of 0.5 with a 10 fold cross validation as well. 
 The polynomial kernel was chosen due to prior experiments with other kernel, and 
-had a higher degree of freedom would provide a better accuracy.\\ 
+had a higher degree of freedom would provide a better accuracy. 
 \todo[inline]{maybe a bit fluffy idk?}
 
  
@@ -215,29 +212,27 @@ This information provides some insight on how consistent the persons writing is.
 An inconsistent writing style will cause lower mean accuracy compared to a 
 consistent style. \\
 
- Each accuracy is given an error bar stating the standard deviation of the 
+Each accuracy is given an error bar stating the standard deviation of the 
 dataset. The standard deviation of the mean accuracy is found by adding the 
 internal standard deviation and the external standard deviation. The internal 
 standard deviation is a vector of all individual standard deviation acquired 
 from the 10-fold cross validation, an the external consist of the variance 
-between the accuracies acquired  from the 10-fold cross validation. 
+between the accuracies acquired  from the 10-fold cross validation. \\
  
- The result of this test can be seen here...
- 
- \missingfigure{The great plot! single person test kNN/svm - Kiddi sucks at 
-writing plot :(}
+The result of this test can be seen in section  \ref{sec::result}. 
 
 \subsection{Test with data from all persons with a training set that includes 
 data from all}
 
-The dataset used for training here consist all the data mixed together. 
+The dataset used for training here consist all the data mixed together. A 10-fold crossfold validation was also applied on to it from which an accuracy was computed. 
+
 
 
 \subsection{Test with data from all persons where the training set does not 
 include data from 
 the persons in the test set}
 
-The dataset consist of all the person, where the test was performed by leaving one out.
+The dataset consist of all the person, where the test was performed by leaving one out. A 10-fold crossfold validation was also applied onto it from which an accuracy was computed. 
 
 
 
