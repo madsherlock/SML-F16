@@ -35,7 +35,7 @@ between running time and N further.
 	\includegraphics[width = 0.5\textwidth]{img/knn-runningTimeVsNVsDPI-G2M2}
 	\caption[k-NN prediction running time in seconds vs. N at various DPI.]{
 		log-log plot of k-NN prediction running time in seconds vs. N at various DPI.
-		\(5\cdot{}10^{-6}\cdot{}N\) reference also plotted.
+		\(5\cdot{}10^{-6}\cdot{}N\) reference line also plotted.
 	}
 	\label{fig:knn-runningtime-vs-n-loglog}
 \end{figure}
@@ -226,8 +226,7 @@ and applying a Z-test with a null hypothesis of zero mean.
 With a level of significance \(\alpha=0.05\),
 only the difference in the "All mixed" problem is significant.
 The p-values of the three Z-tests are listed in table \ref{tb:ztest}.
-
-\begin{table}
+\begin{table}[h]
 \centering
 \caption[Z-test results]
 {
@@ -249,7 +248,6 @@ CI (difference in accuracy)& \(\left[-0.022;0.0064\right]\)
 \\
 \hline
 \end{tabular}
-
 \label{tb:ztest}
 \end{table}
 %H=0 indicates that the null hypothesis ("mean is M")
@@ -276,3 +274,26 @@ CI (difference in accuracy)& \(\left[-0.022;0.0064\right]\)
 %alCI =
 %  -0.107175202166838
 %   0.007196941297274
+
+Figure \ref{fig:prediction-times} shows the prediction times per digit
+of the k-NN and SVM classifiers, when trained with \(D_{ALL}\).
+These prediction times were obtained by repeating the prediction
+of all \(G2M2\) digits 30 times, taking the average and dividing by the number
+of digits (4000).
+It is observed from figure \ref{fig:prediction-times} that
+the SVM classifier is more than twice as fast as the k-NN classifier,
+when each is trained with \(D_{ALL}\).
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/prediction-times}
+\caption[Prediction times per digit]
+{
+Prediction times per digit. Each classifier was trained with \(D_{ALL}\)
+and applied to all \(G2M2\) digits 30 times.
+The shown results are the average prediction times per digit.
+}
+\label{fig:prediction-times}
+\end{figure}
+%4000 digits:
+%"knn_time_mean","knn_time_sdev","svm_time_mean","svm_time_sdev"
+%32.4009333333333,4.32796005888043,10.4381333333333,1.58063548401692

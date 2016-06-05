@@ -276,3 +276,33 @@ allLOOMean=allLOO(1)-allLOO(3);
 n=1;%length(singlePerson);
 allLOOSD=sqrt((allLOO(2)^2)/n+(allLOO(4)^2)/n);
 [alH,alP,alCI] = ztest(allLOOMean,0,allLOOSD,'alpha',alpha)
+
+%% Prediction times
+predTimes=csvread('../data/prediction_times_30_AllLOO_on_one_person.csv',1,0);
+figure(10);
+predTimesPerDigit=predTimes/4;
+xbar=1:2;
+bars=[predTimesPerDigit(1);predTimesPerDigit(3)];
+errorbars=[predTimesPerDigit(2);predTimesPerDigit(4)];
+h = bar(xbar,diag(bars),'stacked');
+set(h,'BarWidth',0.5);
+hold on;
+groupwidth=min(0.8,size(bars,2)/(size(bars,2)+1.5));
+for it=1:size(bars,2)
+    x = xbar' - groupwidth/2 + (2*it-1) * groupwidth / (2*size(bars,2));
+    errorbar(x,...
+        bars(:,it), errorbars(:,it),...
+        errorbars(:,it),'k', 'linestyle', 'none');
+end
+hold off;
+grid on;
+grid minor;
+
+ylabel('Prediction time per digit [ms]');
+h=gca;
+h.XTickLabel=['k-NN';' SVM'];
+legend('k-NN (k=5)','SVM (degree=2, scale=0.1, C=0.5)','Location','East');
+
+title('Prediction time per digit, with std. devs.');
+
+print('plots/prediction-times.eps','-depsc');
