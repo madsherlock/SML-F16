@@ -1,12 +1,78 @@
-\section{Result}
-This section will results from the training and the testing phase of the three different digit problems.  The two 
-algorithm applied to the three different digit recognition problems, they 
-being 
-\begin{itemize}
-\item	Data from a single person
-\item	Data from all persons with a training set that includes data from all 
-persons.r
-\item Data from all persons where the training set does not include data from 
-the persons in the test set.
-\end{itemize}
+\section{Results}
+\subsection{Downsampling}
+With data from G2M2, k-NN prediction running times
+were measured vs. dataset size N at various DPI.
+The results
+are presented in figure \ref{fig:knn-runningtime-vs-n-and-k}.
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi100}
+		\caption{100 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi200}
+		\caption{200 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi300}
+		\caption{300 DPI}
+	\end{subfigure}
+	\caption{
+		k-NN prediction running time in seconds
+		vs. dataset size N and k for G2M2 data at various DPI.
+		}
+	\label{fig:knn-runningtime-vs-n-and-k}
+\end{figure}
 
+It is clearly seen that running times are much reduced by downsampling,
+and that running times increase substantially with N. It is also seen that
+the running times do not vary with k.
+Figure \ref{fig:knn-runningtime-vs-n-loglog} visualizes the relationship
+between running time and N further.
+\begin{figure}
+	\centering
+	\includegraphics[width = 0.5\textwidth]{img/knn-runningTimeVsNVsDPI-G2M2}
+	\caption[k-NN prediction running time in seconds vs. N at various DPI.]{
+		log-log plot of k-NN prediction running time in seconds vs. N at various DPI.
+		\(5\cdot{}10^{-6}\cdot{}N\) reference also plotted.
+	}
+	\label{fig:knn-runningtime-vs-n-loglog}
+\end{figure}
+
+It can be seen from figure \ref{fig:knn-runningtime-vs-n-loglog} that
+the classification time complexity is larger than \(O(N)\).
+
+These results indicate that the entire dataset is sorted and searched through for
+each classification, and that this type of problem does not scale well with increasing
+dataset size.
+Since methods are to be compared with data from several individuals,
+it was therefore chosen to use 100 DPI downsampling for further data processing,
+at the cost of classification accuracy (as found in the first exercise).
+
+\subsection{Smoothing}
+Figure \ref{fig:knn-AccVsKVsSigma-G2M2},
+displays k-NN prediction accuracy vs. smoothing parameter \(\sigma\)
+and number of neighbours k on the G2M2 dataset, at various pixel densities.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi100-cv10}
+		\caption{100 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi200-cv10}
+		\caption{200 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi300-cv10}
+		\caption{300 DPI}
+	\end{subfigure}
+	\caption[k-NN prediction accuracy vs. smoothing parameter $\sigma$
+			and k at various DPI.]{
+		k-NN prediction accuracy vs. smoothing parameter $\sigma$
+		and k for G2M2 data at various DPI.
+		}
+	\label{fig:knn-AccVsKVsSigma-G2M2}
+\end{figure}
