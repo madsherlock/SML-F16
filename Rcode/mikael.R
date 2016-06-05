@@ -833,13 +833,50 @@ write.table(singlePersonAllCV,
 
 
 
+# ---------------------------------------------------------------
+# -----------------------Prediction time-------------------------
+# ---------------------------------------------------------------
+#timer = proc.time()
+# ...
+#total_time=(proc.time() - timer)[[1]]
+DPI=100
+sigma=1
+best_k_fewer=5
+n_repeats=1
+knnCV_filename="../data/pcaknnAllLOOCV-dpi"
+knnCV_filename=paste(c(knnCV_filename,DPI,"-sig",sigma,"-k",best_k_fewer,"-rep",n_repeats,".RData"),collapse="")
+svmCV_filename="../data/pcasvmAllLOOCV-dpi"
+svmCV_filename=paste(c(svmCV_filename,DPI,"-sig",sigma,"-rep",n_repeats,".RData"),collapse="")
+load(knnCV_filename) #knnCV
+load(svmCV_filename) #svmCV
 
-
-
-
-
-
-
+library("kernlab")
+knn_times=matrix(nrow=0,ncol=1)
+svm_times=matrix(nrow=0,ncol=1)
+time_runs = 30
+for(i in 1:time_runs) {
+  cat("Run",i,"of",time_runs)
+  timer = proc.time()
+  predict(knnCV,data_pcaPD$data)
+  knn_time = (proc.time() - timer)[[1]]
+  cat(".")
+  timer = proc.time()
+  predict(svmCV,data_pcaPD$data)
+  svm_time = (proc.time() - timer)[[1]]
+  cat(".\n\r")
+  knn_times=rbind(knn_times,knn_time)
+  svm_times=rbind(svm_times,svm_time)
+}
+knn_time_mean=mean(knn_times)
+knn_time_sdev=sd(knn_times)
+svm_time_mean=mean(svm_times)
+svm_time_sdev=sd(svm_times)
+write.table(data.frame(knn_time_mean,knn_time_sdev,svm_time_mean,svm_time_sdev),
+      file = paste(c("../data/prediction_times_",time_runs,"_AllLOO_on_one_person.csv"),collapse=""),
+      row.names=FALSE,
+      col.names=TRUE,
+      sep=','
+      )
 
 
 
