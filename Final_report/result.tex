@@ -1,13 +1,204 @@
-\section{Result}
-\label{sec::result}
-This section will results from the training and the testing phase of the three different digit problems.  The two 
-algorithm applied to the three different digit recognition problems, they 
-being 
-\begin{itemize}
-\item	Data from a single person
-\item	Data from all persons with a training set that includes data from all 
-persons.r
-\item Data from all persons where the training set does not include data from 
-the persons in the test set.
-\end{itemize}
+\section{Results}
+\subsection{Downsampling}
+With data from G2M2, k-NN prediction running times
+were measured vs. dataset size N at various DPI.
+The results
+are presented in figure \ref{fig:knn-runningtime-vs-n-and-k}.
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi100}
+		\caption{100 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi200}
+		\caption{200 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi300}
+		\caption{300 DPI}
+	\end{subfigure}
+	\caption{
+		k-NN prediction running time in seconds
+		vs. dataset size N and k for G2M2 data at various DPI.
+		}
+	\label{fig:knn-runningtime-vs-n-and-k}
+\end{figure}
 
+It is clearly seen that running times are much reduced by downsampling,
+and that running times increase substantially with N. It is also seen that
+the running times do not vary with k.
+Figure \ref{fig:knn-runningtime-vs-n-loglog} visualizes the relationship
+between running time and N further.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width = 0.5\textwidth]{img/knn-runningTimeVsNVsDPI-G2M2}
+	\caption[k-NN prediction running time in seconds vs. N at various DPI.]{
+		log-log plot of k-NN prediction running time in seconds vs. N at various DPI.
+		\(5\cdot{}10^{-6}\cdot{}N\) reference also plotted.
+	}
+	\label{fig:knn-runningtime-vs-n-loglog}
+\end{figure}
+
+It can be seen from figure \ref{fig:knn-runningtime-vs-n-loglog} that
+the classification time complexity is larger than \(O(N)\).
+
+\subsection{Smoothing}
+Figure \ref{fig:knn-AccVsKVsSigma-G2M2},
+displays k-NN prediction accuracy vs. smoothing parameter \(\sigma\)
+and number of neighbours k on the G2M2 dataset, at various pixel densities.
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi100-cv10}
+		\caption{100 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi200-cv10}
+		\caption{200 DPI}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi300-cv10}
+		\caption{300 DPI}
+	\end{subfigure}
+	\caption[k-NN prediction accuracy vs. smoothing parameter $\sigma$
+			and k at various DPI.]{
+		k-NN prediction accuracy vs. smoothing parameter $\sigma$
+		and k for G2M2 data at various DPI.
+		}
+	\label{fig:knn-AccVsKVsSigma-G2M2}
+\end{figure}
+
+\subsection{Principal Component Analysis}
+Figure \ref{fig:principal-components} shows the first ten principal
+components for all the data, at various DPI.
+The normalized intensity \(I_i\) of each pixel in the PC visualization
+depends on the weighed contribution \(w_i\) of the pixel position to the principal component
+and is determined by
+\(I_i=\frac{\left|w_i\right|-\left|w\right|_{min}}{\left|w\right|_{max}-\left|w\right|_{min}}\)
+.
+\begin{figure}[h]
+\centering
+\setlength\tabcolsep{1pt}
+\begin{tabular}{r*{10}{c}}
+Preprocessing & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 \\
+100 DPI, \(\sigma\)=1
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc1} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc2} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc3} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc4} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc5} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc6} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc7} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc8} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc9} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi100-sigma1-pc10} 
+\\
+200 DPI, \(\sigma\)=2.5
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc1}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc2}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc3}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc4}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc5}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc6}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc7}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc8}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc9}.png} 
+ & \includegraphics[width=\smallfigscale]{{img/pca-All-dpi200-sigma2.5-pc10}.png} 
+\\
+300 DPI, \(\sigma\)=4
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc1} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc2} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc3} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc4} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc5} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc6} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc7} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc8} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc9} 
+ & \includegraphics[width=\smallfigscale]{img/pca-All-dpi300-sigma4-pc10} 
+\end{tabular}
+\caption[Principal components at various DPI.]
+{Principal components at various DPI.}
+\label{fig:principal-components}
+\end{figure}
+
+It is observed that the principal components are very similar
+at the three pixel densities, up until principal component 7,
+at which point differences are more clearly seen.
+
+Figure \ref{fig:pca-cumvar} shows the cumulated proportion of variance
+explained vs. the number of principal components used for data representation,
+based on an analysis of all data.
+The elbow point is observed at a cumulated variance of approximately 0.95.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/pca-All-cumvar-dpi100-sigma1}
+\caption[Cumulated variance explained by PCA]
+{Cumulated proportion of variance explained vs. number of principal components.
+All data was used for the analysis, preprocessed with DPI=100 and \(\sigma=1\).}
+\label{fig:pca-cumvar}
+\end{figure}
+
+\subsection{Parameter optimization}
+Figure \ref{fig:pca-knn-acc-vs-k} shows k-NN classification
+accuracy vs. number of neighbours k on the \(D_{FEWER}\) dataset.
+It is observed that the accuracy is maximal with k=5.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/pca-knn-acc-vs-k-dpi100-sigma1}
+\caption[k-NN classification accuracy vs. k on $D_{FEWER}$, \textbf{LOO}.]
+{
+k-NN classification accuracy vs. k on $D_{FEWER}$, \textbf{LOO}, DPI=100, $\sigma=1$.
+}
+\label{fig:pca-knn-acc-vs-k}
+\end{figure}
+
+Figure \ref{fig:pca-svm-acc-vs-C} shows SVM classification accuracy vs.
+cost of constraints violation C on the \(D_{FEWER}\) dataset.
+It is observed that the accuracy does not vary significantly with C.
+However, the maximal mean overall accuracy was found at C=0.5.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/pca-svm-acc-vs-C-dpi100-sigma1}
+\caption[SVM classification accuracy vs. C on $D_{FEWER}$, \textbf{LOO}.]{
+SVM classification accuracy vs. C on $D_{FEWER}$, \textbf{LOO}, DPI=100, $\sigma=1$.
+The SVM kernel is polynomial with degree 2 and scale 0.1.
+}
+\label{fig:pca-svm-acc-vs-C}
+\end{figure}
+
+\subsection{Quality of individual datasets for classification}
+Figure \ref{fig:singlePersonIndividual} shows k-NN and SVM
+classification accuracy when applied to each persons dataset separately.
+It is observed that the k-NN classification accuracy is lower than the SVM
+classification accuracy on most of the datasets.
+It is also observed that the lowest accuracy is found with data from \(G2M1\).
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/singlePersonIndividual-dpi100-sigma1}
+\caption[Classification accuracy on individual datasets.]{
+k-NN and SVM classification accuracy on each persons dataset, based on 10-fold cross validation.
+}
+\label{fig:singlePersonIndividual}
+\end{figure}
+
+\subsection{Comparison of classification algorithms}
+k-NN and SVM classification accuracies are shown for three different
+classification problems in figure \ref{fig:knn-vs-svm-full},
+and a zoomed view is seen in figure \ref{fig:knn-vs-svm-zoomed}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/knn-vs-svm-full-dpi100-sigma1}
+\caption[k-NN and SVM classification accuracies.]
+{k-NN and SVM classification accuracies.}
+\label{fig:knn-vs-svm-full}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/knn-vs-svm-zoomed-dpi100-sigma1}
+\caption[k-NN and SVM classification accuracies, zoomed view.]
+{k-NN and SVM classification accuracies, zoomed view.}
+\label{fig:knn-vs-svm-zoomed}
+\end{figure}
