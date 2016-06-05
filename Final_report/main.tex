@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+
+% ------- Enable UTF8 characters ------- %
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage[toc,page]{appendix}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage[colorinlistoftodos]{todonotes}
+%\usepackage{pdfpages}
+
+\usepackage{epstopdf}
+\usepackage{wrapfig}
+\usepackage{pdfpages}
+\usepackage{todonotes}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% ------------ Code Listing ------------- %
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=false,
+  language=VHDL,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  moredelim=**[is][\color{mauve}]{@}{@},
+}
+
+% ------- Page layout ------- %
+\usepackage{fullpage}
+\usepackage{hyperref} % clickable references
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+
+% ------- Images ------- %
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{subcaption}
+\DeclareCaptionFont{gray}{\color{gray}}
+\captionsetup{textfont={footnotesize,sc,gray},font={footnotesize,sc,gray}}
+
+\usepackage{blindtext}
+
+% Test
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows}
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+
+\begin{document}
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE University of Southern Denmark}\\[1cm] % Name of your university/college
+\textsc{\Large SML (F16)}\\[0.3cm] % Major heading such as course name
+\textsc{\large Statistical machine learning }\\[0.3cm] % Minor heading such as course title
+\vspace{0.5cm}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{img/sdu-segl.png}
+\end{figure}
+\vspace{0.4cm}
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries SML - Final Report}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Mikael \textsc{Westermann}\\
+\url{miwes12@student.sdu.dk}\\
+Keerthikan \textsc{Ratnarajah}\\ % Your name 
+\url{kerat12@student.sdu.dk}
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Lecturer:} \\
+Prof. Norbert \textsc{Krüger}\\ % Supervisor's Name
+\url{norbert@mmmi.sdu.dk}\\
+\emph{Supervisor:} \\
+Ph.d. Stud. Troels Bo \textsc{Jørgensen}\\
+\url{trjoe@mmmi.sdu.dk}
+\end{flushright}
+\end{minipage}\\[4cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\input{introduction.tex}
+%\input{knn.tex}
+%\input{svm.tex}
+%\input{pca.tex}
+%\input{preprocess.tex}
+\input{method.tex}
+\input{result.tex}
+%and
+\input{discussion.tex}
+\input{conclusion.tex}
+\end{document}
+
