@@ -255,20 +255,25 @@ loadSinglePersonsDataCropped <- function(DPI,groupNr,groupMemberNr,sigma,year=20
   }
   #str(prepared)
   
+  
+  
   xStepT <- 60*DPI/300
   yStepT <- 60*DPI/300
   
-  tempM <- matrix(data=NA,20*20,(yStepT-2)*(xStepT-2))
+  cropT <- xStepT/5 #Number of border pixels to crop away along each axis
+  
+  tempM <- matrix(data=NA,20*20,(yStepT-cropT)*(xStepT-cropT))
   trainingDigit <- list(1:10);
   
   for(digit in 1:10) {
     for(cifX in 1:20) {
-      aXbase <- xStepT*(cifX-1)
+      aXbase <- xStepT*(cifX-1) #Corner of current digit box, x coordinate (0-index)
       for(cifY in 1:20) {
-        aYbase <- yStepT*(cifY-1)
-        for(px in 1:(xStepT-2)) {
-          for(py in 1:(yStepT-2)) {
-            tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT-2) + py] <- prepared[[digit]][aYbase+py+1,aXbase+px+1]
+        aYbase <- yStepT*(cifY-1) #Corner of current digit box, y coordinate (0-index)
+        for(px in 1:(xStepT-cropT)) { # 1,2,...,16
+          for(py in 1:(yStepT-cropT)) {
+            #          0      + 1       0   *      16       + 1                         0    +1 + 2           
+            tempM[(cifY-1)*20 + cifX, (px-1)*(yStepT-cropT) + py] <- prepared[[digit]][aYbase+py+cropT/2,aXbase+px+cropT/2]
           }
         }
       }

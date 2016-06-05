@@ -27,7 +27,7 @@ persons_all_loadable = list(
   # #c(6,2), #Doesn't exist
   c(7,1),
   c(8,1),
-  # c(10,1), #This is Steffen. He has trolled us all!
+  c(10,1), #This is Steffen. He has trolled us all!
   c(10,2),
   c(11,1),
   c(11,2),
@@ -48,7 +48,6 @@ persons_fewer = list(
   c(6,1),
   c(7,1),
   c(8,1),
-  # c(10,1), #This is Steffen. He has trolled us all!
   c(11,1),
   c(13,1)
 )
@@ -65,21 +64,23 @@ loading_setups = list(
     list(
       DPI = 100,
       sigma_list = c(
-        # 1
-        0.6 
+        1
+        #0.6 
       )
     ),
     list(
       DPI = 200,
       sigma_list = c(
         # 1.5
-        2
+        #2
+        2.5
       )
     ),
     list(
       DPI = 300,
       sigma_list = c(
-        2.5
+        #2.5
+        4
       )
     )
   ),
@@ -87,21 +88,23 @@ loading_setups = list(
     list(
       DPI = 100,
       sigma_list = c(
-        # 1
-        0.6 
+        1
+        #0.6 
       )
     ),
     list(
       DPI = 200,
       sigma_list = c(
         # 1.5
-        2
+        #2
+        2.5
       )
     ),
     list(
       DPI = 300,
       sigma_list = c(
-        2.5
+        #2.5
+        4
       )
     )
   ),
@@ -112,8 +115,8 @@ loading_setups = list(
         0.2,
         0.3,
         0.6,
-        1,
-        1.5,#
+        1,######
+        1.5,
         2.0,
         2.5,
         3,
@@ -197,7 +200,8 @@ preloadData <- function(
               loadMultiplePersonsDataByDigitMerged(
                 DPI = DPI_sigma_combination$DPI,
                 persons = list_of_persons,
-                sigma = sigma
+                sigma = sigma,
+                reload = overwrite_existing_labeled_dataset
               )
           )
         labeled_dataset$data = data_and_labels$data

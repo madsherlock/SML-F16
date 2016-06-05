@@ -5,11 +5,11 @@ source("loadSinglePersonsData.R")
 #sigma=1.5
 #persons = list(c(2,1),c(2,2))
 
-loadMultiplePersonsDataByPerson <- function(DPI,persons,sigma){
+loadMultiplePersonsDataByPerson <- function(DPI,persons,sigma, reload=FALSE){
   idx=1
   allDataByPerson = list()
   for (p in persons) {
-    allDataByPerson[[idx]]=loadSinglePersonsData(DPI,p[1],p[2],sigma)
+    allDataByPerson[[idx]]=loadSinglePersonsData(DPI,p[1],p[2],sigma,reload=reload)
     idx=idx+1
   }
   whatThe=c(allDataByPerson,recursive=TRUE)
@@ -34,12 +34,12 @@ rearrangeMultiplePersonsDataByDigit <- function(dataByPerson) {
   return(dataByDigit)
 }
 
-loadMultiplePersonsDataByDigit <- function(DPI,persons,sigma) {
-  return(rearrangeMultiplePersonsDataByDigit(loadMultiplePersonsDataByPerson(DPI,persons,sigma)))
+loadMultiplePersonsDataByDigit <- function(DPI,persons,sigma, reload=FALSE) {
+  return(rearrangeMultiplePersonsDataByDigit(loadMultiplePersonsDataByPerson(DPI,persons,sigma,reload)))
 }
 
-loadMultiplePersonsDataByDigitMerged <- function(DPI,persons,sigma) {
-  dat=loadMultiplePersonsDataByDigit(DPI,persons,sigma)
+loadMultiplePersonsDataByDigitMerged <- function(DPI,persons,sigma, reload=FALSE) {
+  dat=loadMultiplePersonsDataByDigit(DPI,persons,sigma,reload)
   merged=list()
   num_persons = length(persons)
   # stopifnot(num_persons>1)
