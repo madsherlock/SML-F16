@@ -148,6 +148,57 @@ It is observed that the accuracy is maximal with k=5.
 \begin{figure}[h]
 \centering
 \includegraphics[width=\figscale]{img/pca-knn-acc-vs-k-dpi100-sigma1}
-\caption{k-NN classification accuracy vs. k on $D_{FEWER}$, \textbf{LOO}.}
+\caption[k-NN classification accuracy vs. k on $D_{FEWER}$, \textbf{LOO}.]
+{
+k-NN classification accuracy vs. k on $D_{FEWER}$, \textbf{LOO}, DPI=100, $\sigma=1$.
+}
 \label{fig:pca-knn-acc-vs-k}
+\end{figure}
+
+Figure \ref{fig:pca-svm-acc-vs-C} shows SVM classification accuracy vs.
+cost of constraints violation C on the \(D_{FEWER}\) dataset.
+It is observed that the accuracy does not vary significantly with C.
+However, the maximal mean overall accuracy was found at C=0.5.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/pca-svm-acc-vs-C-dpi100-sigma1}
+\caption[SVM classification accuracy vs. C on $D_{FEWER}$, \textbf{LOO}.]{
+SVM classification accuracy vs. C on $D_{FEWER}$, \textbf{LOO}, DPI=100, $\sigma=1$.
+The SVM kernel is polynomial with degree 2 and scale 0.1.
+}
+\label{fig:pca-svm-acc-vs-C}
+\end{figure}
+
+\subsection{Quality of individual datasets for classification}
+Figure \ref{fig:singlePersonIndividual} shows k-NN and SVM
+classification accuracy when applied to each persons dataset separately.
+It is observed that the k-NN classification accuracy is lower than the SVM
+classification accuracy on most of the datasets.
+It is also observed that the lowest accuracy is found with data from \(G2M1\).
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/singlePersonIndividual-dpi100-sigma1}
+\caption[Classification accuracy on individual datasets.]{
+k-NN and SVM classification accuracy on each persons dataset, based on 10-fold cross validation.
+}
+\label{fig:singlePersonIndividual}
+\end{figure}
+
+\subsection{Comparison of classification algorithms}
+k-NN and SVM classification accuracies are shown for three different
+classification problems in figure \ref{fig:knn-vs-svm-full},
+and a zoomed view is seen in figure \ref{fig:knn-vs-svm-zoomed}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/knn-vs-svm-full-dpi100-sigma1}
+\caption[k-NN and SVM classification accuracies.]
+{k-NN and SVM classification accuracies.}
+\label{fig:knn-vs-svm-full}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\figscale]{img/knn-vs-svm-zoomed-dpi100-sigma1}
+\caption[k-NN and SVM classification accuracies, zoomed view.]
+{k-NN and SVM classification accuracies, zoomed view.}
+\label{fig:knn-vs-svm-zoomed}
 \end{figure}
