@@ -225,7 +225,33 @@ accuracies of the two algorithms from each other,
 and applying a Z-test with a null hypothesis of zero mean.
 With a level of significance \(\alpha=0.05\),
 only the difference in the "All mixed" problem is significant.
-The p-values of the three Z-tests are listed in table \todo[inline,author=Mikael]{Insert p-value table here!}.
+The p-values of the three Z-tests are listed in table \ref{tb:ztest}.
+
+\begin{table}
+\centering
+\caption[Z-test results]
+{
+Z-test results for the null hypotheses that k-NN accuracy has
+the same mean as the SVM accuracy, \(H_0:\mu\left(\text{k-NN}\right)-\mu\left(\text{SVM}\right)=0\), for three different classification problems.
+}
+\begin{tabular}{|r||c|c|c|}
+\hline
+ & Single persons & All mixed & All LOO
+ \\
+ \hline
+p-value & 0.28 & 0.0025 & 0.087
+\\
+CI (difference in accuracy)& \(\left[-0.022;0.0064\right]\)
+& \(\left[0.0034;0.016\right]\)
+& \(\left[-0.11;0.0072\right]\)
+\\
+\(H_0\) rejected & No & Yes & No
+\\
+\hline
+\end{tabular}
+
+\label{tb:ztest}
+\end{table}
 %H=0 indicates that the null hypothesis ("mean is M")
 %cannot be rejected at the 5% significance level.  H=1
 %indicates that the null hypothesis can be rejected at the 5% level.
