@@ -157,12 +157,16 @@ ph.d. Troels Bo \textsc{Jørgensen}\\
 
 
 \end{titlepage}
+\pagenumbering{Roman}
+\include{abstract}
 \tableofcontents
 \newpage
 \listoffigures
 \listoftables
 \newpage
-\input{introduction} % Intro
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\include{introduction} % Intro
 %\input{knn.tex}
 %\input{svm.tex}
 %\input{pca.tex}

@@ -21,7 +21,7 @@ Each of these sheets of paper was scanned by the student at a resolution of 300 
 
 Each sheet held two 4x4" grids of 400 digits.
 To ease the preprocessing task,
-the student marked the pixel locations of the outer grid corners manually,
+the student manually marked the pixel locations of the outer grid corners
 before submitting the dataset to the class database.
 
 The datasets were of varying quality and format:
@@ -31,7 +31,7 @@ and many digits were overlapping the grid.
 
 As the corner locations were assumed to be known,
 the images were rotated, stretched and scaled
-by the perspective transform,
+by the 4-point perspective transform \citep{perspective},
 and then cropped,
 to obtain ten images per student,
 each being a 1200x1200 pixels image of 400 hand written digits.
@@ -124,7 +124,7 @@ The percentage is chosen using the Elbow Method.
 The datasets used in this project are described in this section,
 along with the resampling schemes employed for reporting
 overall classification accuracies.
-The combination of dataset and resampling scheme makes
+The combinations of datasets and resampling schemes makes
 for the classifier evaluation schemes used in this project,
 also described in this section.
 
@@ -175,7 +175,8 @@ reporting general classifier accuracy.
 
 \subsection{k-Nearest Neighbours}
 \label{sec:knn}
-k-Nearest Neighbours (k-NN)
+The following introduction to k-Nearest Neighbours (k-NN) is based on \citep{mlwr}.
+k-NN
 is a supervised learning algorithm.
 The method is non-parametric,
 meaning that it does not make any assumption about the distribution of the input data.
