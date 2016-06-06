@@ -1,0 +1,37 @@
+\section{Future work}
+Future work should compare classification algorithm implementation
+running times more thoroughly.
+While the work presented here includes a classification time
+complexity analysis of the naïve k-NN algorithm,
+a time complexity analysis of the same sort is not presented for the SVM classifier.
+
+Including more data, such as that of the 2015 class,
+might have shifted classifier comparison results,
+possibly leading to stronger conclusions on
+the accuracy of the apparently superior SVM classifier
+vs the k-NN classifier.
+
+Future work should also vary the additional parameters of the SVM
+classifier, and experiment with sigmoidal, gaussian and higher-degree polynomial
+kernels, as their non-linearity might yield better results
+than the accuracies obtained here.
+
+Since a standard digit recognition dataset, MNIST \citep{mnist}, exists,
+future work should benchmark against that.
+This would greatly improve the usefulness
+and reusability of the implementations and results
+of works such as this.
+
+Of course, it would also be relevant to test other
+classification algorithms, such as Convolutional Neural Networks,
+Random Forests and Least-Squares SVM.
+
+Future work should consider printing the paper
+sheets with a red grid instead of a black one,
+and permit students from using a red pen.
+This way, color segmentation may be applied
+to remove the grid programmatically.
+
+Detecting the grid corners could also be done
+automatically, leading to a faster data collection process
+less prone to human error.

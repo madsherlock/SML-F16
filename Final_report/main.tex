@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,twoside]{article}
 
 % ------- Enable UTF8 characters ------- %
 \usepackage[utf8]{inputenc}
@@ -79,6 +79,14 @@
 
 
 
+
+
+
+\usepackage{fancyhdr}
+%\setlength{\headheight}{15pt}
+%\usepackage[showframe,headsep=1cm,headheight=2cm]{geometry}
+\usepackage[headsep=1cm,headheight=15pt]{geometry}
+
 % Test
 
 \usepackage{tikz}
@@ -155,16 +163,22 @@ ph.d. Troels Bo \textsc{Jørgensen}\\
 
 %\vfill % Fill the rest of the page with whitespace
 
-
+\pagenumbering{gobble}
 \end{titlepage}
+%\pagenumbering{gobble}
+\cleardoublepage
 \pagenumbering{Roman}
 \include{abstract}
+%
 \tableofcontents
 \newpage
 \listoffigures
 \listoftables
-\newpage
+\cleardoublepage
 \pagenumbering{arabic}
+\pagestyle{fancy}
+\fancyfoot{}
+\fancyfoot[RO,LE]{\thepage}
 \setcounter{page}{1}
 \include{introduction} % Intro
 %\input{knn.tex}
@@ -179,7 +193,7 @@ ph.d. Troels Bo \textsc{Jørgensen}\\
 \input{future}
 
 
-\newpage
+\cleardoublepage
 %\bibliographystyle{ieeetr}
 \bibliography{bibliography}
 \end{document}
