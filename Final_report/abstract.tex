@@ -1,0 +1,25 @@
+\begin{abstract}
+The k-Nearest Neighbours (k-NN) and Support Vector Machines (SVM)
+algorithms were applied to hand written digit recognition and compared
+on overall classification accuracy and prediction time.
+The input data consisted of hand written digits which are preprocessed
+offline using 4-point perspective transform, cropping and
+smoothing, and online using Principal Component Analysis.
+The number of neighbours k for the k-NN classifier,
+and the cost of constraints violation C of the SVM
+classifier with polynomial kernel of degree 2 and scale
+factor 0.1 were optimized on a smaller dataset,
+and found to be k=5 and C=0.5.
+
+A best overall classification accuracy of 0.854 with a standard
+deviation of 0.0205 was obtained with the SVM classifier.
+
+The k-NN classifier had a significantly higher classification accuracy
+than the SVM classifier when data from the person whose data was in the test set
+was in the training set with data from the remaining persons.
+Otherwise, no significant difference in classification accuracy was found
+between the two algorithms.
+
+The classification time of the applied k-NN
+classifier is more than twice that of the applied SVM classifier.
+\end{abstract}
