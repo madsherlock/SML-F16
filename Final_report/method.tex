@@ -1,12 +1,13 @@
 \section{Methods}
 \subsection{Preprocessing}
-Each student of the 2016 class filled out several sheets of paper
+\label{sec:preprocessing}
+Each student of the 2016 SML class filled out several sheets of paper
 with digits from 0 to 9. An example of this data
 is shown in figure 
 \ref{fig:handwriten_digits}. 
 This section describes the preprocessing scheme
 applied to this data before applying the machine learning algorithms.
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width = 0.5\textwidth]{img/cropY2016G2M1-100-7.png}
 \caption[Handwritten digits]
@@ -65,8 +66,8 @@ and at 100 DPI, it is 256 dimensions.
 Naturally, the computations involved in the classification
 are faster when working with the lower-dimensional data.
 As part of the \(\sigma\) optimization process,
-it was therefore chosen to measure the k-NN classification
-accuracy on the raw datasets at each pixel density,
+it was therefore chosen to measure the k-NN prediction time
+on the raw datasets at each pixel density,
 giving an optimized \(\sigma\)-pixel density combination
 for the digit recognition problem.
 
@@ -117,6 +118,8 @@ making the PCA an online step of the preprocessing scheme.
 The results of PCA are therefore not stored on disk,
 except when saved along with trained classifiers.
 
+The percentage is chosen using the Elbow Method.
+
 \subsection{Datasets, resampling methods and classifier evaluation}
 The datasets used in this project are described in this section,
 along with the resampling schemes employed for reporting
@@ -139,7 +142,7 @@ one individual is denoted the \textbf{MIX} method.
 Here, data from each individual has a very high probability of
 being represented in both the training set and the test set.
 
-A method denoted by \textbf{LOO} was applied to datasets
+A method denoted by \textbf{LOO} (Leave-One-person-Out) was applied to datasets
 containing data from \(n>1\) individuals by dividing
 the data into \(n\) folds. Each fold contains data from \(n-1\)
 individuals for training. The test data of each fold is the
@@ -153,6 +156,10 @@ and reported classification accuracy is found by 10-fold cross validation.
 \item Single Persons:
 One Person, applied to every persons dataset. The reported
 classification accuracy is the mean of the 23 accuracies.
+The reported standard deviation is found by pooling
+the mean of the internal variances of each 10-fold cross validation
+with the external variance of the 23 accuracies,
+and taking the square root.
 \item All Mixed:
 \(D_{ALL}\), \textbf{MIX}.
 \item All LOO:
@@ -163,7 +170,11 @@ were used for classifier comparison,
 while One Person was used during preprocessing
 scheme development.
 
+The hardest scheme, All LOO, is the one used for
+reporting general classifier accuracy.
+
 \subsection{k-Nearest Neighbours}
+\label{sec:knn}
 k-Nearest Neighbours (k-NN)
 is a supervised learning algorithm.
 The method is non-parametric,
@@ -171,7 +182,7 @@ meaning that it does not make any assumption about the distribution of the input
 The method is referred to as a lazy learning algorithm,
 as it does not use the training data to do any generalization (abstraction).
 Figure \ref{fig:knn-example} \citep{knnwiki} shows the basic principle of the algorithm.
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width = 0.3\textwidth]{img/kNN-classification.png}
 \caption[k-NN classification example]{
@@ -218,6 +229,7 @@ d(\mathbf{w},\mathbf{v}) = \sqrt{\sum_{i=1}^n (w_i - v_i)^2}
 d(\mathbf{w},\mathbf{v}) = \sum_{i=1}^n \left|w_i - v_i\right|
 \label{eq:manhattan-distance}
 \end{equation}
+The Euclidean distance metric is used in this project.
 
 The advantage of using k-NN is that it is simple to use,
 and works well on basic problems.
@@ -229,6 +241,7 @@ learn anything from the training data, but just stores it;
 No particular new insight is gained.
  
 \subsection{Support Vector Machines}
+\label{sec:svm}
 Support Vector Machines (SVM) is a supervised learning
 method that analyzes training data 
 and tries to recognize patterns within the classification domain.
@@ -250,7 +263,7 @@ as illustrated by figure \ref{fig::SVM-illustrated} \citep{svmmathworks}.
 The goal in SVM is to find this hyperplane which provides the optimal separation 
 of the classes by having the widest margin. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 %\includegraphics[width = 0.5\textwidth]{img/SVM-illu.png} %no source, Kiddi!
 \includegraphics[width = 0.5\textwidth]{img/svmhyperplane}
@@ -278,7 +291,7 @@ smallest convex set containing the points. If the hyperplane that bisects both
 convex hulls can be found, the resulting classifier is robust with
 respect to the training data.
 This concept is illustrated in figure \ref{fig:convex_hull} \citep{convexhull}.
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width = 0.5\textwidth]{img/convex_hull.png}
 \caption[Best plane bisects closest points in the convex hulls]
@@ -363,57 +376,83 @@ a tuning parameter which is varied and chosen
 according to classification accuracy.
 
 \subsection{Parameter optimization}
-The k-NN and SVM classifiers were each trained on the \(D_{FEWER}\) dataset with the \textbf{LOO} method.
+The k-NN and SVM classifiers were each trained on the \(D_{FEWER}\)
+dataset with the \textbf{LOO} method, as the dataset
+is greatly varied, and the \textbf{LOO} method
+represents the most difficult classification problem.
 
-\subsection{Parameter optimization on a smaller dataset}
-To extract the most optimal parameter for training purposes was it decided, optimize the parameter on a smaller set consisting of 10 people data.  This was choosen, as it was desired gain the most optimal values for the varied dataset, such that the parameter found would be fit for a specific scenario, but a broad case. 
-\todo[inline]{might have to be adjusted..}
+The classifiers were trained in order to find
+suitable parameters \(k\) and \(C\) for the more computationally
+expensive comparison tests.
+Thus, the result of the parameter optimization is
+only one value of \(k\), and one value of \(C\),
+used for three classification problems encompassing \(D_{ALL}\).
 
-\subsection{Test with data from single person}
-\label{sec::test_with_data_from_single_person}
+\subsection{Classifier comparison}
+The k-NN and SVM
+classfiers were compared
+after parameter optimization.
+They were compared on overall classification accuracy
+using the three classifier evaluation schemes
+Single Persons, All Mixed and All LOO.
+After finding the overall accuracy of each classifier,
+a Z-test was applied to determine whether
+the accuracies were significantly different.
+This assumes the Central Limit Theorem holds,
+as \(D_{ALL}\) holds 4000 digits per person (23 persons),
+each one tested once per method.
 
-The first training were conducted with every single persons training set. The 
-training using kNN consisted of k = 5,with a 10 - fold cross validation. k = 5 
-was chosen, as it was shown from the parameter optimization that it would provide the highest accuracy on a varied dataset. \\
+As the k-NN classifier used in this project
+has an \(O\left(d N\right)\) time complexity,
+linear with the training set size,
+it is interesting to investigate if this makes it slower than SVM
+for the classifications of this project.
+Therefore, the k-NN and SVM prediction (classification)
+times per digit were found for the classifiers
+trained with the All LOO scheme, on the \(G2M2\) dataset,
+based on 30 repeated runs.
 
-The training using SVM were performed using a polynomial kernel, with a degree 
-of 2, scale of 0.1   and cost of 0.5 with a 10 fold cross validation as well. 
-The polynomial kernel was chosen due to prior experiments with other kernel, and 
-had a higher degree of freedom would provide a better accuracy. The parameter chosen was also found from the parameter optimization section. 
-\todo[inline]{maybe a bit fluffy idk?}
+\subsection{Hand written digit dataset quality}
+In order to be able to identify the individual with the worst
+digit hand writing, an objective measure
+of digit hand writing quality must be defined.
+There are at least three definitions to consider:
+\begin{enumerate}
+\item[1] Good quality is proportional to classification accuracy when using all other
+persons data for training, and the questionable quality dataset for testing.
+\item[2] Good quality is proportional to classification accuracy when using all
+persons data, including the dataset under test, in the training set.
+\item[3] Good quality is proportional to One Person classification accuracy,
+when using only the persons own data for training and for testing.
+\end{enumerate}
 
- 
-A
-10-fold cross validation uses 1 fold for testing and the rest for training 
-purposes it thereby provides an average of the accuracies on how well a trained 
-classifier, trained using the persons own data is capable of detecting himself.  
-This information provides some insight on how consistent the persons writing is. 
-An inconsistent writing style will cause lower mean accuracy compared to a 
-consistent style. \\
+Definition 1 is based on the idea that the majority wins.
+However, it is possible that the entire class, except one person,
+has really ugly and bad hand writing. In this case,
+the one person with good hand writing would be identified
+as the one with the worst digit hand writing.
 
-Each accuracy is given an error bar stating the standard deviation of the 
-dataset. The standard deviation of the mean accuracy is found by adding the 
-internal standard deviation and the external standard deviation. The internal 
-standard deviation is a vector of all individual standard deviation acquired 
-from the 10-fold cross validation, an the external consist of the variance 
-between the accuracies acquired  from the 10-fold cross validation. \\
- 
-The result of this test can be seen in section  \ref{sec::result}. 
+Definition 2 suffers from the same majority bias,
+albeit to a smaller degree. The biggest problem with this
+definition is that the k-NN classifier would always find neighbours very
+close to the test set, possibly giving much higher
+accuracies than the SVM classifier.
+Then it would be difficult to distinguish one persons
+writing quality from anothers.
 
-\subsection{Test with data from all persons with a training set that includes 
-data from all}
+Definition 3 does not suffer from the majority bias.
+While this gives a less democratic measure,
+it is also possibly much more fair and objective.
+Here, quality is proportional to two properties of the individual dataset:
+within-digit consistency and between-digit variation.
+While these properties may be obtained with an ugly hand writing,
+they are the most objective measure of digit hand writing quality
+available here, as they provide
+a direct measure of dataset quality for \textit{classification},
+a problem of high interest in this project.
 
-The dataset used for training here consist all the data mixed together. A 10-fold crossfold validation was also applied on to it from which an accuracy was computed. 
-
-
-
-\subsection{Test with data from all persons where the training set does not 
-include data from 
-the persons in the test set}
-
-The dataset consist of all the person, where the test was performed by leaving one out. A 10-fold crossfold validation was also applied onto it from which an accuracy was computed. 
-
-
-
-
-
+Definition 3 is chosen as a measure of digit hand writing quality.
+As such, a variant of the One Person
+classifier evaluation scheme is used,
+in which it is applied to every persons dataset,
+and then compared.

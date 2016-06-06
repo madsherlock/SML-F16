@@ -1,1 +1,39 @@
 \section{Conclusion}
+\label{sec:conclusion}
+%The main purpose of this project is to compare two classification algorithms,
+%k-Nearest Neighbours (k-NN) and Support Vector Machines (SVM),
+%for handwritten digit recognition.
+%The second purpose of this project is to achieve good classification performance,
+%and thus, some preprocessing is needed.
+%Lastly, as the digits used in this project
+%were written by a class of 23 always competitive students,
+%it was chosen to estimate the quality of the hand written digits
+%and identify the student with the worst hand writing.
+%This required a definition of hand written digit quality,
+%which is also presented here.
+k-NN with number of neighbours k=5 achieves significantly higher overall 
+classification accuracy than SVM with polynomial kernel of degree 2
+with scale factor 0.1 and cost of constraints violation C=0.5,
+with \(\alpha=0.05\),
+when each algorithm is trained with a dataset of hand written digits
+from a class of 23 people, and tested on a dataset
+with digits written by the same people.
+When the training set only contains data from 22 people,
+and the test set is written by a person not in the training
+set, k-NN does not perform significantly worse
+than SVM, although a lower overall accuracy was observed.
+Neither does the k-NN classifier perform significantly worse than SVM
+when applied to one persons data at a time,
+although a lower overall accuracy was observed.
+
+The highest obtained overall classification accuracy is 0.854 with a standard
+deviation of 0.0205, for the SVM classifier.
+
+A successful preprocessing scheme involving the perspective transform,
+gaussian blur and Principal Component Analysis was implemented.
+
+Person \(G2M1\) (one of the authors) has the worst digit hand writing of the 2016 SML class,
+when the writing quality is measured by classification
+error on own data. This means \(G2M1\) has the least
+within-digit consistent and between-digit varied
+hand writing.

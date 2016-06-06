@@ -1,7 +1,86 @@
 \section{Discussion}
-These results indicate that the entire dataset is sorted and searched through for
-each classification, and that this type of problem does not scale well with increasing
+\label{sec:discussion}
+%DPI and k-NN complexity
+The k-NN prediction time results for various pixel densities
+indicate that the entire dataset is sorted and searched through for
+each classification,
+and that this type of problem does not scale well with increasing
 dataset size.
 Since methods are to be compared with data from several individuals,
 it was therefore chosen to use 100 DPI downsampling for further data processing,
-at the cost of classification accuracy (as found in the first exercise).
+at the cost of classification accuracy.
+%Smoothing sigma
+%equally good at various DPI.
+%
+This cost was found to be negligible, however,
+as classification accuracies above 0.995 were obtainable
+at all pixel densities, with the right choice of smoothing
+parameter \(\sigma\).
+For the chosen pixel density of 100 DPI, the best value of \(\sigma\)
+for preprocessing is \(\sigma=1\).
+
+%PCA. PC similar, so pretty much the same dimensions
+%are used for classification. So 100 DPI.
+%Elbow point gives 0.95 threshold for D_ALL.
+%This is between 20 and 40 PCs, estimated as a relatively low-dimensional search space,
+%compared to 256. This is awesome
+The PCA showed that the principal components
+found at all three pixel densities with their optimal \(\sigma\)
+are very similar.
+This hints that the choice of 100 DPI is
+as good as any of the other pixel densities.
+In addition, the PCA showed that grid lines
+are not causing the primary variation in the data.
+This means the 10 \% border cropping of the preprocessing scheme
+is sufficient.
+A 0.95 cumulative variance percentage was chosen based
+on the PCA, for online preprocessing of training datasets.
+This gives between 20 and 40 used principal components
+for \(D_{ALL}\), which is a significant reduction from 256 dimensions.
+
+%best k is 5.
+%best C is 0.5, although it doesn't really matter THAT much.
+The parameter optimization on \(D_{FEWER}\) showed
+that k=5 and C=0.5 are the optimal parameters for the
+k-NN and SVM classifiers respectively.
+However, this is only a local result,
+and the optimal values for the three classifier comparison
+problems may be different.
+
+%Worst digit hand writing is G2M1
+Person \(G2M1\) has the worst digit hand writing,
+when the writing quality is measured by classification
+error on own data. This means \(G2M1\) has the least
+within-digit consistent and between-digit varied
+hand writing.
+
+%Although k-NN appears to perform
+%worse in Single Person and All LOO,
+%it is not significant to alpha 0.05.
+%However, it performs better with All mixed.
+%This is probably
+%because those 5 neighbours so close!
+Although the k-NN classifier appears to yield
+lower classification accuracy in the Single Person and All LOO problems,
+the only significant (\(\alpha=0.05\)) result
+that can be reported is that it performs better
+than SVM on the All mixed dataset.
+This was to be expected, as only 5 neighbours are used for the
+k-NN classifier, and providing the persons
+own data in the training set directly places
+many "neighbour digits" close to the test data.
+
+The highest obtained accuracy for All LOO is 0.854 with a standard
+deviation of 0.0205, for the SVM classifier.
+Although not on par with human classification accuracy,
+this is still considered an acceptable result,
+and an indication that the combination
+of preprocessing scheme and classification method
+is successful.
+
+%Prediction time, yeah SVM is better.
+When \(D_{ALL}\) is used for training and one persons data (\(G2M2\)) is used
+for testing,
+the SVM classifier is more than twice as fast as the k-NN classifier
+for every classification.
+This is as expected, as the k-NN algorithm is a lazy learner.

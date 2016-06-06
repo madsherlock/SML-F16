@@ -1,10 +1,11 @@
 \section{Results}
+\label{sec:results}
 \subsection{Downsampling}
 With data from G2M2, k-NN prediction running times
 were measured vs. dataset size N at various DPI.
 The results
 are presented in figure \ref{fig:knn-runningtime-vs-n-and-k}.
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\begin{subfigure}{0.32\textwidth}
 		\includegraphics[width = \textwidth]{img/knn-runningTimeVsKVSN-G2M2-dpi100}
@@ -33,7 +34,7 @@ and that running times increase substantially with N. It is also seen that
 the running times do not vary with k.
 Figure \ref{fig:knn-runningtime-vs-n-loglog} visualizes the relationship
 between running time and N further.
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width = 0.5\textwidth]{img/knn-runningTimeVsNVsDPI-G2M2}
 	\caption[log-log plot of k-NN prediction running time vs. N at various DPI.]{
@@ -50,8 +51,9 @@ the classification time complexity is larger than \(O(N)\).
 Figure \ref{fig:knn-AccVsKVsSigma-G2M2},
 displays k-NN prediction accuracy vs. smoothing parameter \(\sigma\)
 and number of neighbours k on the G2M2 dataset, at various pixel densities.
-
-\begin{figure}[h]
+It is observed that classification accuracies above 0.995
+are obtained at all three pixel densities, with different \(\sigma\).
+\begin{figure}[ht]
 	\centering
 	\begin{subfigure}{0.32\textwidth}
 		\includegraphics[width = \textwidth]{img/knn-AccVsKVsSigma-G2M2-dpi100-cv10}
@@ -73,6 +75,7 @@ and number of neighbours k on the G2M2 dataset, at various pixel densities.
 	\label{fig:knn-AccVsKVsSigma-G2M2}
 \end{figure}
 
+\clearpage
 \subsection{Principal Component Analysis}
 Figure \ref{fig:principal-components} shows the first ten principal
 components for all the data, at various DPI.
@@ -81,7 +84,7 @@ depends on the weighed contribution \(w_i\) of the pixel position to the princip
 and is determined by
 \(I_i=\frac{\left|w_i\right|-\left|w\right|_{min}}{\left|w\right|_{max}-\left|w\right|_{min}}\)
 .
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \setlength\tabcolsep{1pt}
 \begin{tabular}{r*{10}{c}}
@@ -130,12 +133,14 @@ Preprocessing & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 \\
 It is observed that the principal components are very similar
 at the three pixel densities, up until principal component 7,
 at which point differences are more clearly seen.
+It is also observed that the principal components
+weigh pixels from all parts of the images, not just the borders.
 
 Figure \ref{fig:pca-cumvar} shows the cumulated proportion of variance
 explained vs. the number of principal components used for data representation,
 based on an analysis of all data.
 The elbow point is observed at a cumulated variance of approximately 0.95.
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\figscale]{img/pca-All-cumvar-dpi100-sigma1}
 \caption[Cumulated variance explained by PCA]
@@ -148,7 +153,7 @@ All data was used for the analysis, preprocessed with DPI=100 and \(\sigma=1\).}
 Figure \ref{fig:pca-knn-acc-vs-k} shows k-NN classification
 accuracy vs. number of neighbours k on the \(D_{FEWER}\) dataset.
 It is observed that the accuracy is maximal with k=5.
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\figscale]{img/pca-knn-acc-vs-k-dpi100-sigma1}
 \caption[k-NN classification accuracy vs. k on $D_{FEWER}$, \textbf{LOO}.]
@@ -162,7 +167,7 @@ Figure \ref{fig:pca-svm-acc-vs-C} shows SVM classification accuracy vs.
 cost of constraints violation C on the \(D_{FEWER}\) dataset.
 It is observed that the accuracy does not vary significantly with C.
 However, the maximal mean overall accuracy was found at C=0.5.
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\figscale]{img/pca-svm-acc-vs-C-dpi100-sigma1}
 \caption[SVM classification accuracy vs. C on $D_{FEWER}$, \textbf{LOO}.]{
@@ -172,13 +177,14 @@ The SVM kernel is polynomial with degree 2 and scale 0.1.
 \label{fig:pca-svm-acc-vs-C}
 \end{figure}
 
+\clearpage
 \subsection{Quality of individual datasets for classification}
 Figure \ref{fig:singlePersonIndividual} shows k-NN and SVM
 classification accuracy when applied to each persons dataset separately.
 It is observed that the k-NN classification accuracy is lower than the SVM
 classification accuracy on most of the datasets.
 It is also observed that the lowest accuracy is found with data from \(G2M1\).
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\figscale]{img/singlePersonIndividual-dpi100-sigma1}
 \caption[Classification accuracy on individual datasets.]{
@@ -191,7 +197,7 @@ k-NN and SVM classification accuracy on each persons dataset, based on 10-fold c
 k-NN and SVM classification accuracies are shown for three different
 classification problems in figure \ref{fig:knn-vs-svm-full},
 and a zoomed view is seen in figure \ref{fig:knn-vs-svm-zoomed}.
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{subfigure}{\figscale}
 \centering
@@ -223,13 +229,16 @@ For the "Single persons" problem, the SVM classifier has the highest mean accura
 For the "All mixed" problem, the k-NN classifier has the highest mean accuracy.
 For the "All LOO" problem, the SVM classifier has the highest mean accuracy.
 
+The highest observed accuracy for All LOO is 0.854 with a standard
+deviation of 0.0205, for the SVM classifier.
+
 The significance of these three results was tested by subtracting the classification
 accuracies of the two algorithms from each other,
 and applying a Z-test with a null hypothesis of zero mean.
 With a level of significance \(\alpha=0.05\),
 only the difference in the "All mixed" problem is significant.
 The p-values of the three Z-tests are listed in table \ref{tb:ztest}.
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \caption[Z-test results]
 {
@@ -253,30 +262,6 @@ CI (difference in accuracy)& \(\left[-0.022;0.0064\right]\)
 \end{tabular}
 \label{tb:ztest}
 \end{table}
-%H=0 indicates that the null hypothesis ("mean is M")
-%cannot be rejected at the 5% significance level.  H=1
-%indicates that the null hypothesis can be rejected at the 5% level.
-%spH =
-%     0
-%spP =
-%   0.276940767397244
-%spCI =
-%  -0.022269551784590
-%   0.006378247436764
-%amH =
-%     1
-%amP =
-%   0.002458171781170
-%amCI =
-%   0.003382419250751
-%   0.015791493792727
-%alH =
-%     0
-%alP =
-%   0.086657366992428
-%alCI =
-%  -0.107175202166838
-%   0.007196941297274
 
 Figure \ref{fig:prediction-times} shows the prediction times per digit
 of the k-NN and SVM classifiers, when trained with \(D_{ALL}\).
@@ -286,7 +271,7 @@ of digits (4000).
 It is observed from figure \ref{fig:prediction-times} that
 the SVM classifier is more than twice as fast as the k-NN classifier,
 when each is trained with \(D_{ALL}\).
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\figscale]{img/prediction-times}
 \caption[Prediction times per digit]
