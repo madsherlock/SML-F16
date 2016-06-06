@@ -1,52 +1,212 @@
 \section{Methods}
 \subsection{Preprocessing}
-\subsection{kNN}
-KNN is a supervised. The method is non parametric meaning that the method does not make any assumption about the distribution of the data. The method is also labeled as lazy learning, as the it does not use any training points to do any generalization.\\
+Each student of the 2016 class filled out several sheets of paper
+with digits from 0 to 9. An example of this data
+is shown in figure 
+\ref{fig:handwriten_digits}. 
+This section describes the preprocessing scheme
+applied to this data before applying the machine learning algorithms.
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.5\textwidth]{img/cropY2016G2M1-100-7.png}
+\caption[Handwritten digits]
+{
+Handwritten digits. Scanned image. Cropped, rotated, scaled, stretched
+and downsampled to 100 DPI.
+}
+\label{fig:handwriten_digits}
+\end{figure}
+Each of these sheets of paper was scanned by the student at a resolution of 300 DPI.
 
-\begin{figure}[H]
+Each sheet held two 4x4" grids of 400 digits.
+To ease the preprocessing task,
+the student marked the pixel locations of the outer grid corners manually,
+before submitting the dataset to the class database.
+
+The datasets were of varying quality and format:
+some images were color images while others were not,
+most images were stretched and skewed to some degree,
+and many digits were overlapping the grid.
+
+As the corner locations were assumed to be known,
+the images were rotated, stretched and scaled
+by the perspective transform,
+and then cropped,
+to obtain ten images per student,
+each being a 1200x1200 pixels image of 400 hand written digits.
+This image was then downsampled to 200 DPI and to 100 DPI.
+These preprocessing steps were done using MATLAB and ImageMagick.
+After downsampling, the color images were converted to greyscale in R.
+
+After color conversion, the images were smoothened in order
+to make the digit data more uniform and easier to classify correctly.
+It was chosen to apply a gaussian blur, as this smoothens
+evenly in all directions.
+The gaussian blur has one parameter named \(\sigma\),
+and one which is the kernel size.
+In this project, it was chosen to use the default
+kernel size of \(2 \lceil3\sigma\rceil +1\),
+and vary \(\sigma\) in order to find
+optimal preprocessing parameters for the classification.
+
+After smoothing the images of the grids,
+each digit box (grid element) was extracted
+as a vector of greyscale pixel intensities.
+To avoid training the classifiers to recognize the parts
+of the grid that are inside the digit boxes,
+the digit boxes were cropped until the grid was no longer visible,
+before vectorization.
+A fixed cropping percentage of 10 \% along each border was used
+(6 pixels border for 300 DPI, 4 pixels border for 200 DPI and 2 pixels border for 100 DPI).
+
+Thus, at 300 DPI, a digit is represented in 2304 dimensions,
+at 200 DPI, it is in 1024 dimensions,
+and at 100 DPI, it is 256 dimensions.
+Naturally, the computations involved in the classification
+are faster when working with the lower-dimensional data.
+As part of the \(\sigma\) optimization process,
+it was therefore chosen to measure the k-NN classification
+accuracy on the raw datasets at each pixel density,
+giving an optimized \(\sigma\)-pixel density combination
+for the digit recognition problem.
+
+All above steps only need to be carried out once per
+\(\sigma\)-pixel density combination.
+The implemented R scripts thus compute this preprocessing
+as an offline step, storing the preprocessed
+datasets on disk.
+
+\subsubsection{Principal Component Analysis}
+In previous work, it was found that including Principal Component Analysis (PCA)
+as a final step of the preprocessing could speed up the training
+at an acceptable cost of reduced accuracy.
+
+PCA is a statistical tool used for dimensionality reduction,
+and works by creating new variables from the input variables.
+These new variables, called principal components,
+are linear combinations of the input variables,
+and are ordered by how much of the input data variance they explain.
+The statistical optimality of PCA is only achieved
+when the input data is linear. This is not the case
+for hand written digits. This may explain part
+of the loss of accuracy.
+
+As the main purpose of this project is the comparison of two algorithms,
+it was chosen to apply PCA to the data before machine learning.
+In addition, the PCA was used to verify the previous
+steps of the preprocessing scheme qualitatively,
+ensuring that the main data variance is not due to the grid lines of the input data.
+
+The dimensionality reduction lies in transforming the input
+data by a matrix representing the principal components
+(the eigenvectors), and then using only the
+first N components, enough to explain a given percentage of the cumulated variance.
+
+The data transformation matrix obtained from one PCA
+can be stored and applied to new data.
+It was therefore chosen to include the PCA in the training of the classifiers,
+storing the information necessary to transform new data
+with the trained classifiers.
+PCA is performed before training, on the training set,
+and the number of components is chosen dynamically as the minimum
+required to explain a given percentage of the cumulated variance
+of the training set.
+Thus, the tuning parameter investigated in this work,
+is the percentage of the cumulated variance to explain,
+making the PCA an online step of the preprocessing scheme.
+The results of PCA are therefore not stored on disk,
+except when saved along with trained classifiers.
+
+\subsection{k-Nearest Neighbours}
+k-Nearest Neighbours (k-NN)
+is a supervised learning algorithm.
+The method is non-parametric,
+meaning that it does not make any assumption about the distribution of the input data.
+The method is referred to as a lazy learning algorithm,
+as it does not use the training data to do any generalization (abstraction).
+Figure \ref{fig:knn-example} \citep{knnwiki} shows the basic principle of the algorithm.
+\begin{figure}[h]
 \centering
 \includegraphics[width = 0.3\textwidth]{img/kNN-classification.png}
-\caption{kNN classification  - the green circles has to be classified between the two classes indicated as red triangles and blue squares. k= 3}
+\caption[k-NN classification example]{
+k-NN classification example, 2-dimensional 2-class data.
+The test sample, the green circle,
+has to be classified as one of the two classes indicated
+as red triangles and blue squares, based on the number
+of training samples close to the test samples.
+With k=3 (the inner circle), the sample would be classified as belonging
+to the class of the red triangles.
+With k=5 (the outer dashed circle), the sample would be classified as belonging
+to the class of the blue squares.
+Author: Antti Ajanki \citep{knnwiki}.
+}
+\label{fig:knn-example}
 \end{figure}
 
-The purpose of this algorithm is to classify a new object based on its attributes and the training samples that has been used. The algorithm decides which class a new object belongs to by inspecting the k nearest neighbours, and based on the class which is the majority, will the class of the new object be determined. The number of k can be either a even or odd number, in the case of a tie with a even numbered k will the class be randomly be decided amongst the two competing ones, one have to choose the optimal value for k  in order to get an accurate predictor. The distance between two can be computed different ways, such as \\
+The purpose of the algorithm is to classify a
+new \(n\)-dimensional test sample based on its \(n\) attributes
+and the training samples that have been used.
+The algorithm decides which class a new sample belongs to by
+inspecting the k nearest neighbours,
+and based on the class which is represented most strongly in the vicinity
+of the test sample,
+the class of the new sample is determined.
+k can be both an even or an odd number.
+In the case of a tie with a even numbered k,
+the class of the test sample is randomly chosen among the classes holding
+the majority of the votes.
 
-\textbf{Euclidian distance}
+The k-NN classifier performs differently with different k,
+meaning k is a tuning parameter which can be used to optimize the classifier
+to certain data.
 
+Several metrics for measuring the distance between
+two samples \(\mathbf{w}\) and \(\mathbf{v}\) can be employed,
+including Euclidean distance, eq. \eqref{eq:euclidean-distance},
+and Manhattan distance, eq. \eqref{eq:manhattan-distance}.
 \begin{equation}
-d(\overrightarrow{w},\overrightarrow{v}) = \sqrt{\sum_{i}^n (w_i - v_i)^2}
+d(\mathbf{w},\mathbf{v}) = \sqrt{\sum_{i=1}^n (w_i - v_i)^2}
+\label{eq:euclidean-distance}
+\end{equation}
+\begin{equation}
+d(\mathbf{w},\mathbf{v}) = \sum_{i=1}^n \left|w_i - v_i\right|
+\label{eq:manhattan-distance}
 \end{equation}
 
-\textbf{Manhattan distance}
+The advantage of using k-NN is that it is simple to use,
+and works well on basic problems.
+However, it can be slow for real-time prediction applications,
+especially if the dataset used for training is large,
+as the method is a lazy learner.
+Another disadvantage of the method is that it does not
+learn anything from the training data, but just stores it;
+No particular new insight is gained.
+ 
+\subsection{Support Vector Machines}
+Support Vector Machines (SVM) is a supervised learning
+method that analyzes training data 
+and tries to recognize patterns within the classification domain.
+The standard SVM method is a binary classifier,
+which predicts which of the two classes a given input belongs two. 
+Prediction is done based on the model built from the training session.
+The model provides a constraining border which makes the distinction
+between the two classes.
 
-\begin{equation}
-d(\overrightarrow{w},\overrightarrow{v}) = \sum_{i}^n (w_i - v_i)
-\end{equation}
-
-The advantages of using kNN is that it is simple to use, and works well on basic problems however it can be slow in for real-time prediction especially if the dataset used for training is large, as the method is a lazy learner.Another disadvantage of the method is that it does not learn anythign from the trainings data, but just stores them.  The method is not in particular robust against noisy data.    
-\subsection{SVM}
-Support vector machines is a supervised learning method that analyzes the data 
-and tries to recognize patterns, within the classification domain.
- The standard SVM method is an binary classifier, which predicts for a given 
-input which class the input belongs two. 
- Prediction is done based on the model it builds from the training session, the 
-model provides a "clear gap" that provide the distinction between the first or 
-the latter class. \\
-
-Support vector machine constructs a hyperplane or set of hyperplanes in a high 
-dimension. 
-The hyperplane that has the largest distance to the nearest training data points 
-of any class (so-called functional margin), provides the best separation,  since 
-it result it a clear distinction between the classes, and lower general error.
-\\
+For \(n\)-dimensional data,
+SVM constructs an \(n\)-dimensional hyperplane or a set of hyperplanes.
+The hyperplane with the largest distance to the nearest training sample
+of any class (so-called functional margin), provides the best separation,
+since it results in the clearest distinction between the classes,
+and lower general error,
+as illustrated by figure \ref{fig::SVM-illustrated} \citep{svmwiki}.
 
 The goal in SVM is to find this hyperplane which provides the optimal separation 
 of the classes by having the widest margin. 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width = 0.5\textwidth]{img/SVM-illu.png}
-\caption{Svm Illustrated}
+\caption[SVM Illustrated]{SVM Illustrated. Author: \citep{svmwiki}.}
 \label{fig::SVM-illustrated}
 \end{figure}
 
@@ -172,21 +332,6 @@ The choice of kernel depends what kind of transformation is needed.
 
 \subsection{Parameter optimization}
 The k-NN and SVM classifiers were each trained on the \(D_{FEWER}\) dataset with the \textbf{LOO} method.
-
-\subsection{PCA}
-Principal component analysis (PCA) is a procedure that reduces the number of 
-variables a dataset may contain.  It often useful if it is known beforehand that 
-some of the variables are redundant, meaning that some of the variables may be 
-correlated with others and not provide new knowledge which would have been 
-achieved through some other variables.  PCA reduces the dataset into a smaller 
-number of principal component (PC), which will account for most of the variable 
-that is observed by the dataset. A PC can be defined as a linear combination of 
-weighted observed variables . It it up to the user to determine how many 
-components are needed, and which may be redundant. Often is a screeplot used to 
-determine the number of component should be used. A screeplot depict the 
-variance gained from using increasing numbers of PC, from which is can be 
-deduced when adding more PC would be beneficial for the task at hand. \\
-
 
 \subsection{Parameter optimization on a smaller dataset}
 To extract the most optimal parameter for training purposes was it decided, optimize the parameter on a smaller set consisting of 10 people data.  This was choosen, as it was desired gain the most optimal values for the varied dataset, such that the parameter found would be fit for a specific scenario, but a broad case. 

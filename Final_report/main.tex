@@ -71,6 +71,14 @@
 
 
 
+%References
+\usepackage[numbers]{natbib} %Natbib supports both [i] and Author (year) citation styles. \citet and \citep replace \cite.
+\bibliographystyle{ieeetr}
+%\bibliographystyle{plainnat}
+\usepackage{url}
+
+
+
 % Test
 
 \usepackage{tikz}
@@ -154,16 +162,20 @@ ph.d. Troels Bo \textsc{Jørgensen}\\
 \listoffigures
 \listoftables
 \newpage
-\input{introduction.tex} % Intro
+\input{introduction} % Intro
 %\input{knn.tex}
 %\input{svm.tex}
 %\input{pca.tex}
 %\input{preprocess.tex}
-\input{method.tex} %Metod
-\input{result.tex} %Result
+\input{method} %Metod
+\input{result} %Result
 				   %And
-\input{discussion.tex}%Discussion
-\input{conclusion.tex}
-\input{reference.tex}
+\input{discussion}%Discussion
+\input{conclusion}
+
+
+\newpage
+%\bibliographystyle{ieeetr}
+\bibliography{bibliography}
 \end{document}
 
