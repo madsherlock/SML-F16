@@ -117,6 +117,52 @@ making the PCA an online step of the preprocessing scheme.
 The results of PCA are therefore not stored on disk,
 except when saved along with trained classifiers.
 
+\subsection{Datasets, resampling methods and classifier evaluation}
+The datasets used in this project are described in this section,
+along with the resampling schemes employed for reporting
+overall classification accuracies.
+The combination of dataset and resampling scheme makes
+for the classifier evaluation schemes used in this project,
+also described in this section.
+
+All the data used in this project is contained in the dataset
+denoted by \(D_{ALL}\), consisting of data from the 23
+individuals who submitted their datasets.
+Each of these individual datasets is denoted by the group number X
+and group member index Y as \(GXMY\).
+Ten individual datasets were selected from \(D_{ALL}\),
+yielding a smaller dataset
+\(D_{FEWER}=G1M1\cup G2M1\cup G3M1\cup G4M1\cup G5M1\cup G6M1\cup G7M1\cup G8M1\cup G11M1\cup G13M1\).
+
+10-fold cross validation applied to a dataset containing data from more than
+one individual is denoted the \textbf{MIX} method.
+Here, data from each individual has a very high probability of
+being represented in both the training set and the test set.
+
+A method denoted by \textbf{LOO} was applied to datasets
+containing data from \(n>1\) individuals by dividing
+the data into \(n\) folds. Each fold contains data from \(n-1\)
+individuals for training. The test data of each fold is the
+data of the person not represented in the training set.
+
+Four classifier evaluation schemes are defined:
+\begin{itemize}
+\item One Person:
+Data from only one person is used,
+and reported classification accuracy is found by 10-fold cross validation.
+\item Single Persons:
+One Person, applied to every persons dataset. The reported
+classification accuracy is the mean of the 23 accuracies.
+\item All Mixed:
+\(D_{ALL}\), \textbf{MIX}.
+\item All LOO:
+\(D_{ALL}\), \textbf{LOO}.
+\end{itemize}
+The three schemes Single Persons, All Mixed and All LOO
+were used for classifier comparison,
+while One Person was used during preprocessing
+scheme development.
+
 \subsection{k-Nearest Neighbours}
 k-Nearest Neighbours (k-NN)
 is a supervised learning algorithm.
@@ -191,6 +237,7 @@ which predicts which of the two classes a given input belongs two.
 Prediction is done based on the model built from the training session.
 The model provides a constraining border which makes the distinction
 between the two classes.
+The following introduction to SVM is based on \citep{svmwiki} and \citep{mlwr}.
 
 For \(n\)-dimensional data,
 SVM constructs an \(n\)-dimensional hyperplane or a set of hyperplanes.
@@ -198,62 +245,66 @@ The hyperplane with the largest distance to the nearest training sample
 of any class (so-called functional margin), provides the best separation,
 since it results in the clearest distinction between the classes,
 and lower general error,
-as illustrated by figure \ref{fig::SVM-illustrated} \citep{svmwiki}.
+as illustrated by figure \ref{fig::SVM-illustrated} \citep{svmmathworks}.
 
 The goal in SVM is to find this hyperplane which provides the optimal separation 
 of the classes by having the widest margin. 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width = 0.5\textwidth]{img/SVM-illu.png}
-\caption[SVM Illustrated]{SVM Illustrated. Author: \citep{svmwiki}.}
+%\includegraphics[width = 0.5\textwidth]{img/SVM-illu.png} %no source, Kiddi!
+\includegraphics[width = 0.5\textwidth]{img/svmhyperplane}
+\caption[SVM Illustrated]{SVM Illustrated. Source: \citep{svmmathworks}.}
 \label{fig::SVM-illustrated}
 \end{figure}
 
-The training data for this method consist a set of input vectors denoted as 
-$\mathbf{x_i}$, each input vector has a number of component features. Each input 
+The training data for this method consists of a set of input vectors denoted as 
+$\mathbf{x_i}$.
+Each input vector has a number of component features. Each input 
 vector is given a label, indicating its class.
 
-The hyperplane is given as 
+The hyperplane is given by eq. \eqref{eq:hyperplane}.
 \begin{equation}
 \mathbf{w} \cdot \mathbf{x} + b = 0
+\label{eq:hyperplane}
 \end{equation}
-
-In which the $\mathbf{w}$ determines the orientation of the plane, and 
-$\mathbf{b}$ is the offset of the plane from the origin. \\
+$\mathbf{w}$ determines the orientation of the plane, and 
+$\mathbf{b}$ is the offset of the plane from the origin.
  
 The seperaing hyperplane which maximizes the margin can be found by examining 
-the convex hull of each class’s training data  and then find the closest points 
+the convex hull of each class’s training data and then find the closest points 
 in the two convex hulls. The convex hull of a set of points is the
-smallest convex set containing the points.  If the hyperplane that bisects both 
-convex hulls can be found, will the resulting classifier deemed robust in some 
-sense. 
-
-\begin{figure}[H]
+smallest convex set containing the points. If the hyperplane that bisects both 
+convex hulls can be found, the resulting classifier is robust with
+respect to the training data.
+This concept is illustrated in figure \ref{fig:convex_hull} \citep{convexhull}.
+\begin{figure}[h]
 \centering
 \includegraphics[width = 0.5\textwidth]{img/convex_hull.png}
-\caption{Best plane bisects closest points in the convex hulls,The convex hulls 
-are labeled c and d}
-\label{fig::convex_hull}
+\caption[Best plane bisects closest points in the convex hulls]
+{Best plane bisects closest points in the convex hulls. The convex hulls 
+are labeled c and d. Source: \citep{convexhull}.}
+\label{fig:convex_hull}
 \end{figure}  
 
-To find  the plane, one have to find the points closest to the plane, which can 
-be found by solving the quadratic problem. \\ 
-
+To find the plane, the algorithm has to find the points closest
+to the plane, which can 
+be found by solving the quadratic programming problem of eq. \eqref{eq:quadratic-svm}.
 \begin{equation}
 min_\alpha~\left(\frac{1}{2} ||c-d||^2\right)
+\label{eq:quadratic-svm}
 \end{equation}
-
-where c and d are the closest to be found points, these are defined as 
+c and d are the closest to be found points,
+defined by eqs. \eqref{eq:svm-c} and \eqref{eq:svm-d}.
 \begin{equation}
 \begin{aligned}
 &c = \sum_{y_i~\in~class1} \alpha_ix_i  
 & \text{subject to}
 && \sum_{y_i~\in~class1}\alpha_i =1 
 && \alpha_i \geq 0
-\end{aligned} 
+\end{aligned}
+\label{eq:svm-c} 
 \end{equation}
-
 \begin{equation}
 \begin{aligned}
 &d = \sum_{y_i~\in~class2} \alpha_ix_i  
@@ -261,15 +312,15 @@ where c and d are the closest to be found points, these are defined as
 && \sum_{y_i~\in~class2}\alpha_i =1 
 && \alpha_i \geq 0
 \end{aligned} 
+\label{eq:svm-d} 
 \end{equation}
+%Direct plagiarism:
+%An alternative approach involves a search through the space of every possible 
+%hyperplane in order to find a set of two parallel planes that divide the points 
+%into homogeneous groups yet themselves are as far apart as possible.\\
 
-
-An alternative approach involves a search through the space of every possible 
-hyperplane in order to find a set of two parallel planes that divide the points 
-into homogeneous groups yet themselves are as far apart as possible.\\
-
-
-In the case of non-linearly separable data, can a linear hyperplane not be used 
+In the case of non-linearly separable data,
+a linear hyperplane cannot be used 
 to define the solution. 
 For this purpose is a slack variable introduced, which allows some points on the 
 incorrect side of the margin, creating a soft margin, when a linear hyperplane 
@@ -279,7 +330,7 @@ A different approach for solving this problem would be using the kernel trick.
 The kernel trick involves transforming in $\mathbb{R}^n \rightarrow 
 \mathbb{R}^{n+1}$. 
 The challenging part is to find such transformation, $\phi$ which allow 
-transforming data into a higher dimension. 
+transforming data into a higher dimension in which it is separable. 
 
 Kernel functions are in general in the following form:
 \begin{equation}
@@ -287,48 +338,29 @@ K(\overrightarrow{x_i},\overrightarrow{x_j}) = \phi(\overrightarrow{x_i}) \cdot
 \phi(\overrightarrow{x_j}) 
 \end{equation}
 
-$x_i$ and $x_j$ illustrates two different feature vectors. 
+$x_i$ and $x_j$ illustrates two different feature vectors.
 
-Different kernels does already exist, and may already be implemented in 
-different SVM software packages. 
-\\
-
-\textbf{Linear kernel}:
+Previous work with the caret package of R
+involved experimenting with the linear kernel of eq. \eqref{eq:linearkernel}
+and the polynomial kernel of eq. \eqref{eq:polynomialkernel}
+and showed promising results.
+In particular, the polynomial kernel with a degree \(d=2\)
+and a scaling factor \(s=0.1\) was found to yield generally good results.
 \begin{equation}
 K(\overrightarrow{x_i},\overrightarrow{x_j}) = (\overrightarrow{x_i}) \cdot 
-(\overrightarrow{x_j}) 
+(\overrightarrow{x_j})
+\label{eq:linearkernel} 
 \end{equation}
-
-Linear kernel does not transform the data, but computes the dot product. 
-\\
-
-\textbf{Polynomial kernel of degree $d$}:
 \begin{equation}
-K(\overrightarrow{x_i},\overrightarrow{x_j}) = ((\overrightarrow{x_i}) \cdot 
-(\overrightarrow{x_j})+1)^d
+K(\overrightarrow{x_i},\overrightarrow{x_j}) = (s(\overrightarrow{x_i}) \cdot 
+(\overrightarrow{x_j})+c)^d
+\label{eq:polynomialkernel}
 \end{equation}
 
-The Polynomial kernel adds a nonlinear transformation of the data.
-\\
-
-\textbf{Sigmoid kernel}
-\begin{equation}
-K(\overrightarrow{x_i},\overrightarrow{x_j}) = tanh( k(\overrightarrow{x_i}) 
-\cdot (\overrightarrow{x_j}) - \delta)
-\end{equation}
-\\
-
-\textbf{Radial basis function kernel}
-\begin{equation}
-K(\overrightarrow{x_i},\overrightarrow{x_j}) =  
-exp\left(\frac{||\overrightarrow{x_i} - 
-\overrightarrow{x_j}||}{2\sigma^2}\right)
-\end{equation}
-
-In which the value $\gamma = \frac{1}{2\sigma^2}$ can be adjusted.\\
-
-
-The choice of kernel depends what kind of transformation is needed. 
+The SVM algorithm used in this project is parametrized
+by the cost of constraints violation \(C\),
+a tuning parameter which is varied and chosen
+according to classification accuracy.
 
 \subsection{Parameter optimization}
 The k-NN and SVM classifiers were each trained on the \(D_{FEWER}\) dataset with the \textbf{LOO} method.
